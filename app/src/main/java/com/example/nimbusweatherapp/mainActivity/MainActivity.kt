@@ -5,19 +5,32 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
+    private lateinit var navController : NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         binding.lifecycleOwner = this
 
+
+
         init()
+
+
+
+
+
     }
 
     private fun init(){
@@ -28,28 +41,12 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        navController = Navigation.findNavController(this,R.id.navHost)
+        binding.navigationView.setupWithNavController(navController)
 
-        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+        //val appBarConfiguration = AppBarConfiguration(navController.graph,binding.drawerLayout)
+        //setupActionBarWithNavController(navController,appBarConfiguration)
 
-            when(menuItem.itemId)
-            {
-                R.id.navigation_home -> {
-
-                }
-                R.id.navigation_favorite -> {
-
-                }
-                R.id.navigation_alert -> {
-
-                }
-                R.id.navigation_settings -> {
-
-                }
-            }
-
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-            true
-        }
 
     }
 

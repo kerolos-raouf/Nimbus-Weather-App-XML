@@ -86,4 +86,8 @@ dependencies {
     ///hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    ///navigation
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 }

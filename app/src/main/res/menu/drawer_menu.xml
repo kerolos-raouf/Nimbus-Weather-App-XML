@@ -3,25 +3,25 @@
 
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/homeFragment"
         android:title="Home"
         android:icon="@drawable/icon_home"
         />
 
     <item
-        android:id="@+id/navigation_favorite"
+        android:id="@+id/favouriteFargment"
         android:title="Favourite"
         android:icon="@drawable/icon_favorite"
         />
 
     <item
-        android:id="@+id/navigation_alert"
+        android:id="@+id/alertFragment"
         android:title="Alert"
         android:icon="@drawable/icon_notification"
         />
 
     <item
-        android:id="@+id/navigation_settings"
+        android:id="@+id/settingsFragment"
         android:title="Settings"
         android:icon="@drawable/icon_settings"
         />
