@@ -2,4 +2,11 @@
     <string name="app_name">NimbusWeatherApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="five_days_forecast">Five Days Forecast</string>
+    <string name="pressure">Pressure</string>
 </resources>

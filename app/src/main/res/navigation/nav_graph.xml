@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/favouriteFargment"
-        android:name="com.example.nimbusweatherapp.favouriteFragment.FavouriteFargment"
+        android:name="com.example.nimbusweatherapp.favouriteFragment.FavouriteFragment"
         android:label="fragment_favourite_fargment"
-        tools:layout="@layout/fragment_favourite_fargment" />
+        tools:layout="@layout/fragment_favourite" />
     <fragment
         android:id="@+id/alertFragment"
         android:name="com.example.nimbusweatherapp.alertFragment.AlertFragment"
