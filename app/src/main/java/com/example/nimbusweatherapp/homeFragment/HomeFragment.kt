@@ -62,7 +62,9 @@ class HomeFragment : Fragment() {
 
         communicator = requireActivity() as Communicator
 
-        binding.viewModel = sharedViewModel
+        binding.sharedViewModel = sharedViewModel
+        binding.homeViewModel = homeViewModel
+
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.apply {

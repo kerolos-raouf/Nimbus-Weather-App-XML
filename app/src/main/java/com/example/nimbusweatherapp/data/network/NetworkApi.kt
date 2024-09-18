@@ -17,6 +17,8 @@ interface NetworkApi
     suspend fun getWeatherEveryThreeHours(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
+        @Query("lang") language: String = "en",
+        @Query("units") units: String = "standard",
         @Query("appid") apiKey: String = BuildConfig.API_KEY
     ) : Response<WeatherEveryThreeHoursList>
 
@@ -24,6 +26,8 @@ interface NetworkApi
     suspend fun getWeatherForLocation(
         @Query("lat") latitude: Double,
         @Query("lon") longitude: Double,
+        @Query("lang") language: String = "en",
+        @Query("units") units: String = "standard",
         @Query("appid") apiKey: String = BuildConfig.API_KEY
     ) : Response<WeatherForLocation>
 }

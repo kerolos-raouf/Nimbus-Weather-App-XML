@@ -5,8 +5,12 @@
 
     <data>
         <variable
-            name="viewModel"
+            name="sharedViewModel"
             type="com.example.nimbusweatherapp.mainActivity.SharedViewModel" />
+
+        <variable
+            name="homeViewModel"
+            type="com.example.nimbusweatherapp.homeFragment.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,16 +21,15 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/homeFAB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:contentDescription="Mian FAB"
-            android:src="@drawable/icon_location"
-            android:layout_margin="16dp"
-
-
-
             style="@style/CustomFloatingActionButton"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="Mian FAB"
+
+
+            android:src="@drawable/icon_location"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -60,29 +63,47 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/homeProgressAnimation"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading2"
+            tools:visibility="gone"
+
+            app:showProgressBar="@{homeViewModel.loading}"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
         <LinearLayout
             android:id="@+id/homePermissionLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
             android:gravity="center_vertical"
-
-            app:showPermissionLayout="@{viewModel.showHomeContent}"
-
-            tools:visibility="gone"
+            android:orientation="vertical"
 
             app:layout_constraintBottom_toBottomOf="parent"
+
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent"
+            app:showPermissionLayout="@{sharedViewModel.showHomeContent}"
+            tools:visibility="gone">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginStart="@dimen/home_normal_margin"
                 android:layout_marginEnd="@dimen/home_normal_margin"
-                app:cardCornerRadius="25dp"
                 android:backgroundTint="@color/white"
+                app:cardCornerRadius="25dp"
 
                 >
 
@@ -106,10 +127,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/home_normal_margin"
                         android:layout_marginEnd="@dimen/home_normal_margin"
+                        android:fontFamily="@font/sf_semi_bold"
                         android:text="@string/location_permission_denied"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        android:fontFamily="@font/sf_semi_bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/homePermissionIcon"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -120,10 +141,10 @@
                         android:layout_height="wrap_content"
 
                         android:layout_marginEnd="@dimen/home_normal_margin"
+                        android:fontFamily="@font/sf_regular"
                         android:text="@string/please_allow_location_to_get_data"
                         android:textColor="@color/black"
                         android:textSize="15sp"
-                        android:fontFamily="@font/sf_regular"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/homePermissionIcon"
                         app:layout_constraintTop_toBottomOf="@+id/homePermissionNote" />
@@ -132,11 +153,11 @@
                         android:id="@+id/homePermissionAllowButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/allow"
-                        android:background="@drawable/allow_button_custom_theme"
-                        app:backgroundTint="@color/background"
                         android:layout_marginBottom="10dp"
+                        android:background="@drawable/allow_button_custom_theme"
+                        android:text="@string/allow"
                         android:textColor="@color/white"
+                        app:backgroundTint="@color/background"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -151,10 +172,9 @@
                 android:layout_height="200dp"
                 android:layout_margin="50dp"
 
-                app:lottie_rawRes="@raw/location_animation_huose"
-                app:lottie_loop="true"
                 app:lottie_autoPlay="true"
-                />
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/location_animation_huose" />
 
 
         </LinearLayout>
@@ -165,14 +185,14 @@
             android:layout_height="0dp"
 
 
-            tools:visibility="visible"
-
-            app:showContent="@{viewModel.showHomeContent}"
-
             app:layout_constraintBottom_toBottomOf="parent"
+
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeToolbar">
+            app:layout_constraintTop_toBottomOf="@id/homeToolbar"
+            app:showContent="@{sharedViewModel.showHomeContent}"
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/homeConstraintLayout"
@@ -208,12 +228,13 @@
                             android:paddingStart="10dp"
 
                             android:paddingEnd="10dp"
-                            android:text="Country Name"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="27sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:setCountryName="@{homeViewModel.weatherForLocation}"
+                            tools:text="Country Name" />
 
 
                         <TextView
@@ -222,12 +243,13 @@
                             android:layout_height="wrap_content"
 
                             android:fontFamily="@font/sf_thin"
-                            android:text="21°"
                             android:textColor="@color/white"
                             android:textSize="75sp"
                             app:layout_constraintEnd_toStartOf="@+id/homeWeatherIcon"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/homeCityName" />
+                            app:layout_constraintTop_toBottomOf="@+id/homeCityName"
+                            app:setTemperature="@{homeViewModel.weatherForLocation}"
+                            tools:text="21°" />
 
                         <TextView
                             android:id="@+id/homeWeatherState"
@@ -235,13 +257,14 @@
                             android:layout_height="wrap_content"
 
                             android:fontFamily="@font/sf_regular"
-                            android:text="Clear"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="30sp"
                             app:layout_constraintEnd_toStartOf="@+id/homeWeatherIcon"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/homeTemperature" />
+                            app:layout_constraintTop_toBottomOf="@+id/homeTemperature"
+                            app:setWeatherDescription="@{homeViewModel.weatherForLocation}"
+                            tools:text="Clear" />
 
                         <TextView
                             android:id="@+id/homeWeatherLowAndHigh"
@@ -249,13 +272,14 @@
                             android:layout_height="wrap_content"
 
                             android:fontFamily="@font/sf_regular"
-                            android:text="L:20° - H:25°"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:layout_constraintEnd_toStartOf="@+id/homeWeatherIcon"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/homeTemperature" />
+                            app:layout_constraintTop_toBottomOf="@+id/homeTemperature"
+                            app:setLowAndHighTemperature="@{homeViewModel.weatherForLocation}"
+                            tools:text="L:20° - H:25°" />
                     </LinearLayout>
 
                     <ImageView
@@ -265,7 +289,8 @@
                         android:layout_weight="1"
                         android:contentDescription="state"
                         android:padding="10dp"
-                        android:src="@drawable/ic_sunny"
+                        tools:src="@drawable/ic_sunny"
+                        app:setWeatherIcon="@{homeViewModel.weatherForLocation}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
 
@@ -691,9 +716,10 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/sf_semi_bold"
-                                android:text="1016 hpa"
                                 android:textColor="@color/white"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                app:setPressure="@{homeViewModel.weatherForLocation}"
+                                tools:text="1016 hpa" />
 
                             <TextView
                                 android:id="@+id/homeWeatherPressureText"
@@ -738,9 +764,10 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/sf_semi_bold"
-                                android:text="100 %"
                                 android:textColor="@color/white"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                app:setHumidity="@{homeViewModel.weatherForLocation}"
+                                tools:text="100 %" />
 
                             <TextView
                                 android:id="@+id/homeWeatherHumidityText"
@@ -800,9 +827,10 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/sf_semi_bold"
-                                android:text="2.35 m/s"
                                 android:textColor="@color/white"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                app:setWindSpeed="@{homeViewModel.weatherForLocation}"
+                                tools:text="2.35 m/s" />
 
                             <TextView
                                 android:id="@+id/homeWeatherWindSpeedText"
@@ -847,9 +875,10 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/sf_semi_bold"
-                                android:text="100 m"
                                 android:textColor="@color/white"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                app:setWindSpeed="@{homeViewModel.weatherForLocation}"
+                                tools:text="100 m" />
 
                             <TextView
                                 android:id="@+id/homeWeatherVisibilityText"
@@ -909,9 +938,10 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/sf_semi_bold"
-                                android:text="85 %"
                                 android:textColor="@color/white"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                app:setCloud="@{homeViewModel.weatherForLocation}"
+                                tools:text="85 %" />
 
                             <TextView
                                 android:id="@+id/homeWeatherCloudText"

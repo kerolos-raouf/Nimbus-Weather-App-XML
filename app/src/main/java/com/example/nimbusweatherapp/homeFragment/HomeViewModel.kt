@@ -25,12 +25,12 @@ class HomeViewModel @Inject constructor(
     val weatherEveryThreeHours : LiveData<List<WeatherEveryThreeHours>> = _weatherEveryThreeHours
 
     private val _weatherForLocation = MutableLiveData<WeatherForLocation>()
-    private val weatherForLocation : LiveData<WeatherForLocation> = _weatherForLocation
+    val weatherForLocation : LiveData<WeatherForLocation> = _weatherForLocation
 
     private val _error = MutableLiveData<String>()
     val error : LiveData<String> = _error
 
-    private val _loading = MutableLiveData<Boolean>()
+    private val _loading = MutableLiveData(false)
     val loading : LiveData<Boolean> = _loading
 
 

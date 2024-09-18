@@ -11,7 +11,7 @@ data class WeatherForLocation(
     @SerializedName("coord")
     val coord: Coord,
     @SerializedName("dt")
-    val dt: Int,
+    val date: Int,
     @SerializedName("id")
     val id: Int,
     @SerializedName("main")
