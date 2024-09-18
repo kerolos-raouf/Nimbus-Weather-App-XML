@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.nimbusweatherapp.mainActivity.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +51,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical"
 
-            android:visibility="visible"
+            app:showPermissionLayout="@{viewModel.showHomeContent}"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +146,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
 
-            android:visibility="gone"
+            tools:visibility="gone"
+            app:showContent="@{viewModel.showHomeContent}"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -6,15 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.databinding.FragmentHomeBinding
-import com.example.nimbusweatherapp.mainActivity.MainActivity
+import com.example.nimbusweatherapp.mainActivity.Communicator
+import com.example.nimbusweatherapp.mainActivity.SharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
 
-    private lateinit var binding : FragmentHomeBinding
+    lateinit var binding : FragmentHomeBinding
+    private lateinit var communicator: Communicator
+
+    ///viewModels
+    private val sharedViewModel : SharedViewModel by activityViewModels()
+    private val homeViewModel : HomeViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,10 +39,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun init(){
+        communicator = requireActivity() as Communicator
+
+        binding.viewModel = sharedViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         binding.apply {
             homeMenuIcon.setOnClickListener {
-                (requireActivity() as MainActivity).openDrawer()
+                communicator.openDrawer()
             }
+        }
+
+        binding.homePermissionAllowButton.setOnClickListener {
+            communicator.requestLocationPermission()
+        }
+
+        if(communicator.isLocationPermissionGranted())
+        {
+            sharedViewModel.showHomeContent.value = true
+            //viewModel.getWeather()
+            homeViewModel.getWeatherEveryThreeHours(26.8206,30.8025)
+        }
+        else
+        {
+            communicator.requestLocationPermission()
         }
     }
 

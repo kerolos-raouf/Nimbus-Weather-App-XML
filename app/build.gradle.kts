@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -17,10 +19,27 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+        val localProperty = Properties()
+        val file = rootProject.file("local.properties")
+        if(file.exists())
+        {
+            file.inputStream().use {
+                localProperty.load(it)
+            }
+        }
+
+        val apiKey : String = localProperty.getProperty("API_KEY") ?: "null"
+
+
+        buildConfigField("String","API_KEY",apiKey)
+
     }
 
     buildFeatures {
         dataBinding = true
+        buildConfig = true
     }
 
     buildTypes {
