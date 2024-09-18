@@ -15,6 +15,22 @@
         android:background="@drawable/background"
         tools:context=".homeFragment.HomeFragment">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/homeFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:contentDescription="Mian FAB"
+            android:src="@drawable/icon_location"
+            android:layout_margin="16dp"
+
+
+
+            style="@style/CustomFloatingActionButton"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/homeToolbar"
             android:layout_width="0dp"
@@ -52,6 +68,8 @@
             android:gravity="center_vertical"
 
             app:showPermissionLayout="@{viewModel.showHomeContent}"
+
+            tools:visibility="gone"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +164,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
 
-            tools:visibility="gone"
+
+            tools:visibility="visible"
+
             app:showContent="@{viewModel.showHomeContent}"
 
             app:layout_constraintBottom_toBottomOf="parent"
@@ -242,7 +262,6 @@
                         android:id="@+id/homeWeatherIcon"
                         android:layout_width="0dp"
                         android:layout_height="200dp"
-                        android:layout_marginTop="@dimen/home_margin_top"
                         android:layout_weight="1"
                         android:contentDescription="state"
                         android:padding="10dp"
@@ -332,7 +351,7 @@
                         android:id="@+id/homeDayOneName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="@string/sunday"
                         android:textColor="@color/white"
@@ -350,9 +369,10 @@
                         android:id="@+id/homeDayOneWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="Clear"
+                        android:text="Clear Sky"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -395,7 +415,7 @@
                         android:id="@+id/homeDayTwoName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="@string/monday"
                         android:textColor="@color/white"
@@ -413,9 +433,10 @@
                         android:id="@+id/homeDayTwoWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="Clear"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -459,7 +480,7 @@
                         android:id="@+id/homeDayThreeName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="@string/tuesday"
                         android:textColor="@color/white"
@@ -477,9 +498,10 @@
                         android:id="@+id/homeDayThreeWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="Clear"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -523,7 +545,7 @@
                         android:id="@+id/homeDayFourName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         android:maxLines="1"
                         android:text="@string/wednesday"
@@ -542,9 +564,10 @@
                         android:id="@+id/homeDayFourWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="Clear"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -587,7 +610,7 @@
                         android:id="@+id/homeDayFiveName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.5"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="@string/thursday"
                         android:textColor="@color/white"
@@ -605,9 +628,10 @@
                         android:id="@+id/homeDayFiveWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
                         android:text="Clear"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 

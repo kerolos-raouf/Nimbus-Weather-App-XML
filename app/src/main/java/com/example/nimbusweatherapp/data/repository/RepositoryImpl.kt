@@ -3,7 +3,6 @@ package com.example.nimbusweatherapp.data.repository
 import android.util.Log
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
-import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHoursList
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
 import kotlinx.coroutines.flow.Flow
@@ -18,12 +17,12 @@ class RepositoryImpl @Inject constructor(
     override fun getWeatherEveryThreeHours(
         latitude: Double,
         longitude: Double
-    ): Flow<State<WeatherEveryThreeHoursList>> = flow {
+    ): Flow<State<List<WeatherEveryThreeHours>>> = flow {
         emit(State.Loading)
         try {
             val response = remoteDataSource.getWeatherEveryThreeHours(latitude, longitude)
-            if (response.isSuccessful && response.body() != null ) {
-                emit(State.Success(response.body()!!))
+            if (response.isSuccessful && response.body() != null) {
+                emit(State.Success(response.body()!!.list))
             } else {
                 emit(State.Error(response.message().orEmpty()))
             }

@@ -1,6 +1,12 @@
 package com.example.nimbusweatherapp.mainActivity
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -10,7 +16,13 @@ import androidx.navigation.Navigation
 
 import androidx.navigation.ui.setupWithNavController
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.ActivityMainBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +32,10 @@ class MainActivity : AppCompatActivity() , Communicator {
     private lateinit var navController : NavController
 
     //viewModel
-    private val viewModel : SharedViewModel by viewModels()
+    private val sharedViewModel : SharedViewModel by viewModels()
+
+
+
 
 
     companion object{
@@ -41,6 +56,7 @@ class MainActivity : AppCompatActivity() , Communicator {
 
         navController = Navigation.findNavController(this,R.id.navHost)
         binding.navigationView.setupWithNavController(navController)
+
     }
 
     override fun openDrawer() = binding.drawerLayout.openDrawer(GravityCompat.START)
@@ -59,7 +75,7 @@ class MainActivity : AppCompatActivity() , Communicator {
     }
 
     override fun onLocationPermissionGranted() {
-        viewModel.showHomeContent.value = true
+        sharedViewModel.showHomeContent.value = true
     }
 
 
@@ -73,4 +89,7 @@ class MainActivity : AppCompatActivity() , Communicator {
             }
         }
     }
+
+
+
 }

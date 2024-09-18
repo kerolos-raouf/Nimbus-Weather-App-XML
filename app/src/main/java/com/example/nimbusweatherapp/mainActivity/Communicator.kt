@@ -10,4 +10,5 @@ interface Communicator {
 
     fun onLocationPermissionGranted()
 
+
 }
