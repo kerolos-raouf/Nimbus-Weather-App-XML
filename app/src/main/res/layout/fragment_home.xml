@@ -17,15 +17,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/homeFAB"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/homeToolbar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="">
 
-                android:src="@drawable/icon_location"
-                android:layout_margin="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/homeMenuIcon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+
+                    android:src="@drawable/icon_menu"/>
+
+            </androidx.appcompat.widget.Toolbar>
+
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -35,7 +44,7 @@
                 android:weightSum="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/homeToolbar">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -53,7 +62,7 @@
 
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:layout_marginTop="@dimen/home_margin_top"
+
                         android:fontFamily="@font/sf_regular"
                         android:text="Country Name"
                         android:textColor="@color/white"
@@ -524,7 +533,7 @@
 
 
             <LinearLayout
-                android:id="@+id/homeLinearLayoutForWeather"
+                android:id="@+id/homeLinearLayoutForPressureAndHumidity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -536,8 +545,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/homeDayFive">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/homePressureCardView"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
+                    android:layout_marginEnd="5dp"
                     android:elevation="20dp"
                     app:cardCornerRadius="25dp"
                     android:backgroundTint="@color/background"
@@ -555,6 +566,7 @@
                             android:id="@+id/homeWeatherPressureIcon"
                             android:layout_width="35dp"
                             android:layout_height="0dp"
+                            android:layout_marginTop="5dp"
                             android:src="@drawable/icon_pressure"
                             android:layout_weight="1"
                             />
@@ -583,8 +595,287 @@
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/homeHumidityCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:elevation="20dp"
+                    app:cardCornerRadius="25dp"
+                    android:backgroundTint="@color/background"
+                    android:layout_weight="1"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/homeWeatherHumidityIcon"
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/icon_humidity"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/homeWeatherHumidityValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:text="100 %"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/homeWeatherHumidityText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:text="@string/humidity"
+                            android:textColor="@color/semi_white"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:layout_weight="1"
+                            />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/homeLinearLayoutForWindSpeedAndVisibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeLinearLayoutForPressureAndHumidity">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/homeWindSpeedCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="5dp"
+                    android:elevation="20dp"
+                    app:cardCornerRadius="25dp"
+                    android:backgroundTint="@color/background"
+                    android:layout_weight="1"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/homeWeatherWindSpeedIcon"
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/icon_wind_speed"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/homeWeatherWindSpeedValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:text="2.35 m/s"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/homeWeatherWindSpeedText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:text="@string/wind_speed"
+                            android:textColor="@color/semi_white"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:layout_weight="1"
+                            />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/homeVisibilityCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:elevation="20dp"
+                    app:cardCornerRadius="25dp"
+                    android:backgroundTint="@color/background"
+                    android:layout_weight="1"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/homeWeatherVisibilityIcon"
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/icon_visible"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/homeWeatherVisibilityValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:text="100 m"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:layout_weight="1"
+                            />
+
+                        <TextView
+                            android:id="@+id/homeWeatherVisibilityText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:text="@string/visibility"
+                            android:textColor="@color/semi_white"
+                            android:textSize="20sp"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:layout_weight="1"
+                            />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/homeLinearLayoutForCloudAndUltraViolet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeLinearLayoutForWindSpeedAndVisibility">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/homeCloudCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/background"
+                    android:elevation="20dp"
+                    app:cardCornerRadius="25dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/homeWeatherCloudIcon"
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/icon_cloud" />
+
+                        <TextView
+                            android:id="@+id/homeWeatherCloudValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:text="85 %"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/homeWeatherCloudText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:text="@string/cloud"
+                            android:textColor="@color/semi_white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/homeUltraVioletCardView"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/background"
+                    android:elevation="20dp"
+                    app:cardCornerRadius="25dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/homeWeatherUltraVioletIcon"
+                            android:layout_width="35dp"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/icon_ultra_violet" />
+
+                        <TextView
+                            android:id="@+id/homeWeatherUltraVioletValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:text="0.2 m/s"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/homeWeatherUltraVioletText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/sf_semi_bold"
+                            android:text="@string/ultra_violet"
+                            android:textColor="@color/semi_white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
