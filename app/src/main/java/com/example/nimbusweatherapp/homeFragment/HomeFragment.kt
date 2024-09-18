@@ -97,6 +97,10 @@ class HomeFragment : Fragment() {
         sharedViewModel.currentLocation.observe(viewLifecycleOwner) {
             doCallsOnGetLocation(it.latitude,it.longitude)
         }
+
+        homeViewModel.error.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
     }
 
 

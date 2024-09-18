@@ -378,7 +378,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="@string/sunday"
+                        tools:text="@string/sunday"
+                        app:setDayName="@{homeViewModel.dayOne}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -388,7 +389,8 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_sunny" />
+                        app:setDayWeatherIcon="@{homeViewModel.dayOne}"
+                        tools:src="@drawable/ic_sunny" />
 
                     <TextView
                         android:id="@+id/homeDayOneWeatherState"
@@ -396,7 +398,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="Clear Sky"
+                        tools:text="Clear Sky"
+                        app:setDayDescription="@{homeViewModel.dayOne}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
@@ -407,7 +410,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="20° - 25°"
+                        tools:text="20° - 25°"
+                        app:setDayTemperature="@{homeViewModel.dayOne}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -442,7 +446,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="@string/monday"
+                        tools:text="@string/monday"
+                        app:setDayName="@{homeViewModel.dayTwo}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -452,7 +457,8 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_cloudy" />
+                        app:setDayWeatherIcon="@{homeViewModel.dayTwo}"
+                        tools:src="@drawable/ic_cloudy" />
 
                     <TextView
                         android:id="@+id/homeDayTwoWeatherState"
@@ -460,7 +466,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="Clear"
+                        tools:text="Clear"
+                        app:setDayDescription="@{homeViewModel.dayTwo}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
@@ -471,7 +478,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="20° - 25°"
+                        tools:text="20° - 25°"
+                        app:setDayTemperature="@{homeViewModel.dayTwo}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -507,7 +515,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="@string/tuesday"
+                        tools:text="@string/tuesday"
+                        app:setDayName="@{homeViewModel.dayThree}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -517,7 +526,8 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_heavysnow" />
+                        app:setDayWeatherIcon="@{homeViewModel.dayThree}"
+                        tools:src="@drawable/ic_heavysnow" />
 
                     <TextView
                         android:id="@+id/homeDayThreeWeatherState"
@@ -525,7 +535,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="Clear"
+                        tools:text="Clear"
+                        app:setDayDescription="@{homeViewModel.dayThree}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
@@ -536,7 +547,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="20° - 25°"
+                        tools:text="20° - 25°"
+                        app:setDayTemperature="@{homeViewModel.dayThree}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -573,7 +585,8 @@
                         android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         android:maxLines="1"
-                        android:text="@string/wednesday"
+                        tools:text="@string/wednesday"
+                        app:setDayName="@{homeViewModel.dayFour}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -583,7 +596,8 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_rainythunder" />
+                        app:setDayWeatherIcon="@{homeViewModel.dayFour}"
+                        tools:src="@drawable/ic_rainythunder" />
 
                     <TextView
                         android:id="@+id/homeDayFourWeatherState"
@@ -591,7 +605,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="Clear"
+                        tools:text="Clear"
+                        app:setDayDescription="@{homeViewModel.dayFour}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
@@ -602,7 +617,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="20° - 25°"
+                        tools:text="20° - 25°"
+                        app:setDayTemperature="@{homeViewModel.dayFour}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -637,7 +653,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="@string/thursday"
+                        tools:text="@string/thursday"
+                        app:setDayName="@{homeViewModel.dayFive}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 
@@ -647,7 +664,8 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_rainythunder" />
+                        app:setDayWeatherIcon="@{homeViewModel.dayFive}"
+                        tools:src="@drawable/ic_rainythunder" />
 
                     <TextView
                         android:id="@+id/homeDayFiveWeatherState"
@@ -655,7 +673,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="Clear"
+                        tools:text="Clear"
+                        app:setDayDescription="@{homeViewModel.dayFive}"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
@@ -666,7 +685,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/sf_semi_bold"
-                        android:text="20° - 25°"
+                        tools:text="20° - 25°"
+                        app:setDayTemperature="@{homeViewModel.dayFive}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/home_days_font_size" />
 

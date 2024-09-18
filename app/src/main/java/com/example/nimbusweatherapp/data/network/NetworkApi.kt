@@ -2,7 +2,6 @@ package com.example.nimbusweatherapp.data.network
 
 import com.example.nimbusweatherapp.BuildConfig
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
-import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHoursList
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
 import retrofit2.Response
@@ -20,7 +19,7 @@ interface NetworkApi
         @Query("lang") language: String = "en",
         @Query("units") units: String = "standard",
         @Query("appid") apiKey: String = BuildConfig.API_KEY
-    ) : Response<WeatherEveryThreeHoursList>
+    ) : Response<WeatherEveryThreeHours>
 
     @GET("weather")
     suspend fun getWeatherForLocation(

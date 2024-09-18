@@ -6,7 +6,9 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.data.model.DaysWeather
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
+import java.util.Locale
 
 @BindingAdapter("app:showContent")
 fun showHomeContent(view: View, show: Boolean)
@@ -69,7 +71,7 @@ fun setTemperature(view: TextView, weatherForLocation : WeatherForLocation?)
 fun setWeatherDescription(view: TextView, weatherForLocation : WeatherForLocation?)
 {
     weatherForLocation?.let {
-        view.text = weatherForLocation.weather[0].description
+        view.text = capitalizeWord(weatherForLocation.weather[0].description)
     }
 }
 
@@ -127,7 +129,50 @@ fun setVisibility(view: TextView, weatherForLocation : WeatherForLocation?)
 fun setWeatherIcon(view: ImageView, weatherForLocation : WeatherForLocation?)
 {
     weatherForLocation?.let {
-        when(weatherForLocation.weather[0].description)
+        setIcon(view, weatherForLocation.weather[0].description)
+    }
+}
+
+
+@BindingAdapter("app:setDayName")
+fun setDayName(view: TextView, daysWeather : DaysWeather?)
+{
+    daysWeather?.let {
+        view.text = daysWeather.day
+    }
+}
+
+@BindingAdapter("app:setDayDescription")
+fun setDayDescription(view: TextView, daysWeather : DaysWeather?)
+{
+    daysWeather?.let {
+        view.text = daysWeather.weatherDescription
+    }
+}
+
+@BindingAdapter("app:setDayTemperature")
+fun setDayTemperature(view: TextView, daysWeather : DaysWeather?)
+{
+    daysWeather?.let {
+        val low = daysWeather.lowTemperature.toDouble() / 10
+        val high = daysWeather.highTemperature.toDouble() / 10
+        view.text = "${low.toInt()}°-${high.toInt()}°"
+    }
+}
+
+@BindingAdapter("app:setDayWeatherIcon")
+fun setDayWeatherIcon(view: ImageView, daysWeather : DaysWeather?)
+{
+    daysWeather?.let {
+        setIcon(view, daysWeather.weatherDescription)
+    }
+}
+
+
+fun setIcon(view: ImageView, state: String?)
+{
+    state?.let {
+        when(it.lowercase(Locale.ROOT))
         {
             "clear sky" -> Glide.with(view).load(R.drawable.ic_sunny).into(view)
             "few clouds" -> Glide.with(view).load(R.drawable.ic_sunnycloudy).into(view)

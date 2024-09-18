@@ -13,7 +13,7 @@ interface Repository
     fun getWeatherEveryThreeHours(
         latitude: Double,
         longitude: Double
-    ) : Flow<State<List<WeatherEveryThreeHours>>>
+    ) : Flow<State<WeatherEveryThreeHours>>
 
     fun getWeatherForLocation(
         latitude: Double,

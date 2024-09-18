@@ -17,12 +17,12 @@ class RepositoryImpl @Inject constructor(
     override fun getWeatherEveryThreeHours(
         latitude: Double,
         longitude: Double
-    ): Flow<State<List<WeatherEveryThreeHours>>> = flow {
+    ): Flow<State<WeatherEveryThreeHours>> = flow {
         emit(State.Loading)
         try {
             val response = remoteDataSource.getWeatherEveryThreeHours(latitude, longitude)
             if (response.isSuccessful && response.body() != null) {
-                emit(State.Success(response.body()!!.list))
+                emit(State.Success(response.body()!!))
             } else {
                 emit(State.Error(response.message().orEmpty()))
             }

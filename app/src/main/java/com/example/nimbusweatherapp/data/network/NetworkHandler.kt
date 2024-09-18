@@ -2,7 +2,6 @@ package com.example.nimbusweatherapp.data.network
 
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
-import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHoursList
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
 import retrofit2.Response
@@ -15,7 +14,7 @@ class NetworkHandler @Inject constructor (
     override suspend fun getWeatherEveryThreeHours(
         latitude: Double,
         longitude: Double
-    ): Response<WeatherEveryThreeHoursList> {
+    ): Response<WeatherEveryThreeHours> {
         return networkApi.getWeatherEveryThreeHours(latitude, longitude)
     }
 
