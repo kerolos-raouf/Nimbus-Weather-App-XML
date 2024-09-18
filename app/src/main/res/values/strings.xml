@@ -14,4 +14,8 @@
     <string name="visibility">Visibility</string>
     <string name="cloud">Cloud</string>
     <string name="ultra_violet">Ultra Violet</string>
+    <string name="home">Home</string>
+    <string name="location_permission_denied">Location permission denied.</string>
+    <string name="please_allow_location_to_get_data">Please allow location to get data.</string>
+    <string name="allow">Allow</string>
 </resources>
