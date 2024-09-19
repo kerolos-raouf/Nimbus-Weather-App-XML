@@ -72,7 +72,7 @@
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading2"
             tools:visibility="gone"
-
+            android:translationZ="30dp"
             app:showProgressBar="@{homeViewModel.loading}"
 
             app:layout_constraintTop_toTopOf="parent"
@@ -920,7 +920,11 @@
                     android:id="@+id/homeLinearLayoutForCloudAndUltraViolet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="100dp"
 
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -1,11 +1,6 @@
 package com.example.nimbusweatherapp.mainActivity
 
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,13 +11,9 @@ import androidx.navigation.Navigation
 
 import androidx.navigation.ui.setupWithNavController
 import com.example.nimbusweatherapp.R
-import com.example.nimbusweatherapp.data.model.Location
+import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
+import com.example.nimbusweatherapp.data.internetStateObserver.InternetStateObserver
 import com.example.nimbusweatherapp.databinding.ActivityMainBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,6 +26,8 @@ class MainActivity : AppCompatActivity() , Communicator {
     private val sharedViewModel : SharedViewModel by viewModels()
 
 
+    ///connectivity observer
+    private lateinit var internetStateObserver : InternetStateObserver
 
 
 
@@ -49,14 +42,31 @@ class MainActivity : AppCompatActivity() , Communicator {
         binding.lifecycleOwner = this
 
         init()
+        observers()
 
     }
 
     private fun init(){
 
+        internetStateObserver = InternetStateObserver(this)
         navController = Navigation.findNavController(this,R.id.navHost)
         binding.navigationView.setupWithNavController(navController)
 
+
+        sharedViewModel.observeOnInternetState(internetStateObserver)
+    }
+
+    private fun observers()
+    {
+        sharedViewModel.internetState.observe(this){state->
+            if(state == ConnectivityObserver.InternetState.AVAILABLE)
+            {
+                Toast.makeText(this, "Internet Connected", Toast.LENGTH_SHORT).show()
+            }else
+            {
+                Toast.makeText(this, "Connection Lost", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun openDrawer() = binding.drawerLayout.openDrawer(GravityCompat.START)

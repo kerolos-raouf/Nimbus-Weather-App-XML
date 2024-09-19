@@ -3,18 +3,22 @@ package com.example.nimbusweatherapp.homeFragment
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
 import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.FragmentHomeBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
@@ -42,6 +46,8 @@ class HomeFragment : Fragment() {
 
 
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,13 +56,17 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
         observers()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun init(){
+
+
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -78,13 +88,20 @@ class HomeFragment : Fragment() {
         }
 
         binding.homeFAB.setOnClickListener {
-            checkGPSIfEnabled()
+            if(communicator.isLocationPermissionGranted())
+            {
+                checkGPSIfEnabled()
+            }
         }
 
         if(communicator.isLocationPermissionGranted())
         {
             sharedViewModel.showHomeContent.value = true
-            doCallsOnGetLocation(26.8206,30.8025)
+            if(sharedViewModel.hitTheApiInHomeFragment.value == true)
+            {
+                doCallsOnGetLocation(26.8206,30.8025)
+                sharedViewModel.hitTheApiInHomeFragment.value = false
+            }
         }
         else
         {
@@ -92,6 +109,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun observers()
     {
         sharedViewModel.currentLocation.observe(viewLifecycleOwner) {
@@ -104,6 +122,7 @@ class HomeFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun doCallsOnGetLocation(lat : Double, lon : Double)
     {
         homeViewModel.getWeatherEveryThreeHours(lat,lon)
