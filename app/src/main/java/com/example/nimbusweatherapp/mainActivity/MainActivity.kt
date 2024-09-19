@@ -12,8 +12,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
-import com.example.nimbusweatherapp.data.internetStateObserver.InternetStateObserver
 import com.example.nimbusweatherapp.databinding.ActivityMainBinding
+import com.example.nimbusweatherapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() , Communicator {
 
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
+        val settingsSelectionMap = HashMap<String,Int>()
     }
 
 
@@ -36,9 +38,11 @@ class MainActivity : AppCompatActivity() , Communicator {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         binding.lifecycleOwner = this
 
+
+        initSelectionMap()
         init()
         observers()
-
+        getAndSetSettingsValues()
     }
 
     private fun init(){
@@ -60,6 +64,20 @@ class MainActivity : AppCompatActivity() , Communicator {
                 Toast.makeText(this, "Connection Lost", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+
+    private fun initSelectionMap()
+    {
+        settingsSelectionMap[Constants.ENGLISH_LANGUAGE] = Constants.ENGLISH_SELECTION_VALUE
+        settingsSelectionMap[Constants.ARABIC_LANGUAGE] = Constants.ARABIC_SELECTION_VALUE
+        settingsSelectionMap[Constants.GPS_LOCATION] = Constants.GPS_SELECTION_VALUE
+        settingsSelectionMap[Constants.MAP_LOCATION] = Constants.MAP_SELECTION_VALUE
+        settingsSelectionMap[Constants.METER_PER_SECOND] = Constants.METER_PER_SECOND_SELECTION_VALUE
+        settingsSelectionMap[Constants.KILOMETER_PER_HOUR] = Constants.KILOMETER_PER_HOUR_SELECTION_VALUE
+        settingsSelectionMap[Constants.KELVIN] = Constants.KELVIN_SELECTION_VALUE
+        settingsSelectionMap[Constants.CELSIUS] = Constants.CELSIUS_SELECTION_VALUE
+        settingsSelectionMap[Constants.FAHRENHEIT] = Constants.FAHRENHEIT_SELECTION_VALUE
     }
 
     override fun openDrawer() = binding.drawerLayout.openDrawer(GravityCompat.START)
@@ -92,6 +110,26 @@ class MainActivity : AppCompatActivity() , Communicator {
             }
         }
     }
+
+    private fun getAndSetSettingsValues()
+    {
+        sharedViewModel.settingsLanguage.value =
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.LANGUAGE_KEY),0)
+
+        sharedViewModel.settingsLocation.value =
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.LOCATION_KEY),0)
+
+        sharedViewModel.settingsWindSpeed.value =
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.WIND_SPEED_KEY),0)
+
+        sharedViewModel.settingsTemperature.value =
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.TEMPERATURE_KEY),0)
+
+        sharedViewModel.settingsNotifications.value =
+            sharedViewModel.getSharedPreferencesBoolean(Constants.NOTIFICATION_KEY)
+    }
+
+
 
 
 

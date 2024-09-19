@@ -21,4 +21,11 @@ interface Repository
     ) : Flow<State<WeatherForLocation>>
 
 
+
+    fun setSharedPreferencesString(stringKey : String,stringValue : String)
+    fun getSharedPreferencesString(stringKey : String) : String
+
+    fun setSharedPreferencesBoolean(booleanKey : String,isTrue : Boolean)
+    fun getSharedPreferencesBoolean(booleanKey : String) : Boolean
+
 }
