@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
-
+    private val internetStateObserver: InternetStateObserver
 ) : ViewModel() {
 
     val showHomeContent = MutableLiveData(false)
@@ -28,7 +28,7 @@ class SharedViewModel @Inject constructor(
     private val _internetState = MutableLiveData<ConnectivityObserver.InternetState>()
     val internetState : LiveData<ConnectivityObserver.InternetState> = _internetState
 
-    fun observeOnInternetState(internetStateObserver: InternetStateObserver)
+    fun observeOnInternetState()
     {
         viewModelScope.launch {
             internetStateObserver.observer().collect{

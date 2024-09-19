@@ -26,11 +26,6 @@ class MainActivity : AppCompatActivity() , Communicator {
     private val sharedViewModel : SharedViewModel by viewModels()
 
 
-    ///connectivity observer
-    private lateinit var internetStateObserver : InternetStateObserver
-
-
-
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
@@ -48,12 +43,10 @@ class MainActivity : AppCompatActivity() , Communicator {
 
     private fun init(){
 
-        internetStateObserver = InternetStateObserver(this)
         navController = Navigation.findNavController(this,R.id.navHost)
         binding.navigationView.setupWithNavController(navController)
 
-
-        sharedViewModel.observeOnInternetState(internetStateObserver)
+        sharedViewModel.observeOnInternetState()
     }
 
     private fun observers()
