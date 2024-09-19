@@ -248,7 +248,7 @@
                             app:layout_constraintEnd_toStartOf="@+id/homeWeatherIcon"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/homeCityName"
-                            app:setTemperature="@{homeViewModel.weatherForLocation}"
+                            app:setTemperature="@{homeViewModel.weatherForLocation.main.temp}"
                             tools:text="21°" />
 
                         <TextView
@@ -290,7 +290,7 @@
                         android:contentDescription="state"
                         android:padding="10dp"
                         tools:src="@drawable/ic_sunny"
-                        app:setWeatherIcon="@{homeViewModel.weatherForLocation}"
+                        app:setWeatherIcon="@{homeViewModel.weatherForLocation.weather[0].description}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
 

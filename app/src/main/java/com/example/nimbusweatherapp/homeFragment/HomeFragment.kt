@@ -45,6 +45,8 @@ class HomeFragment : Fragment() {
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
 
 
+    ///adapter
+    private lateinit var mAdapter : HourlyWeatherRecyclerViewAdapter
 
 
 
@@ -67,6 +69,8 @@ class HomeFragment : Fragment() {
     private fun init(){
 
 
+        mAdapter = HourlyWeatherRecyclerViewAdapter()
+        binding.homeRecyclerView.adapter = mAdapter
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -118,6 +122,10 @@ class HomeFragment : Fragment() {
 
         homeViewModel.error.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+
+        homeViewModel.weatherEveryThreeHours.observe(viewLifecycleOwner) {
+            mAdapter.submitList(it.list)
         }
     }
 

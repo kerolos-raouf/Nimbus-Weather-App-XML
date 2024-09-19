@@ -1,13 +1,16 @@
 package com.example.nimbusweatherapp.utils
 
+import android.health.connect.datatypes.units.Temperature
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.DaysWeather
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
+import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
 import java.util.Locale
 
 @BindingAdapter("app:showContent")
@@ -59,10 +62,10 @@ fun setCountryName(view: TextView, weatherForLocation : WeatherForLocation?)
 }
 
 @BindingAdapter("app:setTemperature")
-fun setTemperature(view: TextView, weatherForLocation : WeatherForLocation?)
+fun setTemperature(view: TextView, temperature: Double?)
 {
-    weatherForLocation?.let {
-        val temp = weatherForLocation.main.temp / 10
+    temperature?.let {
+        val temp = temperature / 10
         view.text = "${temp.toInt()}°"
     }
 }
@@ -126,10 +129,10 @@ fun setVisibility(view: TextView, weatherForLocation : WeatherForLocation?)
 }
 
 @BindingAdapter("app:setWeatherIcon")
-fun setWeatherIcon(view: ImageView, weatherForLocation : WeatherForLocation?)
+fun setWeatherIcon(view: ImageView, state : String?)
 {
-    weatherForLocation?.let {
-        setIcon(view, weatherForLocation.weather[0].description)
+    state?.let {
+        setIcon(view, state)
     }
 }
 
@@ -169,24 +172,14 @@ fun setDayWeatherIcon(view: ImageView, daysWeather : DaysWeather?)
 }
 
 
-fun setIcon(view: ImageView, state: String?)
+@BindingAdapter("app:setTime")
+fun setTime(view: TextView, time : String?)
 {
-    state?.let {
-        when(it.lowercase(Locale.ROOT))
-        {
-            "clear sky" -> Glide.with(view).load(R.drawable.ic_sunny).into(view)
-            "few clouds" -> Glide.with(view).load(R.drawable.ic_sunnycloudy).into(view)
-            "scattered clouds" -> Glide.with(view).load(R.drawable.ic_cloudy).into(view)
-            "broken clouds" -> Glide.with(view).load(R.drawable.ic_very_cloudy).into(view)
-            "shower rain" -> Glide.with(view).load(R.drawable.ic_rainshower).into(view)
-            "rain" -> Glide.with(view).load(R.drawable.ic_sunnyrainy).into(view)
-            "thunderstorm" -> Glide.with(view).load(R.drawable.ic_thunder).into(view)
-            "snow" -> Glide.with(view).load(R.drawable.ic_snowy).into(view)
-            "mist" -> Glide.with(view).load(R.drawable.ic_very_cloudy).into(view)
-            else -> Glide.with(view).load(R.drawable.ic_sunny).into(view)
-        }
+    time?.let {
+        view.text = time.substring(11, 16)
     }
 }
+
 
 
 

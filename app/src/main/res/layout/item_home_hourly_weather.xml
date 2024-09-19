@@ -1,56 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
-    android:layout_height="150dp"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    android:elevation="10dp"
-    android:backgroundTint="#00ffffff"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:weightSum="3"
+    <data>
+        <variable
+            name="weatherItem"
+            type="com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours" />
+    </data>
 
-        >
+    <androidx.cardview.widget.CardView
+        android:layout_width="80dp"
+        android:layout_height="150dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="10dp"
+        android:backgroundTint="#00ffffff">
 
-        <TextView
-            android:id="@+id/itemHomeHour"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:text="Now"
-            android:textSize="20sp"
-            android:fontFamily="@font/sf_regular"
-            android:textColor="@color/white"
-            android:layout_weight="1"
-            />
-
-        <ImageView
-            android:id="@+id/itemHomeWeatherIcon"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_sunny"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:weightSum="3"
 
-        <TextView
-            android:id="@+id/itemHomeTemperature"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:text="20°"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            android:fontFamily="@font/sf_regular"
-            android:textColor="@color/white"
-            android:layout_weight="1"
-            />
+            >
+
+            <TextView
+                android:id="@+id/itemHomeHour"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                tools:text="Now"
+                app:setTime="@{weatherItem.textDataTime}"
+                android:textSize="20sp"
+                android:fontFamily="@font/sf_regular"
+                android:textColor="@color/white"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/itemHomeWeatherIcon"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:src="@drawable/ic_sunny"
+                app:setWeatherIcon="@{weatherItem.weather[0].description}"
+                />
+
+            <TextView
+                android:id="@+id/itemHomeTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                tools:text="20°"
+                app:setTemperature="@{weatherItem.main.temp}"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:fontFamily="@font/sf_regular"
+                android:textColor="@color/white"
+                android:layout_weight="1" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>
