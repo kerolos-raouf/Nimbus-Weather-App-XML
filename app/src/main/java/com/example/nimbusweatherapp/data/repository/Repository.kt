@@ -12,12 +12,16 @@ interface Repository
 
     fun getWeatherEveryThreeHours(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        language: String,
+        units: String
     ) : Flow<State<WeatherEveryThreeHours>>
 
     fun getWeatherForLocation(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        language: String,
+        units: String
     ) : Flow<State<WeatherForLocation>>
 
 

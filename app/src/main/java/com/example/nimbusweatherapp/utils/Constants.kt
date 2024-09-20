@@ -17,24 +17,36 @@ object Constants
     //Location
     const val LOCATION_KEY = "location"
     const val GPS_LOCATION = "GPS"
+    const val GPS_LOCATION_ARABIC = "الموقع الحالى"
     const val MAP_LOCATION = "Map"
+    const val MAP_LOCATION_ARABIC = "الخريطة"
     const val GPS_SELECTION_VALUE = 0
     const val MAP_SELECTION_VALUE = 1
 
     // Temperature
     const val TEMPERATURE_KEY = "temperature"
     const val KELVIN = "Kelvin"
+    const val KELVIN_ARABIC = "كيلفن"
     const val CELSIUS = "Celsius"
+    const val CELSIUS_ARABIC = "سيليزيس"
     const val FAHRENHEIT = "Fahrenheit"
+    const val FAHRENHEIT_ARABIC = "فيهرنهايت"
     const val KELVIN_SELECTION_VALUE = 0
     const val CELSIUS_SELECTION_VALUE = 1
     const val FAHRENHEIT_SELECTION_VALUE = 2
+
+    //unit system
+    const val IMPERIAL = "imperial"
+    const val METRIC = "metric"
+    const val STANDARD = "standard"
 
 
     //Wind Speed
     const val WIND_SPEED_KEY = "windSpeed"
     const val METER_PER_SECOND = "m/s"
+    const val METER_PER_SECOND_ARABIC = "متر/ثانية"
     const val KILOMETER_PER_HOUR = "km/h"
+    const val KILOMETER_PER_HOUR_ARABIC = "كم/ساعة"
     const val METER_PER_SECOND_SELECTION_VALUE = 0
     const val KILOMETER_PER_HOUR_SELECTION_VALUE = 1
 

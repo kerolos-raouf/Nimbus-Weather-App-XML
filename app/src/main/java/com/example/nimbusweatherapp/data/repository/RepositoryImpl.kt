@@ -18,11 +18,13 @@ class RepositoryImpl @Inject constructor(
 {
     override fun getWeatherEveryThreeHours(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        language: String,
+        units: String
     ): Flow<State<WeatherEveryThreeHours>> = flow {
         emit(State.Loading)
         try {
-            val response = remoteDataSource.getWeatherEveryThreeHours(latitude, longitude)
+            val response = remoteDataSource.getWeatherEveryThreeHours(latitude, longitude,language,units)
             if (response.isSuccessful && response.body() != null) {
                 emit(State.Success(response.body()!!))
             } else {
@@ -36,11 +38,13 @@ class RepositoryImpl @Inject constructor(
 
     override fun getWeatherForLocation(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        language: String,
+        units: String
     ): Flow<State<WeatherForLocation>> = flow {
         emit(State.Loading)
         try {
-            val response = remoteDataSource.getWeatherForLocation(latitude, longitude)
+            val response = remoteDataSource.getWeatherForLocation(latitude, longitude,language,units)
             if (response.isSuccessful && response.body() != null) {
                 emit(State.Success(response.body()!!))
             } else {

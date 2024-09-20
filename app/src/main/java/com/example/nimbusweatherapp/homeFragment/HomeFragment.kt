@@ -22,7 +22,9 @@ import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObser
 import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.FragmentHomeBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
+import com.example.nimbusweatherapp.mainActivity.MainActivity
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
+import com.example.nimbusweatherapp.utils.Constants
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -133,8 +135,21 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun doCallsOnGetLocation(lat : Double, lon : Double)
     {
-        homeViewModel.getWeatherEveryThreeHours(lat,lon)
-        homeViewModel.getWeatherForLocation(lat,lon)
+        //set wind speed unit before calling api
+        if (sharedViewModel.settingsWindSpeed.value == 0)
+        {
+            homeViewModel.currentWindSpeed.value = getString(R.string.m_s)
+        }else{
+            homeViewModel.currentWindSpeed.value = getString(R.string.km_h)
+        }
+
+        homeViewModel.getWeatherEveryThreeHours(
+            lat,lon,
+            MainActivity.settingsMeasureUnitsMap.getOrDefault(sharedViewModel.settingsLanguage.value,Constants.ENGLISH_LANGUAGE),
+            MainActivity.settingsMeasureUnitsMap.getOrDefault(sharedViewModel.settingsTemperature.value,Constants.STANDARD)
+        )
+
+        //homeViewModel.getWeatherForLocation(lat,lon)
     }
 
 

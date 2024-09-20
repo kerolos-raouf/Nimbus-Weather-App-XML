@@ -7,7 +7,13 @@ import retrofit2.Response
 
 interface RemoteDataSource
 {
-    suspend fun getWeatherEveryThreeHours(latitude: Double, longitude: Double): Response<WeatherEveryThreeHours>
+    suspend fun getWeatherEveryThreeHours(latitude: Double,
+                                          longitude: Double,
+                                          language: String,
+                                          units: String): Response<WeatherEveryThreeHours>
 
-    suspend fun getWeatherForLocation(latitude: Double, longitude: Double): Response<WeatherForLocation>
+    suspend fun getWeatherForLocation(latitude: Double,
+                                      longitude: Double,
+                                      language: String,
+                                      units: String): Response<WeatherForLocation>
 }

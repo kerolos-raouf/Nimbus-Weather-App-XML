@@ -8,7 +8,7 @@
     <string name="wednesday">الاربعاء</string>
     <string name="thursday">الخميس</string>
     <string name="five_days_forecast">الطقس لخمسة ايام</string>
-    <string name="pressure">الطغط</string>
+    <string name="pressure">الضغط</string>
     <string name="humidity">الرطوبة</string>
     <string name="wind_speed">سرعة الرياح</string>
     <string name="visibility">الرؤية</string>
@@ -26,7 +26,7 @@
     <string name="notifications">الاشعارات</string>
     <string name="english">الانجليزية</string>
     <string name="arabic">العربية</string>
-    <string name="gps">الموقع الحالي</string>
+    <string name="gps">الموقع الحالى</string>
     <string name="map">الخريطة</string>
     <string name="kelvin">كيلفن</string>
     <string name="celsius">سيليزيس</string>

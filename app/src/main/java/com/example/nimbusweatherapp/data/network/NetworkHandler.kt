@@ -13,16 +13,20 @@ class NetworkHandler @Inject constructor (
 {
     override suspend fun getWeatherEveryThreeHours(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        language: String,
+        units: String
     ): Response<WeatherEveryThreeHours> {
-        return networkApi.getWeatherEveryThreeHours(latitude, longitude)
+        return networkApi.getWeatherEveryThreeHours(latitude, longitude,language,units)
     }
 
     override suspend fun getWeatherForLocation(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        language: String,
+        units: String
     ): Response<WeatherForLocation> {
-        return networkApi.getWeatherForLocation(latitude, longitude)
+        return networkApi.getWeatherForLocation(latitude, longitude,language,units)
     }
 
 }

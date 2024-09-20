@@ -670,7 +670,7 @@
                         android:id="@+id/homeDayFiveWeatherIcon"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_weight="0.5"
+                        android:layout_weight="1"
                         app:setDayWeatherIcon="@{homeViewModel.dayFive}"
                         tools:src="@drawable/ic_rainythunder" />
 
@@ -856,7 +856,7 @@
                                 android:fontFamily="@font/sf_semi_bold"
                                 android:textColor="@color/white"
                                 android:textSize="20sp"
-                                app:setWindSpeed="@{homeViewModel.weatherForLocation}"
+                                app:setTextFromViewModel="@{String.valueOf(homeViewModel.weatherForLocation.wind.speed)}"
                                 tools:text="2.35 m/s" />
 
                             <TextView
@@ -904,7 +904,7 @@
                                 android:fontFamily="@font/sf_semi_bold"
                                 android:textColor="@color/white"
                                 android:textSize="20sp"
-                                app:setWindSpeed="@{homeViewModel.weatherForLocation}"
+                                app:setVisibility="@{String.valueOf(homeViewModel.weatherForLocation.visibility)}"
                                 tools:text="100 m" />
 
                             <TextView
@@ -1017,7 +1017,7 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/sf_semi_bold"
-                                android:text="0.2 m/s"
+                                android:text="0.2"
                                 android:textColor="@color/white"
                                 android:textSize="20sp" />
 

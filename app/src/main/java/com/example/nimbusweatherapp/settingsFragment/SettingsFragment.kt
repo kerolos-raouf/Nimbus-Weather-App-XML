@@ -112,7 +112,7 @@ class SettingsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val selectedValue = binding.settingsLocationSpinner.selectedItem.toString()
+                val selectedValue = MainActivity.settingsInArabicAndEnglish.getOrDefault(binding.settingsLocationSpinner.selectedItem.toString(),Constants.GPS_LOCATION)
                 sharedViewModel.setSharedPreferencesString(Constants.LOCATION_KEY,selectedValue)
                 sharedViewModel.settingsLocation.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
             }
@@ -129,7 +129,7 @@ class SettingsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val selectedValue = binding.settingsWindSpinner.selectedItem.toString()
+                val selectedValue = MainActivity.settingsInArabicAndEnglish.getOrDefault(binding.settingsWindSpinner.selectedItem.toString(),Constants.METER_PER_SECOND)
                 sharedViewModel.setSharedPreferencesString(Constants.WIND_SPEED_KEY,selectedValue)
                 sharedViewModel.settingsWindSpeed.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
             }
@@ -147,7 +147,7 @@ class SettingsFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val selectedValue = binding.settingsTemperatureSpinner.selectedItem.toString()
+                val selectedValue = MainActivity.settingsInArabicAndEnglish.getOrDefault(binding.settingsTemperatureSpinner.selectedItem.toString(),Constants.KELVIN)
                 sharedViewModel.setSharedPreferencesString(Constants.TEMPERATURE_KEY,selectedValue)
                 sharedViewModel.settingsTemperature.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
             }

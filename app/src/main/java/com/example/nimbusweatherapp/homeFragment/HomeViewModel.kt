@@ -1,6 +1,7 @@
 package com.example.nimbusweatherapp.homeFragment
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import com.example.nimbusweatherapp.data.model.DaysWeather
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
+import com.example.nimbusweatherapp.data.model.Wind
 import com.example.nimbusweatherapp.data.repository.Repository
 import com.example.nimbusweatherapp.utils.State
 import com.example.nimbusweatherapp.utils.capitalizeWord
@@ -36,6 +38,10 @@ class HomeViewModel @Inject constructor(
     private val _weatherForLocation = MutableLiveData<WeatherForLocation>()
     val weatherForLocation : LiveData<WeatherForLocation> = _weatherForLocation
 
+    ///units
+    val currentWindSpeed = MutableLiveData("m/s")
+
+
 
     private val _dayOne = MutableLiveData<DaysWeather>()
     val dayOne : LiveData<DaysWeather> = _dayOne
@@ -55,15 +61,16 @@ class HomeViewModel @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error : LiveData<String> = _error
 
+
     private val _loading = MutableLiveData(false)
     val loading : LiveData<Boolean> = _loading
 
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getWeatherEveryThreeHours(latitude: Double, longitude: Double) {
+    fun getWeatherEveryThreeHours(latitude: Double, longitude: Double, language: String, units: String) {
         viewModelScope.launch {
-            repository.getWeatherEveryThreeHours(latitude, longitude).collect{
+            repository.getWeatherEveryThreeHours(latitude, longitude, language, units).collect{
                 when(it)
                 {
                     is State.Error -> {
@@ -75,9 +82,8 @@ class HomeViewModel @Inject constructor(
                     }
                     is State.Success -> {
                         _weatherEveryThreeHours.value = it.data
-                        //Log.d("Kerolos", "getWeatherEveryThreeHours: ${_weatherEveryThreeHours.value!!.list.size}")
+                        getWeatherForLocation(latitude, longitude, language, units)
                         fillDaysWeather(_weatherEveryThreeHours.value!!.list)
-                        _loading.value = false
                     }
                 }
             }
@@ -104,10 +110,10 @@ class HomeViewModel @Inject constructor(
 
 
 
-    fun getWeatherForLocation(latitude: Double, longitude: Double)
+    private fun getWeatherForLocation(latitude: Double, longitude: Double , language: String, units: String)
     {
         viewModelScope.launch {
-            repository.getWeatherForLocation(latitude, longitude).collect{
+            repository.getWeatherForLocation(latitude, longitude, language, units).collect{
                 when(it)
                 {
                     is State.Error -> {
@@ -115,14 +121,28 @@ class HomeViewModel @Inject constructor(
                         _loading.value = false
                     }
                     State.Loading -> {
-                        _loading.value = true
+
                     }
                     is State.Success -> {
                         _weatherForLocation.value = it.data
+
+                        addWindSpeedUnit(currentWindSpeed.value ?: "m/s")
                         _loading.value = false
                     }
                 }
             }
         }
+    }
+
+    private fun addWindSpeedUnit(unit : String)
+    {
+        var currentSpeed = _weatherForLocation.value?.wind?.speed?.toDouble() ?: 0.0
+        if(unit == "km/h" || unit == "كم/ساعة")
+        {
+            currentSpeed *= 3.6
+        }
+        _weatherForLocation.value = _weatherForLocation.value?.copy(
+            wind = _weatherForLocation.value?.wind?.copy(speed = "$currentSpeed $unit") ?: Wind(0, 0.0, "m/s")
+        )
     }
 }

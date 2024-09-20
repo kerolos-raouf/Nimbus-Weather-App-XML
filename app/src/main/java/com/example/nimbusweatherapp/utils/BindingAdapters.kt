@@ -1,17 +1,13 @@
 package com.example.nimbusweatherapp.utils
 
-import android.health.connect.datatypes.units.Temperature
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.DaysWeather
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
-import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
-import java.util.Locale
+import org.w3c.dom.Text
 
 @BindingAdapter("app:showContent")
 fun showHomeContent(view: View, show: Boolean)
@@ -65,8 +61,14 @@ fun setCountryName(view: TextView, weatherForLocation : WeatherForLocation?)
 fun setTemperature(view: TextView, temperature: Double?)
 {
     temperature?.let {
-        val temp = temperature / 10
-        view.text = "${temp.toInt()}°"
+        val temp = (temperature / 10).toInt()
+        var tempString = temp.toString()
+
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            tempString = parseIntegerIntoArabic(tempString)
+        }
+        view.text = "$tempString°"
     }
 }
 
@@ -84,7 +86,17 @@ fun setLowAndHighTemperature(view: TextView, weatherForLocation : WeatherForLoca
     weatherForLocation?.let {
         val low = weatherForLocation.main.temp / 10
         val high = weatherForLocation.main.temp / 10
-        view.text = "L:${low.toInt()}° - H:${high.toInt()}°"
+
+
+
+        var tempString = "L:${low.toInt()}° - H:${high.toInt()}°"
+
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            tempString = parseIntegerIntoArabic(tempString)
+            tempString.replace("L","اقل").replace("H","اعلى")
+        }
+        view.text = "$tempString"
     }
 }
 
@@ -92,7 +104,13 @@ fun setLowAndHighTemperature(view: TextView, weatherForLocation : WeatherForLoca
 fun setPressure(view: TextView, weatherForLocation : WeatherForLocation?)
 {
     weatherForLocation?.let {
-        view.text = "${weatherForLocation.main.pressure} hpa"
+
+        var tempString = "${weatherForLocation.main.pressure} hpa"
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            tempString = parseIntegerIntoArabic(tempString)
+        }
+        view.text = tempString
     }
 }
 
@@ -100,15 +118,41 @@ fun setPressure(view: TextView, weatherForLocation : WeatherForLocation?)
 fun setHumidity(view: TextView, weatherForLocation : WeatherForLocation?)
 {
     weatherForLocation?.let {
-        view.text = "${weatherForLocation.main.humidity} %"
+
+        var tempString = "${weatherForLocation.main.humidity} %"
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            tempString = parseIntegerIntoArabic(tempString)
+        }
+
+        view.text = tempString
     }
 }
 
-@BindingAdapter("app:setWindSpeed")
-fun setWindSpeed(view: TextView, weatherForLocation : WeatherForLocation?)
+@BindingAdapter("app:setTextFromViewModel")
+fun setTextFromViewModel(view: TextView, value : String?)
 {
-    weatherForLocation?.let {
-        view.text = "${weatherForLocation.wind.speed} ${view.context.getString(R.string.m_s)}"
+    value?.let {
+        var temp = value
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            temp = parseIntegerIntoArabic(temp)
+        }
+        view.text = temp//"${value.wind.speed} ${view.context.getString(R.string.m_s)}"
+    }
+}
+
+@BindingAdapter("app:setVisibility")
+fun setVisibility(view: TextView, visibility : String?)
+{
+    visibility?.let {
+        var temp = visibility
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            temp = parseIntegerIntoArabic(temp)
+        }
+
+        view.text = "${temp} ${view.context.getString(R.string.meter)}"
     }
 }
 
@@ -116,17 +160,17 @@ fun setWindSpeed(view: TextView, weatherForLocation : WeatherForLocation?)
 fun setCloud(view: TextView, weatherForLocation : WeatherForLocation?)
 {
     weatherForLocation?.let {
-        view.text = "${weatherForLocation.clouds.all} %"
+
+        var tempString = "${weatherForLocation.clouds.all} %"
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            tempString = parseIntegerIntoArabic(tempString)
+        }
+
+        view.text = tempString
     }
 }
 
-@BindingAdapter("app:setVisibility")
-fun setVisibility(view: TextView, weatherForLocation : WeatherForLocation?)
-{
-    weatherForLocation?.let {
-        view.text = "${weatherForLocation.visibility} ${view.context.getString(R.string.meter)}"
-    }
-}
 
 @BindingAdapter("app:setWeatherIcon")
 fun setWeatherIcon(view: ImageView, state : String?)
@@ -159,7 +203,15 @@ fun setDayTemperature(view: TextView, daysWeather : DaysWeather?)
     daysWeather?.let {
         val low = daysWeather.lowTemperature.toDouble() / 10
         val high = daysWeather.highTemperature.toDouble() / 10
-        view.text = "${low.toInt()}°-${high.toInt()}°"
+
+        var tempString = "${low.toInt()}°-${high.toInt()}°"
+
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            tempString = parseIntegerIntoArabic(tempString)
+        }
+
+        view.text = tempString
     }
 }
 
@@ -176,7 +228,12 @@ fun setDayWeatherIcon(view: ImageView, daysWeather : DaysWeather?)
 fun setTime(view: TextView, time : String?)
 {
     time?.let {
-        view.text = time.substring(11, 16)
+        var temp = time
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            temp = parseIntegerIntoArabic(temp)
+        }
+        view.text = temp.substring(11, 16)
     }
 }
 

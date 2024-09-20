@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() , Communicator {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
 
         val settingsSelectionMap = HashMap<String,Int>()
+        val settingsMeasureUnitsMap = HashMap<Int,String>()
+        val settingsInArabicAndEnglish = HashMap<String,String>()
     }
 
 
@@ -86,6 +88,30 @@ class MainActivity : AppCompatActivity() , Communicator {
         settingsSelectionMap[Constants.KELVIN] = Constants.KELVIN_SELECTION_VALUE
         settingsSelectionMap[Constants.CELSIUS] = Constants.CELSIUS_SELECTION_VALUE
         settingsSelectionMap[Constants.FAHRENHEIT] = Constants.FAHRENHEIT_SELECTION_VALUE
+
+
+        settingsMeasureUnitsMap[Constants.METER_PER_SECOND_SELECTION_VALUE] = Constants.METER_PER_SECOND
+        settingsMeasureUnitsMap[Constants.KILOMETER_PER_HOUR_SELECTION_VALUE] = Constants.KILOMETER_PER_HOUR
+        settingsMeasureUnitsMap[Constants.KELVIN_SELECTION_VALUE] = Constants.STANDARD
+        settingsMeasureUnitsMap[Constants.CELSIUS_SELECTION_VALUE] = Constants.METRIC
+        settingsMeasureUnitsMap[Constants.FAHRENHEIT_SELECTION_VALUE] = Constants.IMPERIAL
+        settingsMeasureUnitsMap[Constants.ENGLISH_SELECTION_VALUE] = Constants.ENGLISH_LANGUAGE
+        settingsMeasureUnitsMap[Constants.ARABIC_SELECTION_VALUE] = Constants.ARABIC_LANGUAGE
+
+        settingsInArabicAndEnglish[Constants.GPS_LOCATION] = Constants.GPS_LOCATION
+        settingsInArabicAndEnglish[Constants.GPS_LOCATION_ARABIC] = Constants.GPS_LOCATION
+        settingsInArabicAndEnglish[Constants.MAP_LOCATION] = Constants.MAP_LOCATION
+        settingsInArabicAndEnglish[Constants.MAP_LOCATION_ARABIC] = Constants.MAP_LOCATION
+        settingsInArabicAndEnglish[Constants.METER_PER_SECOND] = Constants.METER_PER_SECOND
+        settingsInArabicAndEnglish[Constants.METER_PER_SECOND_ARABIC] = Constants.METER_PER_SECOND
+        settingsInArabicAndEnglish[Constants.KILOMETER_PER_HOUR] = Constants.KILOMETER_PER_HOUR
+        settingsInArabicAndEnglish[Constants.KILOMETER_PER_HOUR_ARABIC] = Constants.KILOMETER_PER_HOUR
+        settingsInArabicAndEnglish[Constants.KELVIN] = Constants.KELVIN
+        settingsInArabicAndEnglish[Constants.KELVIN_ARABIC] = Constants.KELVIN
+        settingsInArabicAndEnglish[Constants.CELSIUS] = Constants.CELSIUS
+        settingsInArabicAndEnglish[Constants.CELSIUS_ARABIC] = Constants.CELSIUS
+        settingsInArabicAndEnglish[Constants.FAHRENHEIT] = Constants.FAHRENHEIT
+        settingsInArabicAndEnglish[Constants.FAHRENHEIT_ARABIC] = Constants.FAHRENHEIT
     }
 
     override fun openDrawer() = binding.drawerLayout.openDrawer(GravityCompat.START)
