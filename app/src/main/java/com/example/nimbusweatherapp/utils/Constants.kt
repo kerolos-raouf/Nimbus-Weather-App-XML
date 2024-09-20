@@ -57,4 +57,8 @@ object Constants
     ////format
     const val DATE_FORMAT_FOR_HOURLY_WEATHER = "EEEE"
     const val DATE_FORMAT_FOR_HOME_FRAGMENT_WEATHER = "EEEE, dd-MM-yyyy, hh:mm a"
+
+
+    //map fragment
+    const val MAP_SHARED_PREFERENCE_NAME = "map_shared_preference"
 }

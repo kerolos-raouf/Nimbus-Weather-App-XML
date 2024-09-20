@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
@@ -103,7 +104,7 @@ class HomeFragment : Fragment() {
                 }
             }else
             {
-
+                findNavController().navigate(R.id.action_homeFragment_to_mapFragment)
             }
         }
 

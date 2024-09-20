@@ -9,12 +9,20 @@
         android:id="@+id/homeFragment"
         android:name="com.example.nimbusweatherapp.homeFragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteFargment"
         android:name="com.example.nimbusweatherapp.favouriteFragment.FavouriteFragment"
         android:label="fragment_favourite_fargment"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFargment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/alertFragment"
         android:name="com.example.nimbusweatherapp.alertFragment.AlertFragment"
