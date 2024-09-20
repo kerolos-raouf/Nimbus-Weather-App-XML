@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sunday">السبت</string>
+    <string name="monday">الأثنين</string>
+    <string name="tuesday">الثلاثاء</string>
+    <string name="wednesday">الاربعاء</string>
+    <string name="thursday">الخميس</string>
+    <string name="five_days_forecast">الطقس لخمسة ايام</string>
+    <string name="pressure">الطغط</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="wind_speed">سرعة الرياح</string>
+    <string name="visibility">الرؤية</string>
+    <string name="cloud">الغيوم</string>
+    <string name="ultra_violet">الأشعة فوق البنفسجية</string>
+    <string name="home">الرئيسية</string>
+    <string name="location_permission_denied">تم رفض اذن الوصول للموقع الحالي.</string>
+    <string name="please_allow_location_to_get_data">يرجى الموفقة علي الاذن للحصول علي بيانات.</string>
+    <string name="allow">سماح</string>
+    <string name="language">اللغة</string>
+    <string name="settings">الاعدادات</string>
+    <string name="location">الموقع</string>
+    <string name="wind_speed_unit">سرعة الرياح</string>
+    <string name="temperature">درجة الحرارة</string>
+    <string name="notifications">الاشعارات</string>
+    <string name="english">الانجليزية</string>
+    <string name="arabic">العربية</string>
+    <string name="gps">الموقع الحالي</string>
+    <string name="map">الخريطة</string>
+    <string name="kelvin">كيلفن</string>
+    <string name="celsius">سيليزيس</string>
+    <string name="fahrenheit">فيهرنهايت</string>
+    <string name="km_h">كم/ساعة</string>
+    <string name="m_s">متر/ثانية</string>
+    <string name="favourite">المفضلة</string>
+    <string name="alert">التنبيهات</string>
+    <string name="meter">م</string>
+
+</resources>

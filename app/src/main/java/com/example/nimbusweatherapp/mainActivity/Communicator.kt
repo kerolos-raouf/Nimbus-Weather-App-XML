@@ -10,5 +10,6 @@ interface Communicator {
 
     fun onLocationPermissionGranted()
 
+    fun checkAndChangLocality()
 
 }

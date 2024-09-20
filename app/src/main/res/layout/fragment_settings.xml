@@ -20,6 +20,8 @@
             android:background="@drawable/background"
             tools:context=".settingsFragment.SettingsFragment">
 
+
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/homeToolbar"
                 android:layout_width="0dp"
@@ -27,14 +29,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="">
+                app:title=""
 
-                <ImageView
-                    android:id="@+id/settingsMenuIcon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                >
 
-                    android:src="@drawable/icon_menu" />
+
 
                 <TextView
                     android:id="@+id/settingsTitle"
@@ -45,13 +44,25 @@
                     android:text="@string/settings"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:layout_gravity="center"
+                    />
 
             </androidx.appcompat.widget.Toolbar>
 
             <ImageView
+                android:id="@+id/settingsMenuIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="15dp"
+
+                android:src="@drawable/icon_menu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
                 android:id="@+id/settingsImage"
-                android:layout_width="200dp"
+                android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:src="@drawable/ic_sunny"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +70,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/homeToolbar" />
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/settingsLanguageLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,38 +83,65 @@
                     android:id="@+id/settingsLanguageIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_weight="1"
                     android:src="@drawable/icon_language"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/settingsLanguageText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="@dimen/settings_text_margin_start"
                     android:layout_weight="3"
                     android:fontFamily="@font/sf_semi_bold"
                     android:gravity="start"
                     android:text="@string/language"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/settingsLanguageIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/settingsLanguageSpinner"
+                <RadioGroup
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:backgroundTint="@color/white"
-                    />
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="20dp"
+                    >
 
-            </LinearLayout>
+                    <RadioButton
+                        android:id="@+id/settingsEnglishRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:buttonTint="@color/white"
+                        android:text="@string/english"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/settingsArabicRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/white"
+                        android:text="@string/arabic"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        />
+
+                </RadioGroup>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/settingsDivider1"
@@ -119,7 +157,7 @@
 
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/settingsLocationLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,38 +169,41 @@
                     android:id="@+id/settingsLocationIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_weight="1"
                     android:src="@drawable/icon_location_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/settingsLocationText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="20dp"
                     android:layout_weight="3"
-                    android:fontFamily="@font/sf_semi_bold"
+                    android:layout_marginStart="@dimen/settings_text_margin_start"
                     android:gravity="start"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/sf_semi_bold"
                     android:text="@string/location"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/settingsLanguageIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/settingsLocationIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/settingsLocationSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:textSize="20sp"
                     android:backgroundTint="@color/white"
-                    />
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/settingsDivider2"
@@ -180,7 +221,7 @@
 
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/settingsWindLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,38 +233,43 @@
                     android:id="@+id/settingsWindIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_weight="1"
                     android:src="@drawable/icon_wind_speed"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/settingsWindText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_text_margin_start"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="20dp"
                     android:layout_weight="3"
                     android:fontFamily="@font/sf_semi_bold"
                     android:gravity="start"
                     android:text="@string/wind_speed_unit"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/settingsLanguageIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+                    app:layout_constraintStart_toEndOf="@+id/settingsWindIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/settingsWindSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:textSize="20sp"
                     android:backgroundTint="@color/white"
-                    />
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/settingsDivider3"
@@ -240,7 +286,7 @@
 
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/settingsTemperatureLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -252,38 +298,43 @@
                     android:id="@+id/settingsTemperatureIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_weight="1"
                     android:src="@drawable/icon_temperature"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/settingsTemperatureText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_text_margin_start"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/margin_between_settings_elements"
                     android:layout_weight="3"
                     android:fontFamily="@font/sf_semi_bold"
                     android:gravity="start"
                     android:text="@string/temperature"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/settingsLanguageIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/settingsTemperatureIcon"
+                    />
 
                 <Spinner
                     android:id="@+id/settingsTemperatureSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:textSize="20sp"
                     android:backgroundTint="@color/white"
-                    />
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/settingsDivider4"
@@ -299,7 +350,7 @@
 
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/settingsNotificationsLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -311,40 +362,43 @@
                     android:id="@+id/settingsNotificationsIcon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/home_normal_margin"
                     android:layout_weight="1"
                     android:src="@drawable/icon_notification2"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/settingsNotificationsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_text_margin_start"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/margin_between_settings_elements"
                     android:layout_weight="3"
                     android:fontFamily="@font/sf_semi_bold"
                     android:gravity="start"
                     android:text="@string/notifications"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/settingsLanguageIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/settingsImage" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/settingsNotificationsIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/settingsNotificationsSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="20dp"
-                    app:thumbTint="@color/white"
-
+                    android:layout_marginEnd="@dimen/settings_text_margin_start"
                     android:backgroundTint="@color/white"
-                    />
 
-            </LinearLayout>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:thumbTint="@color/white" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/settingsDivider5"
@@ -353,7 +407,9 @@
                 android:layout_marginStart="@dimen/home_normal_margin"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="@dimen/home_normal_margin"
+                android:layout_marginBottom="@dimen/home_normal_margin"
                 android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingsNotificationsLinearLayout" />

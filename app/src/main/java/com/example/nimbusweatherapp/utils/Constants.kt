@@ -8,8 +8,8 @@ object Constants
 
     //Languages
     const val LANGUAGE_KEY = "language"
-    const val ENGLISH_LANGUAGE = "English"
-    const val ARABIC_LANGUAGE = "Arabic"
+    const val ENGLISH_LANGUAGE = "en"
+    const val ARABIC_LANGUAGE = "ar"
     const val ENGLISH_SELECTION_VALUE = 0
     const val ARABIC_SELECTION_VALUE = 1
 

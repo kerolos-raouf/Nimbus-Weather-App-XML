@@ -1,7 +1,8 @@
 package com.example.nimbusweatherapp.mainActivity
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -14,7 +15,9 @@ import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
 import com.example.nimbusweatherapp.databinding.ActivityMainBinding
 import com.example.nimbusweatherapp.utils.Constants
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() , Communicator {
@@ -35,14 +38,18 @@ class MainActivity : AppCompatActivity() , Communicator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initSelectionMap()
+        getAndSetSettingsValues()
+        checkAndChangLocality()
+
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         binding.lifecycleOwner = this
 
 
-        initSelectionMap()
+
         init()
         observers()
-        getAndSetSettingsValues()
     }
 
     private fun init(){
@@ -58,12 +65,13 @@ class MainActivity : AppCompatActivity() , Communicator {
         sharedViewModel.internetState.observe(this){state->
             if(state == ConnectivityObserver.InternetState.AVAILABLE)
             {
-                Toast.makeText(this, "Internet Connected", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root,"Internet Connected",Snackbar.LENGTH_SHORT).show()
             }else
             {
-                Toast.makeText(this, "Connection Lost", Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root,"Connection Lost",Snackbar.LENGTH_SHORT).show()
             }
         }
+
     }
 
 
@@ -127,6 +135,36 @@ class MainActivity : AppCompatActivity() , Communicator {
 
         sharedViewModel.settingsNotifications.value =
             sharedViewModel.getSharedPreferencesBoolean(Constants.NOTIFICATION_KEY)
+    }
+
+
+    override fun checkAndChangLocality()
+    {
+        val languageCode = if(sharedViewModel.settingsLanguage.value == 0) "en" else "ar"
+        val locale = resources.configuration.locales[0]
+
+        if(locale.language != languageCode)
+        {
+
+            val newLocale = Locale(languageCode)
+            Locale.setDefault(newLocale)
+
+            val config = resources.configuration
+
+            config.setLocale(newLocale)
+            config.setLayoutDirection(newLocale)
+
+            resources.updateConfiguration(config,resources.displayMetrics)
+
+            //val newConfigurationContext = createConfigurationContext(config)
+
+            //resources.updateConfiguration(newConfigurationContext.resources.configuration,newConfigurationContext.resources.displayMetrics)
+
+            recreate()
+
+            Log.d("Kerolos", "checkAndChangLocality: changed")
+
+        }
     }
 
 

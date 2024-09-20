@@ -92,11 +92,11 @@ class HomeViewModel @Inject constructor(
         val dayThreeIndex = 17
         val dayFourIndex = 25
         val dayFiveIndex = 33
-        _dayOne.value = DaysWeather(convertUnixToDay(list[dayOneIndex].dt.toLong()).substring(0,3),capitalizeWord(list[dayOneIndex].weather[0].description),list[dayOneIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
-        _dayTwo.value = DaysWeather(convertUnixToDay(list[dayTwoIndex].dt.toLong()).substring(0,3),capitalizeWord(list[dayTwoIndex].weather[0].description),list[dayTwoIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
-        _dayThree.value = DaysWeather(convertUnixToDay(list[dayThreeIndex].dt.toLong()).substring(0,3),capitalizeWord(list[dayThreeIndex].weather[0].description),list[dayThreeIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
-        _dayFour.value = DaysWeather(convertUnixToDay(list[dayFourIndex].dt.toLong()).substring(0,3),capitalizeWord(list[dayFourIndex].weather[0].description),list[dayFourIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
-        _dayFive.value = DaysWeather(convertUnixToDay(list[dayFiveIndex].dt.toLong()).substring(0,3),capitalizeWord(list[dayFiveIndex].weather[0].description),list[dayFiveIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
+        _dayOne.value = DaysWeather(convertUnixToDay(list[dayOneIndex].dt.toLong()),capitalizeWord(list[dayOneIndex].weather[0].description),list[dayOneIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
+        _dayTwo.value = DaysWeather(convertUnixToDay(list[dayTwoIndex].dt.toLong()),capitalizeWord(list[dayTwoIndex].weather[0].description),list[dayTwoIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
+        _dayThree.value = DaysWeather(convertUnixToDay(list[dayThreeIndex].dt.toLong()),capitalizeWord(list[dayThreeIndex].weather[0].description),list[dayThreeIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
+        _dayFour.value = DaysWeather(convertUnixToDay(list[dayFourIndex].dt.toLong()),capitalizeWord(list[dayFourIndex].weather[0].description),list[dayFourIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
+        _dayFive.value = DaysWeather(convertUnixToDay(list[dayFiveIndex].dt.toLong()),capitalizeWord(list[dayFiveIndex].weather[0].description),list[dayFiveIndex].main.temp.toString(),list[dayTwoIndex].main.temp.toString())
     }
 
 

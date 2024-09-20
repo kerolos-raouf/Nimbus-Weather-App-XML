@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NimbusWeatherApp</string>
+    <string name="app_name" translatable="false">Nimbus</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sunday">Sun</string>
@@ -24,4 +24,17 @@
     <string name="wind_speed_unit">Wind Speed</string>
     <string name="temperature">Temperature</string>
     <string name="notifications">Notifications</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="gps">GPS</string>
+    <string name="map">Map</string>
+    <string name="kelvin">Kelvin</string>
+    <string name="celsius">Celsius</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="km_h">km/h</string>
+    <string name="m_s">m/s</string>
+    <string name="favourite">Favourite</string>
+    <string name="alert">Alert</string>
+    <string name="meter">m</string>
+
 </resources>

@@ -3,6 +3,8 @@
     <dimen name="home_margin_top">50dp</dimen>
     <dimen name="home_normal_margin">30dp</dimen>
     <dimen name="home_margin_start">10dp</dimen>
-    <dimen name="home_days_font_size">17sp</dimen>
+    <dimen name="home_days_font_size">15sp</dimen>
     <dimen name="margin_between_settings_elements">20dp</dimen>
+    <dimen name="settings_text_margin_start">20dp</dimen>
+    <dimen name="menu_button_margin">15dp</dimen>
 </resources>

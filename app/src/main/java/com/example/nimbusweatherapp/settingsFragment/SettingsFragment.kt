@@ -28,6 +28,8 @@ class SettingsFragment : Fragment() {
     private lateinit var binding : FragmentSettingsBinding
     private lateinit var communicator: Communicator
 
+    private var isLangSpinnerEnabled = true
+
 
 
     override fun onCreateView(
@@ -51,23 +53,21 @@ class SettingsFragment : Fragment() {
     private fun init(){
         communicator = activity as Communicator
 
-        //spinners
-        val languages = listOf(Constants.ENGLISH_LANGUAGE,Constants.ARABIC_LANGUAGE)
-        val languageAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,languages)
-        binding.settingsLanguageSpinner.adapter = languageAdapter
-        binding.settingsLanguageSpinner.setSelection(sharedViewModel.settingsLanguage.value ?: 0)
+        //radio buttons
+        binding.settingsEnglishRadioButton.isChecked = (sharedViewModel.settingsLanguage.value == 0)
+        binding.settingsArabicRadioButton.isChecked = (sharedViewModel.settingsLanguage.value == 1)
 
-        val locationWay = listOf(Constants.GPS_LOCATION,Constants.MAP_LOCATION)
+        val locationWay = listOf(getString(R.string.gps),getString(R.string.map))
         val locationAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,locationWay)
         binding.settingsLocationSpinner.adapter = locationAdapter
         binding.settingsLocationSpinner.setSelection(sharedViewModel.settingsLocation.value ?: 0)
 
-        val windSpeed = listOf(Constants.METER_PER_SECOND,Constants.KILOMETER_PER_HOUR)
+        val windSpeed = listOf(getString(R.string.m_s),getString(R.string.km_h))
         val windSpeedAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,windSpeed)
         binding.settingsWindSpinner.adapter = windSpeedAdapter
         binding.settingsWindSpinner.setSelection(sharedViewModel.settingsWindSpeed.value ?: 0)
 
-        val temperature = listOf(Constants.KELVIN,Constants.CELSIUS,Constants.FAHRENHEIT)
+        val temperature = listOf(getString(R.string.kelvin),getString(R.string.celsius),getString(R.string.fahrenheit))
         val temperatureAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,temperature)
         binding.settingsTemperatureSpinner.adapter = temperatureAdapter
         binding.settingsTemperatureSpinner.setSelection(sharedViewModel.settingsTemperature.value ?: 0)
@@ -75,28 +75,33 @@ class SettingsFragment : Fragment() {
         binding.settingsNotificationsSwitch.isChecked = sharedViewModel.settingsNotifications.value ?: true
 
 
-        setUpSpinnersSelection()
+        setUpSettingsLayout()
         ///////
 
     }
 
-    private fun setUpSpinnersSelection()
+    private fun setUpSettingsLayout()
     {
-        binding.settingsLanguageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
-        {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val selectedValue = binding.settingsLanguageSpinner.selectedItem.toString()
-                sharedViewModel.settingsLanguage.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
-                sharedViewModel.setSharedPreferencesString(Constants.LANGUAGE_KEY,selectedValue)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+        binding.settingsEnglishRadioButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            {
+                sharedViewModel.setSharedPreferencesString(Constants.LANGUAGE_KEY,Constants.ENGLISH_LANGUAGE)
+                sharedViewModel.settingsLanguage.value = 0
+                communicator.checkAndChangLocality()
             }
         }
+
+        binding.settingsArabicRadioButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            {
+                sharedViewModel.setSharedPreferencesString(Constants.LANGUAGE_KEY,Constants.ARABIC_LANGUAGE)
+                sharedViewModel.settingsLanguage.value = 1
+                communicator.checkAndChangLocality()
+            }
+        }
+
+
 
 
         binding.settingsLocationSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
@@ -108,8 +113,8 @@ class SettingsFragment : Fragment() {
                 id: Long
             ) {
                 val selectedValue = binding.settingsLocationSpinner.selectedItem.toString()
-                sharedViewModel.settingsLocation.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
                 sharedViewModel.setSharedPreferencesString(Constants.LOCATION_KEY,selectedValue)
+                sharedViewModel.settingsLocation.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -125,8 +130,8 @@ class SettingsFragment : Fragment() {
                 id: Long
             ) {
                 val selectedValue = binding.settingsWindSpinner.selectedItem.toString()
-                sharedViewModel.settingsWindSpeed.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
                 sharedViewModel.setSharedPreferencesString(Constants.WIND_SPEED_KEY,selectedValue)
+                sharedViewModel.settingsWindSpeed.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
@@ -143,16 +148,16 @@ class SettingsFragment : Fragment() {
                 id: Long
             ) {
                 val selectedValue = binding.settingsTemperatureSpinner.selectedItem.toString()
-                sharedViewModel.settingsTemperature.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
                 sharedViewModel.setSharedPreferencesString(Constants.TEMPERATURE_KEY,selectedValue)
+                sharedViewModel.settingsTemperature.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
 
         binding.settingsNotificationsSwitch.setOnCheckedChangeListener { _, isChecked ->
-            sharedViewModel.settingsNotifications.value = isChecked
             sharedViewModel.setSharedPreferencesBoolean(Constants.NOTIFICATION_KEY,isChecked)
+            sharedViewModel.settingsNotifications.value = isChecked
         }
 
     }

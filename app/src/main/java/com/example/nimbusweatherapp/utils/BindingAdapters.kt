@@ -108,7 +108,7 @@ fun setHumidity(view: TextView, weatherForLocation : WeatherForLocation?)
 fun setWindSpeed(view: TextView, weatherForLocation : WeatherForLocation?)
 {
     weatherForLocation?.let {
-        view.text = "${weatherForLocation.wind.speed} m/s"
+        view.text = "${weatherForLocation.wind.speed} ${view.context.getString(R.string.m_s)}"
     }
 }
 
@@ -124,7 +124,7 @@ fun setCloud(view: TextView, weatherForLocation : WeatherForLocation?)
 fun setVisibility(view: TextView, weatherForLocation : WeatherForLocation?)
 {
     weatherForLocation?.let {
-        view.text = "${weatherForLocation.visibility} m"
+        view.text = "${weatherForLocation.visibility} ${view.context.getString(R.string.meter)}"
     }
 }
 
