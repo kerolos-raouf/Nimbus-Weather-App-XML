@@ -1,8 +1,10 @@
 package com.example.nimbusweatherapp.utils
 
+import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.DaysWeather
@@ -234,6 +236,20 @@ fun setTime(view: TextView, time : String?)
             temp = parseIntegerIntoArabic(temp)
         }
         view.text = temp.substring(11, 16)
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@BindingAdapter("app:setDateAndTime")
+fun setDateAndTime(view: TextView, time : Int?)
+{
+    time?.let {
+        var temp = convertUnixToDay(time.toLong(), Constants.DATE_FORMAT_FOR_HOME_FRAGMENT_WEATHER)
+        if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
+        {
+            temp = parseIntegerIntoArabic(temp)
+        }
+        view.text = temp
     }
 }
 

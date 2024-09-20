@@ -305,6 +305,23 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/homeDateAndTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_semi_bold"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    tools:text="22 - Nov - 2021 00:00:00 AM"
+                    app:setDateAndTime="@{homeViewModel.weatherForLocation.date}"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/homeDivider1"
@@ -316,7 +333,7 @@
                     android:background="@color/semi_gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+                    app:layout_constraintTop_toBottomOf="@id/homeDateAndTime" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/homeRecyclerView"
@@ -403,7 +420,7 @@
                         android:id="@+id/homeDayOneWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="Clear Sky"
                         app:setDayDescription="@{homeViewModel.dayOne}"
@@ -415,7 +432,7 @@
                         android:id="@+id/homeDayOneLowAndHigh"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="20° - 25°"
                         app:setDayTemperature="@{homeViewModel.dayOne}"
@@ -471,7 +488,7 @@
                         android:id="@+id/homeDayTwoWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="Clear"
                         app:setDayDescription="@{homeViewModel.dayTwo}"
@@ -483,7 +500,7 @@
                         android:id="@+id/homeDayTwoLowAndHigh"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="20° - 25°"
                         app:setDayTemperature="@{homeViewModel.dayTwo}"
@@ -540,7 +557,7 @@
                         android:id="@+id/homeDayThreeWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="Clear"
                         app:setDayDescription="@{homeViewModel.dayThree}"
@@ -552,7 +569,7 @@
                         android:id="@+id/homeDayThreeLowAndHigh"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="20° - 25°"
                         app:setDayTemperature="@{homeViewModel.dayThree}"
@@ -610,7 +627,7 @@
                         android:id="@+id/homeDayFourWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="Clear"
                         app:setDayDescription="@{homeViewModel.dayFour}"
@@ -622,7 +639,7 @@
                         android:id="@+id/homeDayFourLowAndHigh"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="20° - 25°"
                         app:setDayTemperature="@{homeViewModel.dayFour}"
@@ -670,7 +687,7 @@
                         android:id="@+id/homeDayFiveWeatherIcon"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         app:setDayWeatherIcon="@{homeViewModel.dayFive}"
                         tools:src="@drawable/ic_rainythunder" />
 
@@ -678,7 +695,7 @@
                         android:id="@+id/homeDayFiveWeatherState"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:layout_weight="1.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="Clear"
                         app:setDayDescription="@{homeViewModel.dayFive}"
@@ -690,7 +707,7 @@
                         android:id="@+id/homeDayFiveLowAndHigh"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:fontFamily="@font/sf_semi_bold"
                         tools:text="20° - 25°"
                         app:setDayTemperature="@{homeViewModel.dayFive}"

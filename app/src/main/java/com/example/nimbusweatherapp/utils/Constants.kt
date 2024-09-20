@@ -53,4 +53,8 @@ object Constants
     ///Notification
     const val NOTIFICATION_KEY = "notification"
 
+
+    ////format
+    const val DATE_FORMAT_FOR_HOURLY_WEATHER = "EEEE"
+    const val DATE_FORMAT_FOR_HOME_FRAGMENT_WEATHER = "EEEE, dd-MM-yyyy, hh:mm a"
 }

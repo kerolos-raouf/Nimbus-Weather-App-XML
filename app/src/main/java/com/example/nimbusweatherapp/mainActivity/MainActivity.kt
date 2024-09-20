@@ -148,16 +148,16 @@ class MainActivity : AppCompatActivity() , Communicator {
     private fun getAndSetSettingsValues()
     {
         sharedViewModel.settingsLanguage.value =
-            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.LANGUAGE_KEY),0)
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.LANGUAGE_KEY),Constants.ENGLISH_SELECTION_VALUE)
 
         sharedViewModel.settingsLocation.value =
-            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.LOCATION_KEY),0)
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.LOCATION_KEY),Constants.GPS_SELECTION_VALUE)
 
         sharedViewModel.settingsWindSpeed.value =
-            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.WIND_SPEED_KEY),0)
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.WIND_SPEED_KEY),Constants.METER_PER_SECOND_SELECTION_VALUE)
 
         sharedViewModel.settingsTemperature.value =
-            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.TEMPERATURE_KEY),0)
+            settingsSelectionMap.getOrDefault(sharedViewModel.getSharedPreferencesString(Constants.TEMPERATURE_KEY),Constants.KELVIN_SELECTION_VALUE)
 
         sharedViewModel.settingsNotifications.value =
             sharedViewModel.getSharedPreferencesBoolean(Constants.NOTIFICATION_KEY)
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() , Communicator {
 
     override fun checkAndChangLocality()
     {
-        val languageCode = if(sharedViewModel.settingsLanguage.value == 0) "en" else "ar"
+        val languageCode = if(sharedViewModel.settingsLanguage.value == Constants.ENGLISH_SELECTION_VALUE) "en" else "ar"
         val locale = resources.configuration.locales[0]
 
         if(locale.language != languageCode)

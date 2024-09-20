@@ -17,12 +17,12 @@ fun capitalizeWord(input: String): String {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun convertUnixToDay(unixTimestamp: Long): String {
+fun convertUnixToDay(unixTimestamp: Long,format : String): String {
     val instant = Instant.ofEpochSecond(unixTimestamp)
 
     val dateTime = instant.atZone(ZoneId.systemDefault())
 
-    val formatter = DateTimeFormatter.ofPattern("EEEE")
+    val formatter = DateTimeFormatter.ofPattern(format)
 
     return dateTime.format(formatter)
 }

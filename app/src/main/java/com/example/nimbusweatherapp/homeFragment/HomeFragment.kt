@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
 import com.example.nimbusweatherapp.data.model.Location
@@ -94,9 +95,15 @@ class HomeFragment : Fragment() {
         }
 
         binding.homeFAB.setOnClickListener {
-            if(communicator.isLocationPermissionGranted())
+            if(sharedViewModel.settingsLocation.value == Constants.GPS_SELECTION_VALUE)
             {
-                checkGPSIfEnabled()
+                if(communicator.isLocationPermissionGranted())
+                {
+                    checkGPSIfEnabled()
+                }
+            }else
+            {
+
             }
         }
 
@@ -128,6 +135,16 @@ class HomeFragment : Fragment() {
 
         homeViewModel.weatherEveryThreeHours.observe(viewLifecycleOwner) {
             mAdapter.submitList(it.list)
+        }
+
+        sharedViewModel.settingsLocation.observe(viewLifecycleOwner) {
+            if(it == Constants.GPS_SELECTION_VALUE)
+            {
+                Glide.with(this).load(R.drawable.icon_location).into(binding.homeFAB)
+            }else
+            {
+                Glide.with(this).load(R.drawable.icon_map_location).into(binding.homeFAB)
+            }
         }
     }
 
