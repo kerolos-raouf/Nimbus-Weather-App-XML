@@ -14,6 +14,7 @@ import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
 import com.example.nimbusweatherapp.data.model.Wind
 import com.example.nimbusweatherapp.data.repository.Repository
+import com.example.nimbusweatherapp.utils.Constants
 import com.example.nimbusweatherapp.utils.State
 import com.example.nimbusweatherapp.utils.capitalizeWord
 import com.example.nimbusweatherapp.utils.convertUnixToDay
@@ -40,6 +41,10 @@ class HomeViewModel @Inject constructor(
 
     ///units
     val currentWindSpeed = MutableLiveData("m/s")
+
+    //setNewName
+    private val _setNewName = MutableLiveData(false)
+    val setNewName : LiveData<Boolean> = _setNewName
 
 
 
@@ -127,6 +132,7 @@ class HomeViewModel @Inject constructor(
                     is State.Success -> {
                         _weatherForLocation.value = it.data
 
+                        _setNewName.value = true
                         addWindSpeedUnit(currentWindSpeed.value ?: "m/s")
                         _loading.value = false
                     }
@@ -142,8 +148,18 @@ class HomeViewModel @Inject constructor(
         {
             currentSpeed *= 3.6
         }
+
         _weatherForLocation.value = _weatherForLocation.value?.copy(
-            wind = _weatherForLocation.value?.wind?.copy(speed = "$currentSpeed $unit") ?: Wind(0, 0.0, "m/s")
+            wind = _weatherForLocation.value?.wind?.copy(speed = "${currentSpeed.toInt()} $unit") ?: Wind(0, 0.0, "m/s")
         )
+    }
+
+    fun setNewLocationName(newName : String)
+    {
+        _weatherForLocation.value = (if(newName.contains(Constants.GEOCODER_NOT_LOCATED)) _weatherForLocation.value?.name else newName)?.let {
+            _weatherForLocation.value?.copy(
+                name = it
+            )
+        }
     }
 }

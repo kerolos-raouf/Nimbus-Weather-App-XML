@@ -294,6 +294,7 @@
                         android:layout_width="0dp"
                         android:layout_height="200dp"
                         android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
                         android:contentDescription="state"
                         android:padding="10dp"
                         tools:src="@drawable/ic_sunny"

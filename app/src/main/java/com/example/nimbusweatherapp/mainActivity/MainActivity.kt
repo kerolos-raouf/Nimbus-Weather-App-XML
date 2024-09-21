@@ -1,9 +1,15 @@
 package com.example.nimbusweatherapp.mainActivity
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.location.Geocoder
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -13,8 +19,14 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
+import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.ActivityMainBinding
 import com.example.nimbusweatherapp.utils.Constants
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -27,6 +39,11 @@ class MainActivity : AppCompatActivity() , Communicator {
 
     //viewModel
     private val sharedViewModel : SharedViewModel by viewModels()
+
+    //fusedLocationProviderClient
+    private val fusedLocationProviderClient : FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(this)
+    }
 
 
     companion object{
@@ -114,6 +131,7 @@ class MainActivity : AppCompatActivity() , Communicator {
         settingsInArabicAndEnglish[Constants.FAHRENHEIT_ARABIC] = Constants.FAHRENHEIT
     }
 
+    /////communicator functions
     override fun openDrawer() = binding.drawerLayout.openDrawer(GravityCompat.START)
 
 
@@ -121,6 +139,46 @@ class MainActivity : AppCompatActivity() , Communicator {
     {
         return (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED
                 || checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED)
+    }
+
+    override fun isGPSEnabled() : Boolean {
+        val locationManager : LocationManager = getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER)
+    }
+
+
+    @SuppressLint("MissingPermission")
+    override fun getCurrentLocation() {
+        fusedLocationProviderClient.lastLocation.addOnCompleteListener {
+            val location = it.result
+            if(location != null)
+            {
+                sharedViewModel.currentLocation.value = Location(location.latitude,location.longitude)
+            }else
+            {
+                val locationRequest = LocationRequest.Builder(0).build()
+                fusedLocationProviderClient.requestLocationUpdates(
+                    locationRequest,
+                    object : LocationCallback() {
+
+                        override fun onLocationResult(p0: LocationResult) {
+                            val lastLocation = p0.lastLocation
+                            lastLocation?.let {
+                                sharedViewModel.currentLocation.value = Location(lastLocation.latitude,lastLocation.longitude)
+                            }
+                        }
+
+                    },
+                    Looper.getMainLooper())
+            }
+        }
+    }
+
+    override fun getReadableNameFromLocation(location: Location) : String {
+        val geoCoder = Geocoder(applicationContext)
+        val address = geoCoder.getFromLocation(location.latitude,location.longitude,1)
+        return "${(address?.get(0)?.countryName) ?: Constants.GEOCODER_NOT_LOCATED} - ${(address?.get(0)?.locality) ?: Constants.GEOCODER_NOT_LOCATED}"
     }
 
     override fun requestLocationPermission()

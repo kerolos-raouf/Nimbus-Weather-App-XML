@@ -100,7 +100,7 @@ class HomeFragment : Fragment() {
             {
                 if(communicator.isLocationPermissionGranted())
                 {
-                    checkGPSIfEnabled()
+                    checkIfGPSIsEnabled()
                 }
             }else
             {
@@ -138,6 +138,17 @@ class HomeFragment : Fragment() {
             mAdapter.submitList(it.list)
         }
 
+        homeViewModel.setNewName.observe(viewLifecycleOwner){
+            if(it)
+            {
+                sharedViewModel.currentLocation.value?.let {
+                    homeViewModel.setNewLocationName(communicator.getReadableNameFromLocation(
+                        sharedViewModel.currentLocation.value!!
+                    ))
+                }
+            }
+        }
+
         sharedViewModel.settingsLocation.observe(viewLifecycleOwner) {
             if(it == Constants.GPS_SELECTION_VALUE)
             {
@@ -171,54 +182,19 @@ class HomeFragment : Fragment() {
     }
 
 
+
     ////////get location
-    private fun checkGPSIfEnabled()
+    private fun checkIfGPSIsEnabled()
     {
-        if(isGPSEnabled())
+        if(communicator.isGPSEnabled())
         {
-            getCurrentLocation()
+            communicator.getCurrentLocation()
         }else
         {
             Toast.makeText(requireContext(), "Please Enable GPS", Toast.LENGTH_SHORT).show()
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
         }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun getCurrentLocation()
-    {
-        fusedLocationProviderClient.lastLocation.addOnCompleteListener {
-            val location = it.result
-            if(location != null)
-            {
-                sharedViewModel.currentLocation.value = Location(location.latitude,location.longitude)
-            }else
-            {
-                val locationRequest = LocationRequest.Builder(0).build()
-                fusedLocationProviderClient.requestLocationUpdates(
-                    locationRequest,
-                    object : LocationCallback() {
-
-                        override fun onLocationResult(p0: LocationResult) {
-                            val lastLocation = p0.lastLocation
-                            lastLocation?.let {
-                                sharedViewModel.currentLocation.value = Location(lastLocation.latitude,lastLocation.longitude)
-                            }
-                        }
-
-                    },
-                    Looper.getMainLooper())
-            }
-        }
-    }
-
-
-    private fun isGPSEnabled() : Boolean
-    {
-        val locationManager : LocationManager = requireContext().getSystemService(android.content.Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
-            LocationManager.NETWORK_PROVIDER)
     }
 
 

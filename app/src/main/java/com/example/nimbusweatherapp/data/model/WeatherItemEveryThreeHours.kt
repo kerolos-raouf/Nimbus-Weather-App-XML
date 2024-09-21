@@ -13,7 +13,7 @@ data class WeatherItemEveryThreeHours(
     @SerializedName("main")
     val main: Main,
     @SerializedName("pop")
-    val pop: Int,
+    val pop: Double,
     @SerializedName("sys")
     val sys: Sys,
     @SerializedName("visibility")

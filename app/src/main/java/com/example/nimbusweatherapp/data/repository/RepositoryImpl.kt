@@ -31,7 +31,7 @@ class RepositoryImpl @Inject constructor(
                 emit(State.Error(response.message().orEmpty()))
             }
         } catch (e: Exception) {
-            Log.d("Kerolos", "getWeatherEveryThreeHours: Catch")
+            Log.d("Kerolos", "getWeatherEveryThreeHours: Catch ${e.message}")
             emit(State.Error(e.message.orEmpty()))
         }
     }

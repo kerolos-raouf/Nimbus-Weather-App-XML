@@ -61,4 +61,8 @@ object Constants
 
     //map fragment
     const val MAP_SHARED_PREFERENCE_NAME = "map_shared_preference"
+
+
+    //value of geo coder
+    const val GEOCODER_NOT_LOCATED = "NOT_LOCATED"
 }
