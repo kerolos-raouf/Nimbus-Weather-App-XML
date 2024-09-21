@@ -1,8 +1,11 @@
 package com.example.nimbusweatherapp.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import com.example.nimbusweatherapp.data.contracts.LocalDataSource
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.contracts.SettingsHandler
+import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
@@ -16,10 +19,11 @@ import kotlin.time.Duration.Companion.seconds
 
 class RepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    //private val localDataSource: LocalDataSource
+    private val localDataSource: LocalDataSource,
     private val settingsHandler: SettingsHandler
 ): Repository
 {
+    //remote data source
     @OptIn(FlowPreview::class)
     override fun getWeatherEveryThreeHours(
         latitude: Double,
@@ -65,6 +69,42 @@ class RepositoryImpl @Inject constructor(
         emit(State.Error("Time out"))
     }
 
+    @OptIn(FlowPreview::class)
+    override fun getWeatherByCountryName(
+        countryName: String,
+        language: String,
+        units: String
+    ): Flow<State<WeatherForLocation>> = flow {
+        emit(State.Loading)
+        try {
+            val response = remoteDataSource.getWeatherByCountryName(countryName,language,units)
+            if (response.isSuccessful && response.body() != null) {
+                Log.d("Kerolos", "getWeatherByCountryName: Success" )
+                emit(State.Success(response.body()!!))
+            } else {
+                Log.d("Kerolos", "getWeatherByCountryName: fail" )
+                emit(State.Error(response.message().orEmpty()))
+            }
+        } catch (e: Exception) {
+            Log.d("Kerolos", "getWeatherByCountryName: catch ${e.message}" )
+            emit(State.Error(e.message.orEmpty()))
+        }
+    }.timeout(10.seconds).catch {
+        emit(State.Error("Time out"))
+    }
+
+    ////local data source
+    override fun getAllLocations(): Flow<List<FavouriteLocation>> = localDataSource.getAllLocations()
+
+    override suspend fun insertFavouriteLocation(favouriteLocation: FavouriteLocation) {
+        localDataSource.insertLocation(favouriteLocation)
+    }
+
+    override suspend fun deleteFavouriteLocation(favouriteLocation: FavouriteLocation) {
+        localDataSource.deleteLocation(favouriteLocation)
+    }
+
+    //shared pref
     override fun setSharedPreferencesString(stringKey: String, stringValue: String) {
         settingsHandler.setSharedPreferencesString(stringKey, stringValue)
     }

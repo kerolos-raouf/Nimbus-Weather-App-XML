@@ -10,6 +10,8 @@ interface Communicator {
 
     fun isGPSEnabled() : Boolean
 
+    fun isInternetAvailable() : Boolean
+
     fun getCurrentLocation()
 
     fun getReadableNameFromLocation(location : Location) : String

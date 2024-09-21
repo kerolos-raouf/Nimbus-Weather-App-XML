@@ -6,6 +6,8 @@ object Constants
 
     const val SETTINGS_SHARED_PREFERENCE_NAME = "Settings_Shared_Preference"
 
+    const val LOCATION_DATABASE_NAME = "LOCATION_DATABASE"
+
     //Languages
     const val LANGUAGE_KEY = "language"
     const val ENGLISH_LANGUAGE = "en"

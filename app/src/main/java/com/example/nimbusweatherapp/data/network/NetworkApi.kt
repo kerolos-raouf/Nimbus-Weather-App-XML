@@ -3,10 +3,8 @@ package com.example.nimbusweatherapp.data.network
 import com.example.nimbusweatherapp.BuildConfig
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
-import com.example.nimbusweatherapp.utils.State
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface NetworkApi
@@ -27,6 +25,12 @@ interface NetworkApi
         @Query("lon") longitude: Double,
         @Query("lang") language: String = "en",
         @Query("units") units: String = "standard",
+        @Query("appid") apiKey: String = BuildConfig.API_KEY
+    ) : Response<WeatherForLocation>
+
+    @GET("weather")
+    suspend fun getWeatherByCountryName(
+        @Query("q") countryName : String,
         @Query("appid") apiKey: String = BuildConfig.API_KEY
     ) : Response<WeatherForLocation>
 }

@@ -1,6 +1,8 @@
 package com.example.nimbusweatherapp.data.repository
 
 
+import androidx.lifecycle.LiveData
+import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface Repository
 {
 
+    //remote data source
     fun getWeatherEveryThreeHours(
         latitude: Double,
         longitude: Double,
@@ -24,6 +27,18 @@ interface Repository
         units: String
     ) : Flow<State<WeatherForLocation>>
 
+    fun getWeatherByCountryName(
+        countryName : String,
+        language: String,
+        units: String
+    ) : Flow<State<WeatherForLocation>>
+
+    ///local data source
+    fun getAllLocations() : Flow<List<FavouriteLocation>>
+
+    suspend fun insertFavouriteLocation(favouriteLocation: FavouriteLocation)
+
+    suspend fun deleteFavouriteLocation(favouriteLocation: FavouriteLocation)
 
 
     fun setSharedPreferencesString(stringKey : String,stringValue : String)

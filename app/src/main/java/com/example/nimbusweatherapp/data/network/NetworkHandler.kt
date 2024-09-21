@@ -29,4 +29,12 @@ class NetworkHandler @Inject constructor (
         return networkApi.getWeatherForLocation(latitude, longitude,language,units)
     }
 
+    override suspend fun getWeatherByCountryName(
+        countryName: String,
+        language: String,
+        units: String
+    ): Response<WeatherForLocation> {
+        return networkApi.getWeatherByCountryName(countryName)
+    }
+
 }

@@ -147,6 +147,10 @@ class MainActivity : AppCompatActivity() , Communicator {
             LocationManager.NETWORK_PROVIDER)
     }
 
+    override fun isInternetAvailable(): Boolean {
+        return sharedViewModel.internetState.value == ConnectivityObserver.InternetState.AVAILABLE
+    }
+
 
     @SuppressLint("MissingPermission")
     override fun getCurrentLocation() {

@@ -36,5 +36,6 @@
     <string name="favourite">المفضلة</string>
     <string name="alert">التنبيهات</string>
     <string name="meter">م</string>
+    <string name="enter_country_name">ابحث بأسم الدولة…</string>
 
 </resources>
