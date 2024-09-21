@@ -19,6 +19,7 @@ import com.example.nimbusweatherapp.utils.State
 import com.example.nimbusweatherapp.utils.capitalizeWord
 import com.example.nimbusweatherapp.utils.convertUnixToDay
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.timeout
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.ZoneId

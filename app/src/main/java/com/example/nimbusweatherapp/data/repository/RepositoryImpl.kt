@@ -6,9 +6,13 @@ import com.example.nimbusweatherapp.data.contracts.SettingsHandler
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.timeout
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 class RepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
@@ -16,6 +20,7 @@ class RepositoryImpl @Inject constructor(
     private val settingsHandler: SettingsHandler
 ): Repository
 {
+    @OptIn(FlowPreview::class)
     override fun getWeatherEveryThreeHours(
         latitude: Double,
         longitude: Double,
@@ -34,8 +39,11 @@ class RepositoryImpl @Inject constructor(
             Log.d("Kerolos", "getWeatherEveryThreeHours: Catch ${e.message}")
             emit(State.Error(e.message.orEmpty()))
         }
+    }.timeout(10.seconds).catch {
+        emit(State.Error("Time out"))
     }
 
+    @OptIn(FlowPreview::class)
     override fun getWeatherForLocation(
         latitude: Double,
         longitude: Double,
@@ -53,6 +61,8 @@ class RepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             emit(State.Error(e.message.orEmpty()))
         }
+    }.timeout(10.seconds).catch {
+        emit(State.Error("Time out"))
     }
 
     override fun setSharedPreferencesString(stringKey: String, stringValue: String) {
