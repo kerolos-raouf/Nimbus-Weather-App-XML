@@ -23,7 +23,6 @@
 
             tools:visibility="visible"
             android:visibility="gone"
-            app:showProgressBar="@{viewModel.loading}"
 
             android:translationZ="30dp"
             app:layout_constraintBottom_toBottomOf="parent"

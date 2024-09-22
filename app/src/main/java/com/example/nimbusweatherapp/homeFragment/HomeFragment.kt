@@ -1,11 +1,8 @@
 package com.example.nimbusweatherapp.homeFragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,22 +14,24 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
-import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
-import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.FragmentHomeBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.MainActivity
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
 import com.example.nimbusweatherapp.utils.Constants
+import com.example.nimbusweatherapp.utils.State
+import com.example.nimbusweatherapp.utils.customAlertDialog.CustomAlertDialog
+import com.example.nimbusweatherapp.utils.customAlertDialog.ICustomAlertDialog
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -53,6 +52,8 @@ class HomeFragment : Fragment() {
     private lateinit var mAdapter : HourlyWeatherRecyclerViewAdapter
 
 
+    //custom alert dialog
+    private lateinit var customAlertDialog: CustomAlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +73,8 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun init(){
 
+
+        customAlertDialog = CustomAlertDialog(requireActivity())
 
         mAdapter = HourlyWeatherRecyclerViewAdapter()
         binding.homeRecyclerView.adapter = mAdapter
@@ -126,6 +129,8 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun observers()
     {
+
+
         sharedViewModel.currentLocation.observe(viewLifecycleOwner) {
             doCallsOnGetLocation(it.latitude,it.longitude)
         }
@@ -134,8 +139,22 @@ class HomeFragment : Fragment() {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
 
-        homeViewModel.weatherEveryThreeHours.observe(viewLifecycleOwner) {
-            mAdapter.submitList(it.list)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
+            {
+                homeViewModel.weatherEveryThreeHours.collect{state->
+                    when(state)
+                    {
+                        is State.Error -> Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        State.Loading -> {}
+                        is State.Success -> {
+                            state.toData()?.let {
+                                mAdapter.submitList(state.toData()?.list)
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         homeViewModel.setNewName.observe(viewLifecycleOwner){
@@ -191,9 +210,17 @@ class HomeFragment : Fragment() {
             communicator.getCurrentLocation()
         }else
         {
-            Toast.makeText(requireContext(), "Please Enable GPS", Toast.LENGTH_SHORT).show()
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
+            customAlertDialog.showAlertDialog(
+                message = requireActivity().getString(R.string.gps_is_off_turn_it_on),
+                actionText = requireActivity().getString(R.string.turn_on),
+                buttonBackground = requireContext().getColor(R.color.background),
+                object : ICustomAlertDialog {
+                    override fun onActionClicked() {
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        startActivity(intent)
+                    }
+                }
+            )
         }
     }
 

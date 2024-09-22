@@ -39,9 +39,9 @@ fun showHomePermissionLayout(view: View, show: Boolean)
 
 
 @BindingAdapter("app:showProgressBar")
-fun showProgressBar(view: View, show: Boolean)
+fun <T>showProgressBar(view: View, state: State<T>)
 {
-    if(show)
+    if(state is State.Loading)
     {
         view.visibility = View.VISIBLE
     }

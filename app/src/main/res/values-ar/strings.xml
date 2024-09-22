@@ -40,5 +40,7 @@
     <string name="cancel">الغاء</string>
     <string name="delete">مسح</string>
     <string name="are_you_sure_about_deleting_this_item">هل انت متأكد انك تريد مسح هذا العنصر.</string>
+    <string name="turn_on">تفعيل</string>
+    <string name="gps_is_off_turn_it_on">الموقع الحالى مغلق, اتود تفعيله؟</string>
 
 </resources>

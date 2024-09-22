@@ -13,7 +13,7 @@ class CustomAlertDialog(
 
     private lateinit var alertDialog : AlertDialog
 
-    fun showAlertDialog(message : String,actionText : String,color : Int,iCustomAlertDialog: ICustomAlertDialog)
+    fun showAlertDialog(message : String, actionText : String, buttonBackground : Int, iCustomAlertDialog: ICustomAlertDialog)
     {
         val builder = AlertDialog.Builder(activity)
         val binding = CustomAlertDialogBinding.bind(activity.layoutInflater.inflate(R.layout.custom_alert_dialog, null))
@@ -22,7 +22,7 @@ class CustomAlertDialog(
         binding.alertMessage.text = message
         binding.alertActionButton.text = actionText
         val drawable = activity.getDrawable(R.drawable.allow_button_custom_theme)
-        drawable?.setTint(color)
+        drawable?.setTint(buttonBackground)
         binding.alertActionButton.background = drawable
 
         binding.alertCancelButton.setOnClickListener{

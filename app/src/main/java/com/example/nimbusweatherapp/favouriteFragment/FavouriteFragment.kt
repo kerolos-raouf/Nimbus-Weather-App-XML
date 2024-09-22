@@ -1,7 +1,6 @@
 package com.example.nimbusweatherapp.favouriteFragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -69,7 +68,7 @@ class FavouriteFragment : Fragment() {
                 customAlertDialog.showAlertDialog(
                     message = requireActivity().getString(R.string.are_you_sure_about_deleting_this_item),
                     actionText = requireActivity().getString(R.string.delete),
-                    color = requireContext().getColor(R.color.red),
+                    buttonBackground = requireContext().getColor(R.color.red),
                     object : ICustomAlertDialog{
                         override fun onActionClicked() {
                             favouriteViewModel.deleteFavouriteLocation(favouriteLocation)
