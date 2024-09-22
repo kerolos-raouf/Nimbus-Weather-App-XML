@@ -37,5 +37,8 @@
     <string name="alert">التنبيهات</string>
     <string name="meter">م</string>
     <string name="enter_country_name">ابحث بأسم الدولة…</string>
+    <string name="cancel">الغاء</string>
+    <string name="delete">مسح</string>
+    <string name="are_you_sure_about_deleting_this_item">هل انت متأكد انك تريد مسح هذا العنصر.</string>
 
 </resources>

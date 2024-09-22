@@ -37,6 +37,9 @@
     <string name="alert">Alert</string>
     <string name="meter">m</string>
     <string name="enter_country_name">Search by country name…</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure_about_deleting_this_item">Are you sure about deleting this item.</string>
 
 
     <string-array name="countries">

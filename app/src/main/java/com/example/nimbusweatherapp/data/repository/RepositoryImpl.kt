@@ -79,14 +79,11 @@ class RepositoryImpl @Inject constructor(
         try {
             val response = remoteDataSource.getWeatherByCountryName(countryName,language,units)
             if (response.isSuccessful && response.body() != null) {
-                Log.d("Kerolos", "getWeatherByCountryName: Success" )
                 emit(State.Success(response.body()!!))
             } else {
-                Log.d("Kerolos", "getWeatherByCountryName: fail" )
                 emit(State.Error(response.message().orEmpty()))
             }
         } catch (e: Exception) {
-            Log.d("Kerolos", "getWeatherByCountryName: catch ${e.message}" )
             emit(State.Error(e.message.orEmpty()))
         }
     }.timeout(10.seconds).catch {

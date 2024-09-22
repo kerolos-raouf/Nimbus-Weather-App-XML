@@ -18,6 +18,8 @@ import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.databinding.FragmentFavouriteBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
+import com.example.nimbusweatherapp.utils.customAlertDialog.CustomAlertDialog
+import com.example.nimbusweatherapp.utils.customAlertDialog.ICustomAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -40,6 +42,9 @@ class FavouriteFragment : Fragment() {
     ///adapters
     private lateinit var favouriteAdapter : FavouriteRecyclerViewAdapter
 
+    //custom dialog
+    private lateinit var customAlertDialog: CustomAlertDialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,9 +62,20 @@ class FavouriteFragment : Fragment() {
 
     private fun initViews()
     {
+        customAlertDialog = CustomAlertDialog(requireActivity())
+
         favouriteAdapter = FavouriteRecyclerViewAdapter(object : FavouriteItemsListener{
             override fun onDeleteButtonClicked(favouriteLocation: FavouriteLocation) {
-                favouriteViewModel.deleteFavouriteLocation(favouriteLocation)
+                customAlertDialog.showAlertDialog(
+                    message = requireActivity().getString(R.string.are_you_sure_about_deleting_this_item),
+                    actionText = requireActivity().getString(R.string.delete),
+                    color = requireContext().getColor(R.color.red),
+                    object : ICustomAlertDialog{
+                        override fun onActionClicked() {
+                            favouriteViewModel.deleteFavouriteLocation(favouriteLocation)
+                        }
+                    }
+                )
             }
         })
 
@@ -74,7 +90,6 @@ class FavouriteFragment : Fragment() {
 
             favouriteRecyclerView.adapter = favouriteAdapter
         }
-
 
 
 
