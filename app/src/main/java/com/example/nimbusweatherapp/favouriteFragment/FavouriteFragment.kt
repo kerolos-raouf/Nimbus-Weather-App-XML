@@ -1,60 +1,96 @@
 package com.example.nimbusweatherapp.favouriteFragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.data.model.FavouriteLocation
+import com.example.nimbusweatherapp.databinding.FragmentFavouriteBinding
+import com.example.nimbusweatherapp.mainActivity.Communicator
+import com.example.nimbusweatherapp.mainActivity.SharedViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavouriteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
+    //bindning
+    private lateinit var binding : FragmentFavouriteBinding
+
+
+    ///communicator
+    private val communicator : Communicator by lazy { activity as Communicator }
+
+    //view models
+    private val favouriteViewModel : FavouriteViewModel by viewModels()
+    private val sharedViewModel : SharedViewModel by activityViewModels()
+
+    ///adapters
+    private lateinit var favouriteAdapter : FavouriteRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_favourite,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavouriteFargment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavouriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initViews()
+        observers()
+    }
+
+    private fun initViews()
+    {
+        favouriteAdapter = FavouriteRecyclerViewAdapter(object : FavouriteItemsListener{
+            override fun onDeleteButtonClicked(favouriteLocation: FavouriteLocation) {
+                favouriteViewModel.deleteFavouriteLocation(favouriteLocation)
+            }
+        })
+
+        binding.apply {
+            favouriteMenuIcon.setOnClickListener {
+                communicator.openDrawer()
+            }
+
+            homeFAB.setOnClickListener {
+                findNavController().navigate(R.id.action_favouriteFargment_to_mapFragment)
+            }
+
+            favouriteRecyclerView.adapter = favouriteAdapter
+        }
+
+
+
+
+    }
+
+    private fun observers()
+    {
+        lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                favouriteViewModel.favouriteLocations.collect{locations->
+                    favouriteAdapter.submitList(locations)
                 }
             }
+        }
+
     }
+
+
 }
