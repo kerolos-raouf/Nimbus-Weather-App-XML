@@ -183,8 +183,26 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/location_animation_huose" />
 
-
         </LinearLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            app:showInternetConnectionLayout="@{sharedViewModel.showHomeContent}"
+
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homeToolbar"
+
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_internet_connection2"
+            app:lottie_speed="1"
+            />
 
         <ScrollView
             android:id="@+id/homeScrollView"
@@ -199,7 +217,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/homeToolbar"
             app:showContent="@{sharedViewModel.showHomeContent}"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/homeConstraintLayout"

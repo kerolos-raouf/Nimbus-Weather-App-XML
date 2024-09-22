@@ -12,9 +12,9 @@ import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import org.w3c.dom.Text
 
 @BindingAdapter("app:showContent")
-fun showHomeContent(view: View, show: Boolean)
+fun showHomeContent(view: View, show: Int)
 {
-    if(show)
+    if(show == Constants.SHOW_CONTENT_LAYOUT)
     {
         view.visibility = View.VISIBLE
     }
@@ -25,9 +25,22 @@ fun showHomeContent(view: View, show: Boolean)
 }
 
 @BindingAdapter("app:showPermissionLayout")
-fun showHomePermissionLayout(view: View, show: Boolean)
+fun showHomePermissionLayout(view: View, show: Int)
 {
-    if(!show)
+    if(show == Constants.SHOW_PERMISSION_DENIED_LAYOUT)
+    {
+        view.visibility = View.VISIBLE
+    }
+    else
+    {
+        view.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("app:showInternetConnectionLayout")
+fun showInternetConnectionLayout(view: View, show: Int)
+{
+    if(show == Constants.SHOW_NO_INTERNET_LAYOUT)
     {
         view.visibility = View.VISIBLE
     }

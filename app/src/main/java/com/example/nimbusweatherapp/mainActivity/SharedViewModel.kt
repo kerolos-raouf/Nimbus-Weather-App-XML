@@ -10,6 +10,7 @@ import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.data.repository.Repository
 import com.example.nimbusweatherapp.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class SharedViewModel @Inject constructor(
 
     /////
 
-    val showHomeContent = MutableLiveData(false)
+    val showHomeContent = MutableLiveData(Constants.SHOW_PERMISSION_DENIED_LAYOUT)
 
     //location information for egypt by default
     val currentLocation = MutableLiveData(Location(30.8025,26.8206))

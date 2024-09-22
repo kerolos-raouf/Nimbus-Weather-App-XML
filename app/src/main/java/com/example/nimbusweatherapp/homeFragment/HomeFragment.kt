@@ -111,20 +111,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        if(communicator.isLocationPermissionGranted())
-        {
-            sharedViewModel.showHomeContent.value = true
-            if(sharedViewModel.hitTheApiInHomeFragment.value == true)
-            {
-                doCallsOnGetLocation(26.8206,30.8025)
-                sharedViewModel.hitTheApiInHomeFragment.value = false
-            }
-        }
-        else
-        {
-            communicator.requestLocationPermission()
-        }
+        checkOnStateToChangeUI()
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun observers()
@@ -175,6 +164,38 @@ class HomeFragment : Fragment() {
             }else
             {
                 Glide.with(this).load(R.drawable.icon_map_location).into(binding.homeFAB)
+            }
+        }
+
+        sharedViewModel.internetState.observe(viewLifecycleOwner){
+            if(homeViewModel.weatherForLocation.value == null)
+            {
+                checkOnStateToChangeUI()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun checkOnStateToChangeUI()
+    {
+
+        if(!communicator.isInternetAvailable())
+        {
+
+            sharedViewModel.showHomeContent.value = Constants.SHOW_NO_INTERNET_LAYOUT
+        }
+        else if(!communicator.isLocationPermissionGranted())
+        {
+            sharedViewModel.showHomeContent.value = Constants.SHOW_PERMISSION_DENIED_LAYOUT
+            communicator.requestLocationPermission()
+        }
+        else
+        {
+            sharedViewModel.showHomeContent.value = Constants.SHOW_CONTENT_LAYOUT
+            if(sharedViewModel.hitTheApiInHomeFragment.value == true)
+            {
+                doCallsOnGetLocation(sharedViewModel.currentLocation.value!!.latitude,sharedViewModel.currentLocation.value!!.longitude)
+                sharedViewModel.hitTheApiInHomeFragment.value = false
             }
         }
     }

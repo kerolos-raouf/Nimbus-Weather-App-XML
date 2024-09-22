@@ -192,7 +192,12 @@ class MainActivity : AppCompatActivity() , Communicator {
     }
 
     override fun onLocationPermissionGranted() {
-        sharedViewModel.showHomeContent.value = true
+        if(isInternetAvailable())
+        {
+            sharedViewModel.showHomeContent.value = Constants.SHOW_CONTENT_LAYOUT
+        }else{
+            sharedViewModel.showHomeContent.value = Constants.SHOW_NO_INTERNET_LAYOUT
+        }
     }
 
 

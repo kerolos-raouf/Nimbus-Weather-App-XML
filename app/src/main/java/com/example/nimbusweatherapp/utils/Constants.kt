@@ -67,4 +67,9 @@ object Constants
 
     //value of geo coder
     const val GEOCODER_NOT_LOCATED = "NOT_LOCATED"
+
+    ///constants to control the home fragment
+    const val SHOW_CONTENT_LAYOUT = 0
+    const val SHOW_NO_INTERNET_LAYOUT = 1
+    const val SHOW_PERMISSION_DENIED_LAYOUT = 2
 }
