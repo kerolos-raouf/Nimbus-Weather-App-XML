@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.Location
@@ -23,8 +26,11 @@ import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.MainActivity
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
 import com.example.nimbusweatherapp.utils.Constants
+import com.example.nimbusweatherapp.utils.State
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.util.GeoPoint
@@ -97,7 +103,6 @@ class MapFragment : Fragment() {
             val newName = getNearestNameForCountry(binding.mapAutoCompleteEditText.text.toString())
             if (newName != null)
             {
-                Log.d("Kerolos", "initViews: clicked")
                 getWeatherByName(newName)
             }else
             {
@@ -109,17 +114,27 @@ class MapFragment : Fragment() {
 
     private fun observers()
     {
-        mapViewModel.weatherForMapLocation.observe(viewLifecycleOwner){it->
-            showBottomSheet(Location(it.coord.lat,it.coord.lon))
-            val geoPoint = GeoPoint(it.coord.lat,it.coord.lon)
-            zoomToLocation(geoPoint)
-            addNewMarkerAndRemoveLastOne(geoPoint)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
+            {
+                mapViewModel.weatherForMapLocation.collect{state->
+                    when(state)
+                    {
+                        is State.Error -> {
+                            Toast.makeText(requireContext(),state.message,Toast.LENGTH_SHORT).show()
+                        }
+                        State.Loading -> {}
+                        is State.Success -> {
+                            showBottomSheet(Location(state.data.coord.lat,state.data.coord.lon))
+                            val geoPoint = GeoPoint(state.data.coord.lat,state.data.coord.lon)
+                            zoomToLocation(geoPoint)
+                            addNewMarkerAndRemoveLastOne(geoPoint)
+                        }
+                    }
+                }
+            }
         }
 
-        mapViewModel.errorMessage.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),it,Toast.LENGTH_SHORT).show()
-            Log.d("Kerolos", "observers: ${it}")
-        }
 
         mapViewModel.successMessage.observe(viewLifecycleOwner){
             Toast.makeText(requireContext(),it,Toast.LENGTH_SHORT).show()
@@ -222,7 +237,6 @@ class MapFragment : Fragment() {
         bottomSheetBinding.viewModel = mapViewModel
 
         bottomSheetBinding.bottomSheetSaveButton.setOnClickListener{
-            Log.d("Kerolos", "showBottomSheet: clicked")
             mapViewModel.insertFavouriteLocation(FavouriteLocation(
                 communicator.getReadableNameFromLocation(location),
                 location.latitude,

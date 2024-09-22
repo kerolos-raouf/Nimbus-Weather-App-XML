@@ -99,7 +99,16 @@ class FavouriteFragment : Fragment() {
         lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 favouriteViewModel.favouriteLocations.collect{locations->
-                    favouriteAdapter.submitList(locations)
+                    if (locations.isEmpty())
+                    {
+                        binding.favouriteAddSomeLocationsLayout.visibility = View.VISIBLE
+                        binding.favouriteRecyclerView.visibility = View.GONE
+                    }else
+                    {
+                        binding.favouriteRecyclerView.visibility = View.VISIBLE
+                        favouriteAdapter.submitList(locations)
+                        binding.favouriteAddSomeLocationsLayout.visibility = View.GONE
+                    }
                 }
             }
         }

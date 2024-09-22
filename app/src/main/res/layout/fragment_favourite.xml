@@ -59,17 +59,56 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/favouriteAddSomeLocationsLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homeToolbar">
+
+            <ImageView
+
+                android:id="@+id/favouriteAddSomeLocationsImage"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+
+                android:src="@drawable/icon_add_some_locations"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/favouriteAddSomeLocationsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:fontFamily="@font/sf_semi_bold"
+                android:gravity="center"
+                android:text="@string/there_are_no_locations_go_and_add_some"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/favouriteAddSomeLocationsImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favouriteRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            tools:listitem="@layout/item_favourite"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeToolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/homeToolbar"
+            tools:listitem="@layout/item_favourite" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

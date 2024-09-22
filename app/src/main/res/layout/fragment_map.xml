@@ -16,7 +16,7 @@
         tools:context=".mapFragment.MapFragment">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/bottomSheetProgressBar"
+            android:id="@+id/mapProgressBar"
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:lottie_rawRes="@raw/loading2"

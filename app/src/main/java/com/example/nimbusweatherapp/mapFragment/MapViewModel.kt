@@ -9,6 +9,8 @@ import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.data.repository.Repository
 import com.example.nimbusweatherapp.utils.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,12 +19,10 @@ class MapViewModel @Inject constructor(
     private val repository: Repository
 ) :ViewModel(){
 
-    private val _weatherForMapLocation = MutableLiveData<WeatherForLocation>()
-    val weatherForMapLocation : LiveData<WeatherForLocation> = _weatherForMapLocation
+    private val _weatherForMapLocation = MutableStateFlow<State<WeatherForLocation>>(State.Loading)
+    val weatherForMapLocation : StateFlow<State<WeatherForLocation>> = _weatherForMapLocation
 
 
-    private val _loading = MutableLiveData(false)
-    val loading : LiveData<Boolean> = _loading
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage : LiveData<String> = _errorMessage
@@ -37,25 +37,8 @@ class MapViewModel @Inject constructor(
         units: String
     ){
         viewModelScope.launch {
-            repository.getWeatherForLocation(latitude,longitude,language,units).collect{
-                when(it)
-                {
-                    is State.Error ->
-                    {
-                        _loading.value = false
-                        _errorMessage.value = it.message
-                    }
-                    State.Loading ->
-                    {
-                        _loading.value = true
-                    }
-                    is State.Success ->
-                    {
-                        _weatherForMapLocation.value = it.data
-                        _loading.value = false
-                    }
-
-                }
+            repository.getWeatherForLocation(latitude,longitude,language,units).collect{state->
+                _weatherForMapLocation.value = state
             }
         }
     }
@@ -66,24 +49,8 @@ class MapViewModel @Inject constructor(
         units: String
     ){
         viewModelScope.launch {
-            repository.getWeatherByCountryName(countryName,language,units).collect{
-                when(it)
-                {
-                    is State.Error ->
-                    {
-                        _loading.value = false
-                        _errorMessage.value = it.message
-                    }
-                    State.Loading ->
-                    {
-                        _loading.value = true
-                    }
-                    is State.Success ->
-                    {
-                        _weatherForMapLocation.value = it.data
-                        _loading.value = false
-                    }
-                }
+            repository.getWeatherByCountryName(countryName,language,units).collect{state->
+                _weatherForMapLocation.value = state
             }
         }
     }
