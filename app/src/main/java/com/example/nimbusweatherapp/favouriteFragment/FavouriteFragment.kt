@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.databinding.FragmentFavouriteBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
@@ -75,6 +77,17 @@ class FavouriteFragment : Fragment() {
                         }
                     }
                 )
+            }
+
+            override fun onItemClicked(favouriteLocation: FavouriteLocation) {
+                if(sharedViewModel.internetState.value == ConnectivityObserver.InternetState.AVAILABLE)
+                {
+                    val action = FavouriteFragmentDirections.actionFavouriteFargmentToDetailsFragment(favouriteLocation)
+                    findNavController().navigate(action)
+                }else
+                {
+                    Toast.makeText(requireContext(),"No internet connection.",Toast.LENGTH_SHORT).show()
+                }
             }
         })
 

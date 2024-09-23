@@ -43,6 +43,7 @@
     <string name="delete">Delete</string>
     <string name="are_you_sure_about_deleting_this_item">Are you sure about deleting this item.</string>
     <string name="there_are_no_locations_go_and_add_some">There are no locations, go and add some.</string>
+    <string name="details">Details</string>
 
 
     <string-array name="countries">
