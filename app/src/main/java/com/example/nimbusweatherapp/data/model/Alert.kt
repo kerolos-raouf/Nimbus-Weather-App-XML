@@ -7,4 +7,10 @@ import androidx.room.PrimaryKey
 data class Alert(
     @PrimaryKey
     val time : Long,
+    val type : AlertType,
 )
+
+enum class AlertType {
+    Alarm,
+    Notification
+}

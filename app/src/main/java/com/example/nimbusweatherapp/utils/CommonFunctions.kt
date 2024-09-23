@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
+import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -25,6 +26,14 @@ fun convertUnixToDay(unixTimestamp: Long,format : String): String {
     val formatter = DateTimeFormatter.ofPattern(format)
 
     return dateTime.format(formatter)
+}
+
+fun convertMilliSecondsToTime(milliSeconds: Long, pattern: String): String
+{
+    val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+
+
+    return dateFormat.format(milliSeconds)
 }
 
 fun setIcon(view: ImageView, state: String?)

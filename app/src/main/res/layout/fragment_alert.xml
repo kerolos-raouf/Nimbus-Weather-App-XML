@@ -14,7 +14,7 @@
         tools:context=".favouriteFragment.FavouriteFragment">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/homeFAB"
+            android:id="@+id/alertAddAlarmButton"
             style="@style/CustomFloatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/homeToolbar"
+            android:id="@+id/alertToolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
-            android:id="@+id/favouriteMenuIcon"
+            android:id="@+id/alertMenuIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="@dimen/menu_button_margin"
@@ -60,17 +60,18 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/favouriteAddSomeLocationsLayout"
+            android:id="@+id/alertNoAlertsLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeToolbar">
+            app:layout_constraintTop_toBottomOf="@+id/alertToolbar">
 
             <ImageView
 
-                android:id="@+id/favouriteAddSomeLocationsImage"
+                android:id="@+id/alertAddAlarmImage"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
 
@@ -82,33 +83,33 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/favouriteAddSomeLocationsText"
+                android:id="@+id/alertAddAlarmTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:fontFamily="@font/sf_semi_bold"
                 android:gravity="center"
-                android:text="There are no alerts."
+                android:text="@string/there_are_no_alerts"
                 android:textColor="@color/white"
                 android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/favouriteAddSomeLocationsImage" />
+                app:layout_constraintTop_toBottomOf="@+id/alertAddAlarmImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favouriteRecyclerView"
+            android:id="@+id/alertRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeToolbar"
+            app:layout_constraintTop_toBottomOf="@+id/alertToolbar"
             tools:listitem="@layout/item_alarm" />
 
 

@@ -24,25 +24,40 @@
             >
 
             <TextView
-                android:id="@+id/alarmTextView"
+                android:id="@+id/alarmType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="12:00 AM"
+                android:text="Alarm"
                 android:textColor="@color/white"
-                android:textSize="30sp"
+                android:textSize="20sp"
                 android:fontFamily="@font/sf_bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/alarmTimeText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_bold"
+                android:gravity="center"
+                android:text="12:00 AM"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/alarmType"
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/alarmDeleteImageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/icon_delete_white"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
