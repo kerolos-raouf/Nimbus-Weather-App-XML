@@ -1,6 +1,7 @@
 package com.example.nimbusweatherapp.data.repository
 
 
+import com.example.nimbusweatherapp.data.model.Alert
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
@@ -49,6 +50,13 @@ interface Repository
     suspend fun insertFavouriteLocation(favouriteLocation: FavouriteLocation)
 
     suspend fun deleteFavouriteLocation(favouriteLocation: FavouriteLocation)
+
+    //alert
+    fun getAllAlerts() : Flow<List<Alert>>
+
+    suspend fun insertAlert(alert: Alert)
+
+    suspend fun deleteAlert(alert: Alert)
 
 
     fun setSharedPreferencesString(stringKey : String,stringValue : String)

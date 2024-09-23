@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.nimbusweatherapp.data.contracts.LocalDataSource
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.contracts.SettingsHandler
+import com.example.nimbusweatherapp.data.model.Alert
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
@@ -145,6 +146,18 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun deleteFavouriteLocation(favouriteLocation: FavouriteLocation) {
         localDataSource.deleteLocation(favouriteLocation)
+    }
+
+    override fun getAllAlerts(): Flow<List<Alert>> {
+        return localDataSource.getAllAlerts()
+    }
+
+    override suspend fun insertAlert(alert: Alert) {
+        localDataSource.insertAlert(alert)
+    }
+
+    override suspend fun deleteAlert(alert: Alert) {
+        localDataSource.deleteAlert(alert)
     }
 
     //shared pref

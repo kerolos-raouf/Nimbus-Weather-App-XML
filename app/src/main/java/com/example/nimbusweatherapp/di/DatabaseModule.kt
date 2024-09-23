@@ -2,10 +2,9 @@ package com.example.nimbusweatherapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.nimbusweatherapp.data.contracts.LocalDataSource
-import com.example.nimbusweatherapp.data.database.FavouriteLocationDao
+import com.example.nimbusweatherapp.data.database.dao.FavouriteLocationDao
 import com.example.nimbusweatherapp.data.database.LocationDatabase
-import com.example.nimbusweatherapp.data.database.LocationDatabaseHandler
+import com.example.nimbusweatherapp.data.database.dao.AlertsDao
 import com.example.nimbusweatherapp.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -20,10 +19,17 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideFavouriteDao(@ApplicationContext context: Context) : FavouriteLocationDao
+    fun provideLocationDatabase(@ApplicationContext context: Context) : LocationDatabase
         = Room.databaseBuilder(context,LocationDatabase::class.java,Constants.LOCATION_DATABASE_NAME)
             .build()
-            .favouriteLocationDao()
+
+    @Provides
+    @Singleton
+    fun provideFavouriteDao(locationDatabase: LocationDatabase) : FavouriteLocationDao = locationDatabase.favouriteLocationDao()
+
+    @Provides
+    @Singleton
+    fun provideAlertsDao(locationDatabase: LocationDatabase) : AlertsDao = locationDatabase.alertsDao()
 
 
 }
