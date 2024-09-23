@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -117,7 +118,7 @@ class AlertFragment : Fragment() {
                         calendar.set(Calendar.MINUTE, minute)
 
 
-                        setAlertTime(calendar.timeInMillis)
+                        showAlertTypeDialog(calendar.timeInMillis)
                     },
                     calendar.get(Calendar.HOUR_OF_DAY),
                     calendar.get(Calendar.MINUTE),
@@ -130,13 +131,47 @@ class AlertFragment : Fragment() {
         ).show()
     }
 
-    private fun setAlertTime(time : Long)
+    private fun setAlertTime(alert: Alert)
     {
-        val alert = Alert(time,AlertType.Alarm)
         alertViewModel.addAlert(alert)
     }
 
 
+    private fun showAlertTypeDialog(time : Long) {
+        val options = arrayOf("Notification", "Alarm Sound")
+
+
+        var selectedOption = options[0]
+
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Choose Alert Type")
+
+        builder.setSingleChoiceItems(options, 0) { _, which ->
+            selectedOption = options[which]
+        }
+
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+
+            when (selectedOption) {
+                "Notification" -> {
+                   setAlertTime(Alert(time,AlertType.Notification))
+                }
+                "Alarm Sound" -> {
+                    setAlertTime(Alert(time,AlertType.Alarm))
+                }
+            }
+        }
+
+
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
+    }
 
 
 
