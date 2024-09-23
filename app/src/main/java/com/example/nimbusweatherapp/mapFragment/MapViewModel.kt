@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
+import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.data.repository.Repository
 import com.example.nimbusweatherapp.utils.State
@@ -19,8 +20,9 @@ class MapViewModel @Inject constructor(
     private val repository: Repository
 ) :ViewModel(){
 
-    private val _weatherForMapLocation = MutableStateFlow<State<WeatherForLocation>>(State.Loading)
-    val weatherForMapLocation : StateFlow<State<WeatherForLocation>> = _weatherForMapLocation
+
+    private val _weatherForLocation = MutableStateFlow<State<WeatherForLocation>>(State.Loading)
+    val weatherForLocation : StateFlow<State<WeatherForLocation>> = _weatherForLocation
 
 
 
@@ -37,8 +39,8 @@ class MapViewModel @Inject constructor(
         units: String
     ){
         viewModelScope.launch {
-            repository.getWeatherForLocation(latitude,longitude,language,units).collect{state->
-                _weatherForMapLocation.value = state
+            repository.getWeatherForLocation(latitude,longitude,language,units).collect{ state->
+                _weatherForLocation.value = state
             }
         }
     }
@@ -50,7 +52,7 @@ class MapViewModel @Inject constructor(
     ){
         viewModelScope.launch {
             repository.getWeatherByCountryName(countryName,language,units).collect{state->
-                _weatherForMapLocation.value = state
+                _weatherForLocation.value = state
             }
         }
     }

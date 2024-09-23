@@ -37,7 +37,7 @@ class SharedViewModel @Inject constructor(
     val showHomeContent = MutableLiveData(Constants.SHOW_PERMISSION_DENIED_LAYOUT)
 
     //location information for egypt by default
-    val currentLocation = MutableLiveData(Location(30.8025,26.8206))
+    val currentLocation = MutableStateFlow(Location(30.8025,26.8206))
 
     val hitTheApiInHomeFragment = MutableLiveData(true)
 

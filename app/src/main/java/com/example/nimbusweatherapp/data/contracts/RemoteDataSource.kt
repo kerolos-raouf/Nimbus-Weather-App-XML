@@ -1,11 +1,9 @@
 package com.example.nimbusweatherapp.data.contracts
 
-import com.example.nimbusweatherapp.BuildConfig
+import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
-import com.example.nimbusweatherapp.utils.State
 import retrofit2.Response
-import retrofit2.http.Query
 
 interface RemoteDataSource
 {
@@ -18,6 +16,15 @@ interface RemoteDataSource
                                       longitude: Double,
                                       language: String,
                                       units: String): Response<WeatherForLocation>
+
+    suspend fun getLocationInfoUsingCoordinates(
+        latitude: Double,
+        longitude: Double,
+    ) : Response<LocationNameResponse>
+
+    suspend fun getLocationInfoUsingName(
+        locationName : String
+    ) : Response<LocationNameResponse>
 
     suspend fun getWeatherByCountryName(
        countryName : String,

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
@@ -19,7 +18,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.Location
-import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.databinding.BottomSheetLayoutBinding
 import com.example.nimbusweatherapp.databinding.FragmentMapBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
@@ -29,7 +27,6 @@ import com.example.nimbusweatherapp.utils.Constants
 import com.example.nimbusweatherapp.utils.State
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -115,24 +112,28 @@ class MapFragment : Fragment() {
     private fun observers()
     {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED)
-            {
-                mapViewModel.weatherForMapLocation.collect{state->
-                    when(state)
-                    {
-                        is State.Error -> {
-                            Toast.makeText(requireContext(),state.message,Toast.LENGTH_SHORT).show()
-                        }
-                        State.Loading -> {}
-                        is State.Success -> {
-                            showBottomSheet(Location(state.data.coord.lat,state.data.coord.lon))
-                            val geoPoint = GeoPoint(state.data.coord.lat,state.data.coord.lon)
-                            zoomToLocation(geoPoint)
-                            addNewMarkerAndRemoveLastOne(geoPoint)
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED)
+                {
+                    mapViewModel.weatherForLocation.collect{ state->
+                        when(state)
+                        {
+                            is State.Error -> {
+                                Toast.makeText(requireContext(),state.message,Toast.LENGTH_SHORT).show()
+                            }
+                            State.Loading -> {}
+                            is State.Success -> {
+                                showBottomSheet(Location(state.data.coord.lat,state.data.coord.lon),state.data.name)
+                                val geoPoint = GeoPoint(state.data.coord.lat,state.data.coord.lon)
+                                zoomToLocation(geoPoint)
+                                addNewMarkerAndRemoveLastOne(geoPoint)
+                            }
                         }
                     }
                 }
             }
+
+
         }
 
 
@@ -230,7 +231,7 @@ class MapFragment : Fragment() {
         }
     }
 
-    private fun showBottomSheet(location: Location)
+    private fun showBottomSheet(location: Location, locationName : String)
     {
         bottomSheet.setCancelable(true)
         bottomSheet.setContentView(bottomSheetBinding.root)
@@ -238,7 +239,7 @@ class MapFragment : Fragment() {
 
         bottomSheetBinding.bottomSheetSaveButton.setOnClickListener{
             mapViewModel.insertFavouriteLocation(FavouriteLocation(
-                communicator.getReadableNameFromLocation(location),
+                "${communicator.getReadableNameFromLocation(location)}${locationName}",
                 location.latitude,
                 location.longitude
             ))

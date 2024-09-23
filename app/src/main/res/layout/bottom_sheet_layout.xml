@@ -33,7 +33,7 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/sf_semi_bold"
                 tools:text="Country Name"
-                app:setCountryName="@{viewModel.weatherForMapLocation.toData()}"
+                app:setCountryName="@{viewModel.weatherForLocation.toData()}"
                 android:textAlignment="center"
                 android:textColor="@color/white"
 
@@ -50,7 +50,7 @@
 
                 android:fontFamily="@font/sf_regular"
                 tools:text="Clear Sky"
-                app:setWeatherDescription="@{viewModel.weatherForMapLocation.toData()}"
+                app:setWeatherDescription="@{viewModel.weatherForLocation.toData()}"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
@@ -65,7 +65,7 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/sf_semi_bold"
                 tools:text="30° C"
-                app:setTemperature="@{viewModel.weatherForMapLocation.toData().main.temp}"
+                app:setTemperature="@{viewModel.weatherForLocation.toData().main.temp}"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -80,7 +80,7 @@
 
                 android:layout_margin="30dp"
                 tools:src="@drawable/ic_sunny"
-                app:setWeatherIcon="@{viewModel.weatherForMapLocation.toData().weather[0].description}"
+                app:setWeatherIcon="@{viewModel.weatherForLocation.toData().weather[0].description}"
                 app:layout_constraintBottom_toTopOf="@+id/bottomSheetSaveButton"
                 app:layout_constraintEnd_toEndOf="parent"
 

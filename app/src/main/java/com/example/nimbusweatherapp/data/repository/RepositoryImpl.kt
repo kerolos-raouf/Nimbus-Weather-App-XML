@@ -1,11 +1,11 @@
 package com.example.nimbusweatherapp.data.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import com.example.nimbusweatherapp.data.contracts.LocalDataSource
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.contracts.SettingsHandler
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
+import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
@@ -57,8 +57,17 @@ class RepositoryImpl @Inject constructor(
         emit(State.Loading)
         try {
             val response = remoteDataSource.getWeatherForLocation(latitude, longitude,language,units)
-            if (response.isSuccessful && response.body() != null) {
-                emit(State.Success(response.body()!!))
+            val nameResponse = remoteDataSource.getLocationInfoUsingCoordinates(latitude, longitude)
+
+            val name = nameResponse.body()?.get(0)?.name ?: ""
+            var weatherForLocation = response.body()
+
+            if (response.isSuccessful && response.body() != null
+                && nameResponse.isSuccessful && nameResponse.body() != null
+                && weatherForLocation != null
+                ) {
+                weatherForLocation = weatherForLocation.copy(name = name)
+                emit(State.Success(weatherForLocation))
             } else {
                 emit(State.Error(response.message().orEmpty()))
             }
@@ -78,6 +87,43 @@ class RepositoryImpl @Inject constructor(
         emit(State.Loading)
         try {
             val response = remoteDataSource.getWeatherByCountryName(countryName,language,units)
+            if (response.isSuccessful && response.body() != null) {
+                emit(State.Success(response.body()!!))
+            } else {
+                emit(State.Error(response.message().orEmpty()))
+            }
+        } catch (e: Exception) {
+            emit(State.Error(e.message.orEmpty()))
+        }
+    }.timeout(10.seconds).catch {
+        emit(State.Error("Time out"))
+    }
+
+    @OptIn(FlowPreview::class)
+    override fun getLocationInfoUsingCoordinates(
+        latitude: Double,
+        longitude: Double
+    ): Flow<State<LocationNameResponse>> = flow {
+        emit(State.Loading)
+        try {
+            val response = remoteDataSource.getLocationInfoUsingCoordinates(latitude, longitude)
+            if (response.isSuccessful && response.body() != null) {
+                emit(State.Success(response.body()!!))
+            } else {
+                emit(State.Error(response.message().orEmpty()))
+            }
+        } catch (e: Exception) {
+            emit(State.Error(e.message.orEmpty()))
+        }
+    }.timeout(10.seconds).catch {
+        emit(State.Error("Time out"))
+    }
+
+    @OptIn(FlowPreview::class)
+    override fun getLocationInfoUsingName(locationName: String): Flow<State<LocationNameResponse>> = flow {
+        emit(State.Loading)
+        try {
+            val response = remoteDataSource.getLocationInfoUsingName(locationName)
             if (response.isSuccessful && response.body() != null) {
                 emit(State.Success(response.body()!!))
             } else {

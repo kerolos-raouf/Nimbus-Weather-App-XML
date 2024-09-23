@@ -2,7 +2,7 @@ package com.example.nimbusweatherapp.utils
 
 object Constants
 {
-    const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    const val BASE_URL = "https://api.openweathermap.org/"
 
     const val SETTINGS_SHARED_PREFERENCE_NAME = "Settings_Shared_Preference"
 

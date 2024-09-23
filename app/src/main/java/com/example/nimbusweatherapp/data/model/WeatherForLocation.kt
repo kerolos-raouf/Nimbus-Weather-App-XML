@@ -17,7 +17,7 @@ data class WeatherForLocation(
     @SerializedName("main")
     val main: Main,
     @SerializedName("name")
-    val name: String,
+    var name: String,
     @SerializedName("sys")
     val sys: Sys,
     @SerializedName("timezone")

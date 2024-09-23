@@ -1,8 +1,8 @@
 package com.example.nimbusweatherapp.data.repository
 
 
-import androidx.lifecycle.LiveData
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
+import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.utils.State
@@ -32,6 +32,16 @@ interface Repository
         language: String,
         units: String
     ) : Flow<State<WeatherForLocation>>
+
+
+    fun getLocationInfoUsingCoordinates(
+        latitude: Double,
+        longitude: Double,
+    ) : Flow<State<LocationNameResponse>>
+
+    fun getLocationInfoUsingName(
+        locationName : String
+    ) : Flow<State<LocationNameResponse>>
 
     ///local data source
     fun getAllLocations() : Flow<List<FavouriteLocation>>

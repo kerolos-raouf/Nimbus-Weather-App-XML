@@ -1,13 +1,11 @@
 package com.example.nimbusweatherapp.homeFragment
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nimbusweatherapp.data.internetStateObserver.InternetStateObserver
 import com.example.nimbusweatherapp.data.model.DaysWeather
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
@@ -21,11 +19,7 @@ import com.example.nimbusweatherapp.utils.convertUnixToDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.timeout
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,8 +40,8 @@ class HomeViewModel @Inject constructor(
     val currentWindSpeed = MutableLiveData("m/s")
 
     //setNewName
-    private val _setNewName = MutableLiveData(false)
-    val setNewName : LiveData<Boolean> = _setNewName
+    private val _setNameAfterGettingDataFromServer = MutableLiveData(false)
+    val setNameAfterGettingDataFromServer : LiveData<Boolean> = _setNameAfterGettingDataFromServer
 
 
 
@@ -123,7 +117,7 @@ class HomeViewModel @Inject constructor(
                     is State.Success -> {
                         _weatherForLocation.value = it.data
 
-                        _setNewName.value = true
+                        _setNameAfterGettingDataFromServer.value = true
                         addWindSpeedUnit(currentWindSpeed.value ?: "m/s")
                     }
                 }
@@ -146,10 +140,6 @@ class HomeViewModel @Inject constructor(
 
     fun setNewLocationName(newName : String)
     {
-        _weatherForLocation.value = (if(newName.contains(Constants.GEOCODER_NOT_LOCATED)) _weatherForLocation.value?.name else newName)?.let {
-            _weatherForLocation.value?.copy(
-                name = it
-            )
-        }
+        _weatherForLocation.value = _weatherForLocation.value?.copy(name = "${newName}${_weatherForLocation.value?.name}")
     }
 }

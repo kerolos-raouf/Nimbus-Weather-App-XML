@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() , Communicator {
     override fun getReadableNameFromLocation(location: Location) : String {
         val geoCoder = Geocoder(applicationContext)
         val address = geoCoder.getFromLocation(location.latitude,location.longitude,1)
-        return "${(address?.get(0)?.countryName) ?: Constants.GEOCODER_NOT_LOCATED} - ${(address?.get(0)?.locality) ?: Constants.GEOCODER_NOT_LOCATED}"
+        return "${(address?.get(0)?.countryName) ?: Constants.GEOCODER_NOT_LOCATED} - "
     }
 
     override fun requestLocationPermission()
