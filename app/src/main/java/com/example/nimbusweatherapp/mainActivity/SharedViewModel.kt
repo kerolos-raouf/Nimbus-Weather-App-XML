@@ -22,13 +22,13 @@ class SharedViewModel @Inject constructor(
 
 
     ///settings variables
-    val settingsLanguage = MutableLiveData(0)
+    val settingsLanguage = MutableLiveData(Constants.ENGLISH_SELECTION_VALUE)
 
-    val settingsLocation = MutableLiveData(0)
+    val settingsLocation = MutableLiveData(Constants.GPS_SELECTION_VALUE)
 
-    val settingsWindSpeed = MutableLiveData(0)
+    val settingsWindSpeed = MutableLiveData(Constants.METER_PER_SECOND_SELECTION_VALUE)
 
-    val settingsTemperature = MutableLiveData(0)
+    val settingsTemperature = MutableLiveData(Constants.KELVIN_SELECTION_VALUE)
 
     val settingsNotifications = MutableLiveData(true)
 

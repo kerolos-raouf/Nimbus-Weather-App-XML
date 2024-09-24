@@ -16,6 +16,10 @@ interface Communicator {
 
     fun requestShowOnOtherAppsPermission()
 
+    fun isScheduleExactAlarmPermissionGranted() : Boolean
+
+    fun requestScheduleExactAlarmPermission()
+
     fun isGPSEnabled() : Boolean
 
     fun isInternetAvailable() : Boolean

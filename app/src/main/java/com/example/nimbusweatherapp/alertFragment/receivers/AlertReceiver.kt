@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.utils.Constants
@@ -19,7 +20,11 @@ class AlertReceiver : BroadcastReceiver() {
         when(alertAction)
         {
             Constants.ALERT_ACTION_NOTIFICATION -> {
-                showNotification(context)
+                val showNotification = context?.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)?.getBoolean(Constants.NOTIFICATION_KEY, false)
+                if(showNotification == true)
+                {
+                    showNotification(context)
+                }
             }
             Constants.ALERT_ACTION_ALARM -> {
                 showAlarm(context)

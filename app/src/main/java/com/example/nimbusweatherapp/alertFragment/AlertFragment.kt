@@ -7,6 +7,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -188,6 +189,13 @@ class AlertFragment : Fragment() {
         {
             communicator.requestShowOnOtherAppsPermission()
             Toast.makeText(requireContext(),"Show on other apps permission not granted.",Toast.LENGTH_SHORT).show()
+        }else if(!communicator.isScheduleExactAlarmPermissionGranted())
+        {
+            communicator.requestScheduleExactAlarmPermission()
+            Toast.makeText(requireContext(),"Schedule exact alarm permission not granted.",Toast.LENGTH_SHORT).show()
+        }else if(alert.time < System.currentTimeMillis())
+        {
+            Toast.makeText(requireContext(),"You can't set an alarm in the past.",Toast.LENGTH_SHORT).show()
         }
         else
         {
@@ -207,7 +215,8 @@ class AlertFragment : Fragment() {
                 getPendingIntent(alert))
         }catch (e : SecurityException)
         {
-            Toast.makeText(requireContext(),"Security Exception",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"Security Exception ${e.message}",Toast.LENGTH_SHORT).show()
+            Log.d("Kerolos", "setUpTheAlarm: ${e.message}")
         }
     }
 

@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() , Communicator {
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private const val POST_NOTIFICATION_PERMISSION_REQUEST_CODE = 2
+        private const val SCHEDULE_EXACT_ALARM_PERMISSION_REQUEST_CODE = 3
 
         val settingsSelectionMap = HashMap<String,Int>()
         val settingsMeasureUnitsMap = HashMap<Int,String>()
@@ -166,6 +167,18 @@ class MainActivity : AppCompatActivity() , Communicator {
     override fun requestShowOnOtherAppsPermission() {
         val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
         startActivity(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.S)
+    override fun isScheduleExactAlarmPermissionGranted(): Boolean {
+        return (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    override fun requestScheduleExactAlarmPermission() {
+        if (checkSelfPermission(Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.SCHEDULE_EXACT_ALARM,Manifest.permission.USE_EXACT_ALARM), SCHEDULE_EXACT_ALARM_PERMISSION_REQUEST_CODE)
+        }
     }
 
     override fun isGPSEnabled() : Boolean {

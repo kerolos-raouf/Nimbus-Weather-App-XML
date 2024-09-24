@@ -1,5 +1,6 @@
 package com.example.nimbusweatherapp.utils
 
+import android.content.Context
 import android.os.Build
 import android.view.View
 import android.widget.ImageView
@@ -79,11 +80,21 @@ fun setTemperature(view: TextView, temperature: Double?)
         val temp = (temperature / 10).toInt()
         var tempString = temp.toString()
 
+        var tempUint = "K"
+        val sharedPrefUnit = view.context.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE).getString(Constants.TEMPERATURE_KEY,Constants.KELVIN)
+        if (sharedPrefUnit == Constants.CELSIUS)
+        {
+            tempUint = "C"
+        }else if(sharedPrefUnit == Constants.FAHRENHEIT)
+        {
+            tempUint = "F"
+        }
+
         if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
         {
             tempString = parseIntegerIntoArabic(tempString)
         }
-        view.text = "$tempString°"
+        view.text = "$tempString °$tempUint"
     }
 }
 
