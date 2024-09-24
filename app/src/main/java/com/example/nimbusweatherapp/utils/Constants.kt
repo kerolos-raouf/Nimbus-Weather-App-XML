@@ -78,5 +78,7 @@ object Constants
     const val ALERT_TYPE = "ALERT_TYPE"
     const val NOTIFICATION_CHANNEL_NAME = "NOTIFICATION_CHANNEL_NAME"
     const val NOTIFICATION_CHANNEL_ID = 1
+    const val ALERT_ACTION_NOTIFICATION = "com.example.NOTIFICATION_ACTION"
+    const val ALERT_ACTION_ALARM = "com.example.ALARM_ACTION"
 
 }

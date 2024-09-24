@@ -16,16 +16,19 @@ import com.example.nimbusweatherapp.utils.Constants
 class AlertReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        val alertType = intent?.getStringExtra(Constants.ALERT_TYPE)
+        val alertAction = intent?.action
 
-        Log.d("Kerolos", "onReceive: ${alertType}")
-
-        if (alertType == AlertType.Alarm.name)
+        Log.d("Kerolos", "onReceive: ${alertAction}")
+        when(alertAction)
         {
-        }else{
-            showAlarm(context)
-            showNotification(context)
+            Constants.ALERT_ACTION_NOTIFICATION -> {
+                showNotification(context)
+            }
+            Constants.ALERT_ACTION_ALARM -> {
+                showAlarm(context)
+            }
         }
+
     }
 
     private fun createChannel(context: Context?)

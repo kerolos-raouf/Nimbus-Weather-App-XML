@@ -53,7 +53,9 @@ class AlertFragment : Fragment() {
 
 
     //alarm
-    private lateinit var alarmManager : AlarmManager
+    private  val alarmManager : AlarmManager by lazy {
+         requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,6 +78,7 @@ class AlertFragment : Fragment() {
         alertAdapter = AlertRecyclerViewAdapter(object : AlertItemListener{
             override fun onDeleteButtonClicked(alert: Alert) {
                 alertViewModel.deleteAlert(alert)
+                alarmManager.cancel(getPendingIntent(alert))
             }
         })
         binding.alertRecyclerView.adapter = alertAdapter
@@ -183,11 +186,11 @@ class AlertFragment : Fragment() {
         if(!communicator.isPostNotificationsPermissionGranted())
         {
             communicator.requestPostNotificationsPermission()
-            Toast.makeText(requireContext(),"Permission not granted.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"Notification permission not granted.",Toast.LENGTH_SHORT).show()
         }else if(!communicator.isShowOnOtherAppsPermissionGranted())
         {
             communicator.requestShowOnOtherAppsPermission()
-            Toast.makeText(requireContext(),"Permission not granted.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"Show on other apps permission not granted.",Toast.LENGTH_SHORT).show()
         }
         else
         {
@@ -198,27 +201,36 @@ class AlertFragment : Fragment() {
 
     }
 
-    @SuppressLint("MissingPermission")
     private fun setUpTheAlarm(alert: Alert)
     {
-        alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        val intent = Intent(requireContext(), AlertReceiver::class.java).apply {
-            putExtra(Constants.ALERT_TYPE,alert.type)
-        }
-
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(),0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-
         try {
-            alarmManager.setExactAndAllowWhileIdle(
+            alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
                 alert.time,
-                pendingIntent)
+                getPendingIntent(alert))
         }catch (e : SecurityException)
         {
             Toast.makeText(requireContext(),"Security Exception",Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun getPendingIntent(alert: Alert) : PendingIntent
+    {
+        val intent = if(alert.type == AlertType.Notification)
+        {
+            Intent(requireContext(), AlertReceiver::class.java).apply {
+                action = Constants.ALERT_ACTION_NOTIFICATION
+                putExtra(Constants.ALERT_TYPE,alert.type.name)
+            }
+        }else
+        {
+            Intent(requireContext(), AlertReceiver::class.java).apply {
+                action = Constants.ALERT_ACTION_ALARM
+                putExtra(Constants.ALERT_TYPE,alert.type.name)
+            }
+        }
+
+        return PendingIntent.getBroadcast(requireContext(),alert.time.toInt(),intent, PendingIntent.FLAG_IMMUTABLE)
     }
 
 

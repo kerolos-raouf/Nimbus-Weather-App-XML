@@ -5,9 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Alert(
-    @PrimaryKey
     val time : Long,
     val type : AlertType,
+    @PrimaryKey(autoGenerate = true)
+    val id : Int = 0,
 )
 
 enum class AlertType {
