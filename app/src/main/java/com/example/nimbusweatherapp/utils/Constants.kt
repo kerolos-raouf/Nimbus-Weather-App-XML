@@ -73,4 +73,10 @@ object Constants
     const val SHOW_CONTENT_LAYOUT = 0
     const val SHOW_NO_INTERNET_LAYOUT = 1
     const val SHOW_PERMISSION_DENIED_LAYOUT = 2
+
+    ///alarm fragment
+    const val ALERT_TYPE = "ALERT_TYPE"
+    const val NOTIFICATION_CHANNEL_NAME = "NOTIFICATION_CHANNEL_NAME"
+    const val NOTIFICATION_CHANNEL_ID = 1
+
 }

@@ -1,8 +1,14 @@
 package com.example.nimbusweatherapp.alertFragment
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +27,7 @@ import com.example.nimbusweatherapp.data.model.AlertType
 import com.example.nimbusweatherapp.databinding.FragmentAlertBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
+import com.example.nimbusweatherapp.utils.Constants
 import com.example.nimbusweatherapp.utils.convertUnixToDay
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -44,6 +51,9 @@ class AlertFragment : Fragment() {
     //adapter
     private lateinit var alertAdapter : AlertRecyclerViewAdapter
 
+
+    //alarm
+    private lateinit var alarmManager : AlarmManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -131,11 +141,6 @@ class AlertFragment : Fragment() {
         ).show()
     }
 
-    private fun setAlertTime(alert: Alert)
-    {
-        alertViewModel.addAlert(alert)
-    }
-
 
     private fun showAlertTypeDialog(time : Long) {
         val options = arrayOf("Notification", "Alarm Sound")
@@ -171,6 +176,49 @@ class AlertFragment : Fragment() {
         }
 
         builder.create().show()
+    }
+
+    private fun setAlertTime(alert: Alert)
+    {
+        if(!communicator.isPostNotificationsPermissionGranted())
+        {
+            communicator.requestPostNotificationsPermission()
+            Toast.makeText(requireContext(),"Permission not granted.",Toast.LENGTH_SHORT).show()
+        }else if(!communicator.isShowOnOtherAppsPermissionGranted())
+        {
+            communicator.requestShowOnOtherAppsPermission()
+            Toast.makeText(requireContext(),"Permission not granted.",Toast.LENGTH_SHORT).show()
+        }
+        else
+        {
+            alertViewModel.addAlert(alert)
+            setUpTheAlarm(alert)
+            Toast.makeText(requireContext(),"Alarm was set successfully.",Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setUpTheAlarm(alert: Alert)
+    {
+        alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(requireContext(), AlertReceiver::class.java).apply {
+            putExtra(Constants.ALERT_TYPE,alert.type)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(),0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+
+        try {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                alert.time,
+                pendingIntent)
+        }catch (e : SecurityException)
+        {
+            Toast.makeText(requireContext(),"Security Exception",Toast.LENGTH_SHORT).show()
+        }
     }
 
 

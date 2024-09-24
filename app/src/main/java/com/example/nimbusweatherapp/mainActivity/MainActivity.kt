@@ -1,12 +1,17 @@
 package com.example.nimbusweatherapp.mainActivity
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.location.Geocoder
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -48,6 +53,7 @@ class MainActivity : AppCompatActivity() , Communicator {
 
     companion object{
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val POST_NOTIFICATION_PERMISSION_REQUEST_CODE = 2
 
         val settingsSelectionMap = HashMap<String,Int>()
         val settingsMeasureUnitsMap = HashMap<Int,String>()
@@ -137,8 +143,29 @@ class MainActivity : AppCompatActivity() , Communicator {
 
     override fun isLocationPermissionGranted() : Boolean
     {
-        return (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED
-                || checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED)
+        return (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    override fun isPostNotificationsPermissionGranted(): Boolean {
+        return (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    override fun requestPostNotificationsPermission() {
+        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), POST_NOTIFICATION_PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    override fun isShowOnOtherAppsPermissionGranted(): Boolean {
+        return Settings.canDrawOverlays(this)
+    }
+
+    override fun requestShowOnOtherAppsPermission() {
+        val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+        startActivity(intent)
     }
 
     override fun isGPSEnabled() : Boolean {
@@ -205,9 +232,17 @@ class MainActivity : AppCompatActivity() , Communicator {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE)
         {
-            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED)
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
                 onLocationPermissionGranted()
+            }
+        }
+
+        if(requestCode == POST_NOTIFICATION_PERMISSION_REQUEST_CODE)
+        {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                //requestPostNotificationsPermission()
             }
         }
     }

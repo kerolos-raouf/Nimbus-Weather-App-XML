@@ -8,6 +8,14 @@ interface Communicator {
 
     fun isLocationPermissionGranted() : Boolean
 
+    fun isPostNotificationsPermissionGranted() : Boolean
+
+    fun requestPostNotificationsPermission()
+
+    fun isShowOnOtherAppsPermissionGranted() : Boolean
+
+    fun requestShowOnOtherAppsPermission()
+
     fun isGPSEnabled() : Boolean
 
     fun isInternetAvailable() : Boolean
