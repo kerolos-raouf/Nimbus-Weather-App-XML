@@ -45,6 +45,8 @@
     <string name="there_are_no_locations_go_and_add_some">There are no locations, go and add some.</string>
     <string name="details">Details</string>
     <string name="there_are_no_alerts">There are no alerts.</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="let_s_see_the_weather">Let\'s see the weather.</string>
 
 
     <string-array name="countries">

@@ -1,4 +1,4 @@
-package com.example.nimbusweatherapp.alertFragment
+package com.example.nimbusweatherapp.alertFragment.receivers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,10 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.nimbusweatherapp.R
-import com.example.nimbusweatherapp.data.model.AlertType
 import com.example.nimbusweatherapp.utils.Constants
 
 class AlertReceiver : BroadcastReceiver() {
@@ -18,7 +16,6 @@ class AlertReceiver : BroadcastReceiver() {
 
         val alertAction = intent?.action
 
-        Log.d("Kerolos", "onReceive: ${alertAction}")
         when(alertAction)
         {
             Constants.ALERT_ACTION_NOTIFICATION -> {
@@ -49,7 +46,7 @@ class AlertReceiver : BroadcastReceiver() {
 
         val notification = NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_NAME)
             .setContentTitle("Weather Alert")
-            .setContentText("The weather alert is active.")
+            .setContentText("Let's check the weather.")
             .setSmallIcon(R.drawable.ic_sunny)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
@@ -59,7 +56,11 @@ class AlertReceiver : BroadcastReceiver() {
     }
 
     private fun showAlarm(context: Context?) {
-        val ringtone = RingtoneManager.getRingtone(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-        ringtone.play()
+        //val ringtone = RingtoneManager.getRingtone(context, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+        //ringtone.play()
+
+        val intent = Intent(context, AlarmReceiver::class.java)
+        intent.action = Constants.ALERT_ACTION_START_ALARM
+        context?.sendBroadcast(intent)
     }
 }

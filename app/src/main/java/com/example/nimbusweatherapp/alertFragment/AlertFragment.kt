@@ -1,6 +1,5 @@
 package com.example.nimbusweatherapp.alertFragment
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.DatePickerDialog
 import android.app.PendingIntent
@@ -8,7 +7,6 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,15 +20,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.alertFragment.receivers.AlertReceiver
 import com.example.nimbusweatherapp.data.model.Alert
 import com.example.nimbusweatherapp.data.model.AlertType
 import com.example.nimbusweatherapp.databinding.FragmentAlertBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
 import com.example.nimbusweatherapp.utils.Constants
-import com.example.nimbusweatherapp.utils.convertUnixToDay
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
