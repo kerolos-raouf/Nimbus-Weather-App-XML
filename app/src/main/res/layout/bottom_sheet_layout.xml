@@ -97,7 +97,28 @@
                 android:layout_marginTop="20dp"
 
                 android:background="@drawable/allow_button_custom_theme"
-                android:text="Add to farvourite"
+                android:text="@string/add_to_favourite"
+                android:textColor="@color/background"
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                app:backgroundTint="@color/white"
+                app:layout_constraintBottom_toTopOf="@id/bottomSheetSearchInHome"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+             />
+
+            <Button
+                android:id="@+id/bottomSheetSearchInHome"
+
+                android:layout_width="0dp"
+                android:layout_margin="20dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+
+                android:background="@drawable/allow_button_custom_theme"
+                android:text="@string/search_in_home"
                 android:textColor="@color/background"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -106,7 +127,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-             />
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

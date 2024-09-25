@@ -211,6 +211,7 @@ class MainActivity : AppCompatActivity() , Communicator {
                             lastLocation?.let {
                                 sharedViewModel.currentLocation.value = Location(lastLocation.latitude,lastLocation.longitude)
                             }
+                            fusedLocationProviderClient.removeLocationUpdates(this)
                         }
 
                     },

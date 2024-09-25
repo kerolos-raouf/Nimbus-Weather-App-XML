@@ -20,6 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
 import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.FragmentHomeBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
@@ -61,6 +62,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -124,7 +126,10 @@ class HomeFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED)
             {
                 sharedViewModel.currentLocation.collect{newLocation->
-                    doCallsOnGetLocation(newLocation.latitude,newLocation.longitude)
+                    if(sharedViewModel.internetState.value == ConnectivityObserver.InternetState.AVAILABLE)
+                    {
+                        doCallsOnGetLocation(newLocation.latitude,newLocation.longitude)
+                    }
                 }
             }
         }
@@ -140,6 +145,7 @@ class HomeFragment : Fragment() {
                 homeViewModel.weatherEveryThreeHours.collect{list->
                     if(list.isNotEmpty())
                     {
+                        showContentAfterObserveOnLocalData()
                         homeViewModel.fillDaysWeather(list)
                         mAdapter.submitList(list)
                     }
@@ -153,7 +159,6 @@ class HomeFragment : Fragment() {
                 homeViewModel.setNameAfterGettingDataFromServer.collect{
                     if(it)
                     {
-                        Log.d("Kerolos", "observers: $it")
                         sharedViewModel.currentLocation.value.let {
                             homeViewModel.setNewLocationName(communicator.getReadableNameFromLocation(
                                 sharedViewModel.currentLocation.value
@@ -175,7 +180,6 @@ class HomeFragment : Fragment() {
         }
 
         sharedViewModel.internetState.observe(viewLifecycleOwner){
-
             checkOnStateToChangeUI()
         }
     }
@@ -184,7 +188,7 @@ class HomeFragment : Fragment() {
     private fun checkOnStateToChangeUI()
     {
 
-        if(!communicator.isInternetAvailable())
+        if(!communicator.isInternetAvailable() && homeViewModel.weatherForLocation.value.isEmpty())
         {
 
             sharedViewModel.showHomeContent.value = Constants.SHOW_NO_INTERNET_LAYOUT
@@ -196,14 +200,20 @@ class HomeFragment : Fragment() {
         }
         else
         {
-            sharedViewModel.showHomeContent.value = Constants.SHOW_CONTENT_LAYOUT
-            if(sharedViewModel.hitTheApiInHomeFragment.value == true)
-            {
-                doCallsOnGetLocation(sharedViewModel.currentLocation.value!!.latitude,sharedViewModel.currentLocation.value!!.longitude)
-                sharedViewModel.hitTheApiInHomeFragment.value = false
-            }
+            showContentAfterObserveOnLocalData()
         }
     }
+
+    private fun showContentAfterObserveOnLocalData()
+    {
+        sharedViewModel.showHomeContent.value = Constants.SHOW_CONTENT_LAYOUT
+        if (communicator.isGPSEnabled() && sharedViewModel.getTheLocationAgain.value == true)
+        {
+            communicator.getCurrentLocation()
+        }
+
+    }
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -15,6 +15,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.Location
@@ -244,6 +246,15 @@ class MapFragment : Fragment() {
                 location.longitude
             ))
         }
+
+        bottomSheetBinding.bottomSheetSearchInHome.setOnClickListener {
+            sharedViewModel.currentLocation.value = location
+            sharedViewModel.getTheLocationAgain.value = false
+            bottomSheet.dismiss()
+            val navOption = NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build()
+            findNavController().navigate(R.id.homeFragment,null,navOption)
+        }
+
 
         bottomSheet.show()
     }

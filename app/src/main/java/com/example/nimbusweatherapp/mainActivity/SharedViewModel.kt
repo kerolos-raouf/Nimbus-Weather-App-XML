@@ -1,5 +1,6 @@
 package com.example.nimbusweatherapp.mainActivity
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,8 +39,8 @@ class SharedViewModel @Inject constructor(
 
     //location information for egypt by default
     val currentLocation = MutableStateFlow(Location(30.8025,26.8206))
+    val getTheLocationAgain = MutableLiveData(true)
 
-    val hitTheApiInHomeFragment = MutableLiveData(true)
 
 
     ///internet state
