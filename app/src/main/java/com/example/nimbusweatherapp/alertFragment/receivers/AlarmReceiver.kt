@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import com.example.nimbusweatherapp.alertFragment.alertDismissActivity.OverlayAlertView
 import com.example.nimbusweatherapp.alertFragment.service.AlarmService
 import com.example.nimbusweatherapp.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
 class AlarmReceiver : BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.O)

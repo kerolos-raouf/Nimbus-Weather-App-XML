@@ -75,6 +75,7 @@ object Constants
     const val SHOW_PERMISSION_DENIED_LAYOUT = 2
 
     ///alarm fragment
+    const val ALERT_KEY = "ALERT_KEY"
     const val ALERT_TYPE = "ALERT_TYPE"
     const val NOTIFICATION_CHANNEL_NAME = "NOTIFICATION_CHANNEL_NAME"
     const val NOTIFICATION_CHANNEL_ID = 1

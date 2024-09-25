@@ -226,13 +226,13 @@ class AlertFragment : Fragment() {
         {
             Intent(requireContext(), AlertReceiver::class.java).apply {
                 action = Constants.ALERT_ACTION_NOTIFICATION
-                putExtra(Constants.ALERT_TYPE,alert.type.name)
+                putExtra(Constants.ALERT_KEY,alert)
             }
         }else
         {
             Intent(requireContext(), AlertReceiver::class.java).apply {
                 action = Constants.ALERT_ACTION_ALARM
-                putExtra(Constants.ALERT_TYPE,alert.type.name)
+                putExtra(Constants.ALERT_KEY,alert)
             }
         }
 

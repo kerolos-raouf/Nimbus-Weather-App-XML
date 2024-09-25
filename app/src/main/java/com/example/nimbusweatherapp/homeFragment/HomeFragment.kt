@@ -1,5 +1,6 @@
 package com.example.nimbusweatherapp.homeFragment
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -70,6 +71,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        animateViews()
         observers()
     }
 
@@ -115,6 +117,39 @@ class HomeFragment : Fragment() {
         }
 
         checkOnStateToChangeUI()
+    }
+
+    private fun animateViews()
+    {
+        animateHomeWeatherIcon()
+    }
+
+    private fun animateHomeWeatherIcon()
+    {
+        val animator = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "rotation", 0f, 360f)
+        animator.repeatCount = 1
+        animator.duration = 2000
+        animator.start()
+
+        val alpha = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "alpha", 0f, 1f)
+        alpha.repeatCount = 1
+        alpha.duration = 2000
+        alpha.start()
+
+        val scaleX = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "scaleX", 0f, 1f)
+        scaleX.repeatCount = 1
+        scaleX.duration = 2000
+        scaleX.start()
+
+        val scaleY = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "scaleY", 0f, 1f)
+        scaleY.repeatCount = 1
+        scaleY.duration = 2000
+        scaleY.start()
+
+        val transition = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "translationY", -100f, 0f)
+        transition.repeatCount = 1
+        transition.duration = 2000
+        transition.start()
     }
 
 

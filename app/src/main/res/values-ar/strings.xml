@@ -42,5 +42,13 @@
     <string name="are_you_sure_about_deleting_this_item">هل انت متأكد انك تريد مسح هذا العنصر.</string>
     <string name="turn_on">تفعيل</string>
     <string name="gps_is_off_turn_it_on">الموقع الحالى مغلق, اتود تفعيله؟</string>
+    <string name="there_are_no_locations_go_and_add_some">لا توجد مواقع، اذهب وأضف بعض المواقع.</string>
+    <string name="details">التفاصيل</string>
+    <string name="there_are_no_alerts">لا توجد تنبيهات.</string>
+    <string name="dismiss">تجاهل</string>
+    <string name="let_s_see_the_weather">دعنا نرى الطقس</string>
+    <string name="add_to_favourite">أضف إلى المفضلة</string>
+    <string name="search_in_home">ابحث في الصفحة الرئيسية</string>
+
 
 </resources>
