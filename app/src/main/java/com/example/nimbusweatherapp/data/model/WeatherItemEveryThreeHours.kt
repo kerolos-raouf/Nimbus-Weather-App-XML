@@ -21,9 +21,7 @@ data class WeatherItemEveryThreeHours(
     val main: Main,
     @SerializedName("pop")
     val pop: Double,
-    @SerializedName("sys")
-    @Embedded
-    val sys: Sys,
+
     @SerializedName("visibility")
     val visibility: Int,
     @SerializedName("weather")

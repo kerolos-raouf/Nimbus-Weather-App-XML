@@ -1,5 +1,6 @@
 package com.example.nimbusweatherapp.data.database
 
+import android.util.Log
 import com.example.nimbusweatherapp.data.contracts.LocalDataSource
 import com.example.nimbusweatherapp.data.database.dao.AlertsDao
 import com.example.nimbusweatherapp.data.database.dao.FavouriteLocationDao
@@ -49,6 +50,10 @@ class LocationDatabaseHandler @Inject constructor(
         locationDatabase.weatherDao().deleteWeatherForLocation()
     }
 
+    override suspend fun refreshWeatherForLocation(weatherForLocation: WeatherForLocation) {
+        locationDatabase.weatherDao().refreshWeatherForLocation(weatherForLocation)
+    }
+
     override fun getWeatherItemEveryThreeHours(): Flow<List<WeatherItemEveryThreeHours>> {
         return locationDatabase.weatherDao().getWeatherItemEveryThreeHours()
     }
@@ -61,5 +66,9 @@ class LocationDatabaseHandler @Inject constructor(
 
     override suspend fun deleteAllWeatherItemEveryThreeHours() {
         locationDatabase.weatherDao().deleteAllWeatherItemEveryThreeHours()
+    }
+
+    override suspend fun refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>) {
+        locationDatabase.weatherDao().refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList)
     }
 }

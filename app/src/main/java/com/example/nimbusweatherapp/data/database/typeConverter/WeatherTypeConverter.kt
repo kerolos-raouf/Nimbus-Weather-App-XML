@@ -9,12 +9,12 @@ class WeatherTypeConverter {
     private val gson = Gson()
 
     @TypeConverter
-    fun fromWeatherListToString(weatherList: List<Weather>): String {
+    fun fromWeatherList(weatherList: List<Weather>): String {
         return gson.toJson(weatherList)
     }
 
     @TypeConverter
-    fun fromStringToWeatherList(weatherListString: String): List<Weather> {
+    fun toWeatherList(weatherListString: String): List<Weather> {
         return gson.fromJson(weatherListString, Array<Weather>::class.java).toList()
     }
 

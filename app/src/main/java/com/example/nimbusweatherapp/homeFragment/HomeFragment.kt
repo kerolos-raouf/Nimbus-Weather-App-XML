@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.nimbusweatherapp.R
+import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.FragmentHomeBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.MainActivity
@@ -135,28 +137,29 @@ class HomeFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED)
             {
-                homeViewModel.weatherEveryThreeHours.collect{state->
-                    when(state)
+                homeViewModel.weatherEveryThreeHours.collect{list->
+                    if(list.isNotEmpty())
                     {
-                        is State.Error -> Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-                        State.Loading -> {}
-                        is State.Success -> {
-                            state.toData()?.let {
-                                mAdapter.submitList(state.toData()?.list)
-                            }
-                        }
+                        homeViewModel.fillDaysWeather(list)
+                        mAdapter.submitList(list)
                     }
                 }
             }
         }
 
-        homeViewModel.setNameAfterGettingDataFromServer.observe(viewLifecycleOwner){
-            if(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
             {
-                sharedViewModel.currentLocation.value?.let {
-                    homeViewModel.setNewLocationName(communicator.getReadableNameFromLocation(
-                        sharedViewModel.currentLocation.value!!
-                    ))
+                homeViewModel.setNameAfterGettingDataFromServer.collect{
+                    if(it)
+                    {
+                        Log.d("Kerolos", "observers: $it")
+                        sharedViewModel.currentLocation.value.let {
+                            homeViewModel.setNewLocationName(communicator.getReadableNameFromLocation(
+                                sharedViewModel.currentLocation.value
+                            ))
+                        }
+                    }
                 }
             }
         }
@@ -172,10 +175,8 @@ class HomeFragment : Fragment() {
         }
 
         sharedViewModel.internetState.observe(viewLifecycleOwner){
-            if(homeViewModel.weatherForLocation.value == null)
-            {
-                checkOnStateToChangeUI()
-            }
+
+            checkOnStateToChangeUI()
         }
     }
 
@@ -216,13 +217,12 @@ class HomeFragment : Fragment() {
             homeViewModel.currentWindSpeed.value = getString(R.string.km_h)
         }
 
-        homeViewModel.getWeatherEveryThreeHours(
-            lat,lon,
+        homeViewModel.updateWeatherBaseOnLocation(
+            Location(lat,lon),
             MainActivity.settingsMeasureUnitsMap.getOrDefault(sharedViewModel.settingsLanguage.value,Constants.ENGLISH_LANGUAGE),
             MainActivity.settingsMeasureUnitsMap.getOrDefault(sharedViewModel.settingsTemperature.value,Constants.STANDARD)
         )
 
-        //homeViewModel.getWeatherForLocation(lat,lon)
     }
 
 

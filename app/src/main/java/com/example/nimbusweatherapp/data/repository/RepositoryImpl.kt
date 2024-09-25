@@ -36,7 +36,15 @@ class RepositoryImpl @Inject constructor(
         emit(State.Loading)
         try {
             val response = remoteDataSource.getWeatherEveryThreeHours(latitude, longitude,language,units)
+
+            val hourlyListResponse = response.body()?.list
             if (response.isSuccessful && response.body() != null) {
+
+                //refresh hourly data
+                hourlyListResponse?.let {
+                    localDataSource.refreshWeatherItemEveryThreeHours(it)
+                }
+
                 emit(State.Success(response.body()!!))
             } else {
                 emit(State.Error(response.message().orEmpty()))
@@ -64,11 +72,15 @@ class RepositoryImpl @Inject constructor(
             val name = nameResponse.body()?.get(0)?.name ?: ""
             var weatherForLocation = response.body()
 
+
             if (response.isSuccessful && response.body() != null
                 && nameResponse.isSuccessful && nameResponse.body() != null
                 && weatherForLocation != null
                 ) {
                 weatherForLocation = weatherForLocation.copy(name = name)
+                //REFRESH data
+                localDataSource.refreshWeatherForLocation(weatherForLocation)
+
                 emit(State.Success(weatherForLocation))
             } else {
                 emit(State.Error(response.message().orEmpty()))
@@ -176,6 +188,10 @@ class RepositoryImpl @Inject constructor(
         localDataSource.deleteWeatherForLocation()
     }
 
+    override suspend fun refreshWeatherForLocation(weatherForLocation: WeatherForLocation) {
+        localDataSource.refreshWeatherForLocation(weatherForLocation)
+    }
+
     override fun getWeatherItemEveryThreeHoursFromLocal(): Flow<List<WeatherItemEveryThreeHours>> {
         return localDataSource.getWeatherItemEveryThreeHours()
     }
@@ -187,6 +203,10 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun deleteAllWeatherItemEveryThreeHours() {
         localDataSource.deleteAllWeatherItemEveryThreeHours()
+    }
+
+    override suspend fun refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>) {
+        localDataSource.refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList)
     }
 
     //shared pref

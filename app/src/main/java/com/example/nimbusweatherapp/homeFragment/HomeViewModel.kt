@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nimbusweatherapp.data.model.DaysWeather
+import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
@@ -19,7 +20,10 @@ import com.example.nimbusweatherapp.utils.capitalizeWord
 import com.example.nimbusweatherapp.utils.convertUnixToDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,18 +35,25 @@ class HomeViewModel @Inject constructor(
 {
 
 
-    private val _weatherEveryThreeHours = MutableStateFlow<State<WeatherEveryThreeHours>>(State.Loading)
-    val weatherEveryThreeHours : StateFlow<State<WeatherEveryThreeHours>> = _weatherEveryThreeHours
+    val weatherEveryThreeHours : StateFlow<List<WeatherItemEveryThreeHours>> = repository.getWeatherItemEveryThreeHoursFromLocal()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList()
+        )
 
-    private val _weatherForLocation = MutableLiveData<WeatherForLocation>()
-    val weatherForLocation : LiveData<WeatherForLocation> = _weatherForLocation
+    val weatherForLocation : StateFlow<List<WeatherForLocation>> = repository.getWeatherForLocationFromLocal().stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        emptyList()
+    )
 
     ///units
     val currentWindSpeed = MutableLiveData("m/s")
 
     //setNewName
-    private val _setNameAfterGettingDataFromServer = MutableLiveData(false)
-    val setNameAfterGettingDataFromServer : LiveData<Boolean> = _setNameAfterGettingDataFromServer
+    private val _setNameAfterGettingDataFromServer = MutableStateFlow(false)
+    val setNameAfterGettingDataFromServer : StateFlow<Boolean> = _setNameAfterGettingDataFromServer
 
 
 
@@ -64,30 +75,55 @@ class HomeViewModel @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error : LiveData<String> = _error
 
+    private val _loading = MutableStateFlow(false)
+    val loading : StateFlow<Boolean> = _loading
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getWeatherEveryThreeHours(latitude: Double, longitude: Double, language: String, units: String) {
+    fun updateWeatherBaseOnLocation(location  : Location, language: String, units: String)
+    {
         viewModelScope.launch {
-            repository.getWeatherEveryThreeHours(latitude, longitude, language, units).collect{state->
-
-                _weatherEveryThreeHours.value = state
-                getWeatherForLocation(latitude, longitude, language, units)
-                _weatherEveryThreeHours.value.toData()?.list?.let { itemEveryThreeHours ->
-                    //delete and insert
-                    //repository.deleteAllWeatherItemEveryThreeHours()
-                    //repository.insertAllWeatherItemEveryThreeHours(itemEveryThreeHours)
-                    //fill days weather
-                    fillDaysWeather(
-                        itemEveryThreeHours
-                    )
+            repository.getWeatherForLocation(location.latitude, location.longitude, language, units).collectLatest {state->
+                when(state)
+                {
+                    is State.Error -> {
+                        _error.value = state.message
+                        _loading.value = false
+                    }
+                    State.Loading -> {
+                        _loading.value = true
+                    }
+                    is State.Success -> {
+                        getWeatherEveryThreeHours(location.latitude, location.longitude, language, units)
+                    }
                 }
-
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun fillDaysWeather(list : List<WeatherItemEveryThreeHours>)
+    fun getWeatherEveryThreeHours(latitude: Double, longitude: Double, language: String, units: String) {
+        viewModelScope.launch {
+            repository.getWeatherEveryThreeHours(latitude, longitude, language, units)
+                .collectLatest { state ->
+
+                    when (state) {
+                        is State.Error -> {
+                            _error.value = state.message
+                            _loading.value = false
+                        }
+                        State.Loading -> {
+                        }
+                        is State.Success -> {
+                            _loading.value = false
+                        }
+                    }
+                }
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun fillDaysWeather(list : List<WeatherItemEveryThreeHours>)
     {
         val format = "EEEE"
         val dayOneIndex = 1
@@ -100,6 +136,7 @@ class HomeViewModel @Inject constructor(
         _dayThree.value = DaysWeather(convertUnixToDay(list[dayThreeIndex].dt.toLong(),format),capitalizeWord(list[dayThreeIndex].weather[0].description),list[dayThreeIndex].main.tempMin.toString(),list[dayTwoIndex].main.tempMax.toString())
         _dayFour.value = DaysWeather(convertUnixToDay(list[dayFourIndex].dt.toLong(),format),capitalizeWord(list[dayFourIndex].weather[0].description),list[dayFourIndex].main.tempMin.toString(),list[dayTwoIndex].main.tempMax.toString())
         _dayFive.value = DaysWeather(convertUnixToDay(list[dayFiveIndex].dt.toLong(),format),capitalizeWord(list[dayFiveIndex].weather[0].description),list[dayFiveIndex].main.tempMin.toString(),list[dayTwoIndex].main.tempMax.toString())
+
     }
 
 
@@ -107,7 +144,7 @@ class HomeViewModel @Inject constructor(
 
 
 
-    private fun getWeatherForLocation(latitude: Double, longitude: Double , language: String, units: String)
+   /* private fun getWeatherForLocation(latitude: Double, longitude: Double , language: String, units: String)
     {
         viewModelScope.launch {
             repository.getWeatherForLocation(latitude, longitude, language, units).collect{
@@ -121,35 +158,40 @@ class HomeViewModel @Inject constructor(
                     }
                     is State.Success -> {
                         _weatherForLocation.value = it.data
-                        //delete and insert
-                        repository.deleteWeatherForLocation()
-                        repository.insertWeatherForLocation(it.data)
 
                         _setNameAfterGettingDataFromServer.value = true
                         addWindSpeedUnit(currentWindSpeed.value ?: "m/s")
+
+                        //delete and insert
+                        repository.deleteWeatherForLocation()
+                        repository.insertWeatherForLocation(it.data)
                     }
                 }
             }
         }
-    }
+    }*/
 
-    private fun addWindSpeedUnit(unit : String)
+    /*private fun addWindSpeedUnit(unit : String)
     {
-        Log.d("Kerolos", "addWindSpeedUnit: $unit")
-        Log.d("Kerolos", "addWindSpeedUnit: ${_weatherForLocation.value?.wind?.speed}")
-        var currentSpeed = _weatherForLocation.value?.wind?.speed?.toDouble() ?: 0.0
-        /*if(unit == "km/h" || unit == "كم/ساعة")
+        try {
+            var currentSpeed = _weatherForLocation.value?.wind?.speed?.toDouble() ?: 0.0
+            if(unit == "km/h" || unit == "كم/ساعة")
+            {
+                currentSpeed *= 3.6
+            }
+
+            _weatherForLocation.value = _weatherForLocation.value?.copy(
+                wind = _weatherForLocation.value?.wind?.copy(speed = "${currentSpeed.toInt()} $unit") ?: Wind(0, 0.0, "m/s")
+            )
+        }catch (e : NumberFormatException)
         {
-            currentSpeed *= 3.6
+            Log.d("Kerolos", "addWindSpeedUnit: ")
         }
 
-        _weatherForLocation.value = _weatherForLocation.value?.copy(
-            wind = _weatherForLocation.value?.wind?.copy(speed = "${currentSpeed.toInt()} $unit") ?: Wind(0, 0.0, "m/s")
-        )*/
-    }
+    }*/
 
     fun setNewLocationName(newName : String)
     {
-        _weatherForLocation.value = _weatherForLocation.value?.copy(name = "${newName}${_weatherForLocation.value?.name}")
+        //_weatherForLocation.value = _weatherForLocation.value?.copy(name = "${newName}${_weatherForLocation.value?.name}")
     }
 }

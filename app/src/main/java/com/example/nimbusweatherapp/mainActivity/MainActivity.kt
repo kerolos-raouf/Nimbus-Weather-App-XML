@@ -297,13 +297,7 @@ class MainActivity : AppCompatActivity() , Communicator {
 
             resources.updateConfiguration(config,resources.displayMetrics)
 
-            //val newConfigurationContext = createConfigurationContext(config)
-
-            //resources.updateConfiguration(newConfigurationContext.resources.configuration,newConfigurationContext.resources.displayMetrics)
-
             recreate()
-
-            Log.d("Kerolos", "checkAndChangLocality: changed")
 
         }
     }

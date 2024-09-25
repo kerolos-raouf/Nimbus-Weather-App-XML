@@ -63,11 +63,13 @@ interface Repository
     fun getWeatherForLocationFromLocal() : Flow<List<WeatherForLocation>>
     suspend fun insertWeatherForLocation(weatherForLocation: WeatherForLocation)
     suspend fun deleteWeatherForLocation()
+    suspend fun refreshWeatherForLocation(weatherForLocation: WeatherForLocation)
 
     //weather item every three hours
     fun getWeatherItemEveryThreeHoursFromLocal() : Flow<List<WeatherItemEveryThreeHours>>
     suspend fun insertAllWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>)
     suspend fun deleteAllWeatherItemEveryThreeHours()
+    suspend fun refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>)
 
 
     //shared preferences

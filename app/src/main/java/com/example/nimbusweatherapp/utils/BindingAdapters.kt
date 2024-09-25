@@ -53,9 +53,9 @@ fun showInternetConnectionLayout(view: View, show: Int)
 
 
 @BindingAdapter("app:showProgressBar")
-fun <T>showProgressBar(view: View, state: State<T>)
+fun showProgressBar(view: View, show: Boolean)
 {
-    if(state is State.Loading)
+    if(show)
     {
         view.visibility = View.VISIBLE
     }
