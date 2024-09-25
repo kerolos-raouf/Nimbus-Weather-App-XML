@@ -30,20 +30,6 @@ class FavouriteViewModel @Inject constructor(
     private val _message = MutableStateFlow("")
     val message : StateFlow<String> = _message
 
-    init {
-        getFavouriteLocations()
-    }
-
-    fun getFavouriteLocations() {
-        viewModelScope.launch {
-            repository.getAllLocations().catch {
-                _message.value = it.message.toString()
-            }.collect{locations->
-                _favouriteLocations.value = locations
-                Log.d("Kerolos", "getFavouriteLocations: ${locations.size}")
-            }
-        }
-    }
 
     fun deleteFavouriteLocation(location: FavouriteLocation)
     {

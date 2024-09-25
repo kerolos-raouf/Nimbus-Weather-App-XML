@@ -19,6 +19,11 @@
         android:background="@drawable/background"
         tools:context=".homeFragment.HomeFragment">
 
+        <ImageView
+            android:id="@+id/homeBackgroundAnimation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/homeFAB"
             style="@style/CustomFloatingActionButton"

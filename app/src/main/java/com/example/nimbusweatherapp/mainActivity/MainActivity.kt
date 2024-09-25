@@ -318,6 +318,4 @@ class MainActivity : AppCompatActivity() , Communicator {
 
 
 
-
-
 }
