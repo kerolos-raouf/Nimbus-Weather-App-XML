@@ -9,6 +9,7 @@ import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
+import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
 import com.example.nimbusweatherapp.utils.State
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -78,6 +79,8 @@ class RepositoryImpl @Inject constructor(
     }.timeout(10.seconds).catch {
         emit(State.Error("Time out"))
     }
+
+
 
     @OptIn(FlowPreview::class)
     override fun getWeatherByCountryName(
@@ -158,6 +161,32 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun deleteAlert(alert: Alert) {
         localDataSource.deleteAlert(alert)
+    }
+
+    ////weather for location
+    override fun getWeatherForLocationFromLocal(): Flow<List<WeatherForLocation>> {
+        return localDataSource.getWeatherForLocation()
+    }
+
+    override suspend fun insertWeatherForLocation(weatherForLocation: WeatherForLocation) {
+        localDataSource.insertWeatherForLocation(weatherForLocation)
+    }
+
+    override suspend fun deleteWeatherForLocation() {
+        localDataSource.deleteWeatherForLocation()
+    }
+
+    override fun getWeatherItemEveryThreeHoursFromLocal(): Flow<List<WeatherItemEveryThreeHours>> {
+        return localDataSource.getWeatherItemEveryThreeHours()
+    }
+
+
+    override suspend fun insertAllWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>) {
+        localDataSource.insertAllWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList)
+    }
+
+    override suspend fun deleteAllWeatherItemEveryThreeHours() {
+        localDataSource.deleteAllWeatherItemEveryThreeHours()
     }
 
     //shared pref

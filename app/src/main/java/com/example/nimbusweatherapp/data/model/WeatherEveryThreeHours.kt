@@ -3,6 +3,7 @@ package com.example.nimbusweatherapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
+
 data class WeatherEveryThreeHours(
     @SerializedName("city")
     val city: City,

@@ -1,6 +1,7 @@
 package com.example.nimbusweatherapp.homeFragment
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -72,6 +73,10 @@ class HomeViewModel @Inject constructor(
                 _weatherEveryThreeHours.value = state
                 getWeatherForLocation(latitude, longitude, language, units)
                 _weatherEveryThreeHours.value.toData()?.list?.let { itemEveryThreeHours ->
+                    //delete and insert
+                    //repository.deleteAllWeatherItemEveryThreeHours()
+                    //repository.insertAllWeatherItemEveryThreeHours(itemEveryThreeHours)
+                    //fill days weather
                     fillDaysWeather(
                         itemEveryThreeHours
                     )
@@ -116,6 +121,9 @@ class HomeViewModel @Inject constructor(
                     }
                     is State.Success -> {
                         _weatherForLocation.value = it.data
+                        //delete and insert
+                        repository.deleteWeatherForLocation()
+                        repository.insertWeatherForLocation(it.data)
 
                         _setNameAfterGettingDataFromServer.value = true
                         addWindSpeedUnit(currentWindSpeed.value ?: "m/s")
@@ -127,15 +135,17 @@ class HomeViewModel @Inject constructor(
 
     private fun addWindSpeedUnit(unit : String)
     {
+        Log.d("Kerolos", "addWindSpeedUnit: $unit")
+        Log.d("Kerolos", "addWindSpeedUnit: ${_weatherForLocation.value?.wind?.speed}")
         var currentSpeed = _weatherForLocation.value?.wind?.speed?.toDouble() ?: 0.0
-        if(unit == "km/h" || unit == "كم/ساعة")
+        /*if(unit == "km/h" || unit == "كم/ساعة")
         {
             currentSpeed *= 3.6
         }
 
         _weatherForLocation.value = _weatherForLocation.value?.copy(
             wind = _weatherForLocation.value?.wind?.copy(speed = "${currentSpeed.toInt()} $unit") ?: Wind(0, 0.0, "m/s")
-        )
+        )*/
     }
 
     fun setNewLocationName(newName : String)

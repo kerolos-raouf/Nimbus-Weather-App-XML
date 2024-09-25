@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.example.nimbusweatherapp.data.contracts.LocalDataSource
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.contracts.SettingsHandler
+import com.example.nimbusweatherapp.data.database.LocationDatabase
 import com.example.nimbusweatherapp.data.database.dao.FavouriteLocationDao
 import com.example.nimbusweatherapp.data.database.LocationDatabaseHandler
 import com.example.nimbusweatherapp.data.database.dao.AlertsDao
@@ -29,7 +30,7 @@ object RepositoryModule
 
     @Provides
     @Singleton
-    fun provideLocalDataSource(favouriteLocationDao: FavouriteLocationDao,alertsDao: AlertsDao) : LocalDataSource = LocationDatabaseHandler(favouriteLocationDao,alertsDao)
+    fun provideLocalDataSource(localDataSource: LocationDatabase) : LocalDataSource = LocationDatabaseHandler(localDataSource)
 
 
     @Provides
