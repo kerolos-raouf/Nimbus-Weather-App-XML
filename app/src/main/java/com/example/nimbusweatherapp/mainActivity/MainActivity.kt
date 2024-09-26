@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() , Communicator {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
-            if(destination.id == R.id.mapFragment)
+            if(destination.id == R.id.mapFragment || destination.id == R.id.detailsFragment)
             {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }else

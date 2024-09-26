@@ -161,7 +161,8 @@ class HomeFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED)
             {
                 sharedViewModel.currentLocation.collect{newLocation->
-                    if(sharedViewModel.internetState.value == ConnectivityObserver.InternetState.AVAILABLE)
+                    if(sharedViewModel.internetState.value == ConnectivityObserver.InternetState.AVAILABLE
+                        && (homeViewModel.weatherForLocation.value.isEmpty() || sharedViewModel.getTheLocationAgain.value == true))
                     {
                         doCallsOnGetLocation(newLocation.latitude,newLocation.longitude)
                     }
@@ -246,7 +247,6 @@ class HomeFragment : Fragment() {
         {
             communicator.getCurrentLocation()
         }
-
     }
 
 
@@ -277,6 +277,7 @@ class HomeFragment : Fragment() {
     {
         if(communicator.isGPSEnabled())
         {
+            sharedViewModel.getTheLocationAgain.value = true
             communicator.getCurrentLocation()
         }else
         {

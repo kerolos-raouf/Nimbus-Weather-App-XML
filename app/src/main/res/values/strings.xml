@@ -42,13 +42,18 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="are_you_sure_about_deleting_this_item">Are you sure about deleting this item.</string>
-    <string name="there_are_no_locations_go_and_add_some">There are no locations, go and add some.</string>
+    <string name="there_are_no_locations_go_and_add_some">No Locations.</string>
     <string name="details">Details</string>
-    <string name="there_are_no_alerts">There are no alerts.</string>
+    <string name="there_are_no_alerts">No Alerts.</string>
     <string name="dismiss">Dismiss</string>
     <string name="let_s_see_the_weather">Let\'s see the weather</string>
     <string name="add_to_favourite">add to favourite</string>
     <string name="search_in_home">Search in Home</string>
+    <string name="notification">Notification</string>
+    <string name="alarm_sound">Alarm Sound</string>
+    <string name="ok">OK</string>
+    <string name="set_alert_type">Set Alert Type</string>
+    <string name="you_can_not_set_time_in_past">You can\'t set an alarm in the past.</string>
 
 
     <string-array name="countries">

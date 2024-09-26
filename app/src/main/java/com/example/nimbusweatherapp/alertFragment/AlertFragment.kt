@@ -28,6 +28,8 @@ import com.example.nimbusweatherapp.databinding.FragmentAlertBinding
 import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
 import com.example.nimbusweatherapp.utils.Constants
+import com.example.nimbusweatherapp.utils.customAlertDialog.CustomAlertDialog
+import com.example.nimbusweatherapp.utils.customAlertDialog.ICustomAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -55,6 +57,9 @@ class AlertFragment : Fragment() {
          requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 
+    //custom alert dialog
+    private lateinit var customAlertDialog : CustomAlertDialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,11 +77,21 @@ class AlertFragment : Fragment() {
 
     private fun initViews()
     {
+        customAlertDialog = CustomAlertDialog(requireActivity())
 
         alertAdapter = AlertRecyclerViewAdapter(object : AlertItemListener{
             override fun onDeleteButtonClicked(alert: Alert) {
-                alertViewModel.deleteAlert(alert)
-                alarmManager.cancel(getPendingIntent(alert))
+                customAlertDialog.showAlertDialog(
+                    message = requireActivity().getString(R.string.are_you_sure_about_deleting_this_item),
+                    actionText = requireActivity().getString(R.string.delete),
+                    buttonBackground = requireContext().getColor(R.color.red),
+                    object : ICustomAlertDialog {
+                        override fun onActionClicked() {
+                            alertViewModel.deleteAlert(alert)
+                            alarmManager.cancel(getPendingIntent(alert))
+                        }
+                    }
+                )
             }
         })
         binding.alertRecyclerView.adapter = alertAdapter
@@ -144,35 +159,35 @@ class AlertFragment : Fragment() {
 
 
     private fun showAlertTypeDialog(time : Long) {
-        val options = arrayOf("Notification", "Alarm Sound")
+        val options = arrayOf(requireContext().getString(R.string.notification), requireContext().getString(R.string.alarm_sound))
 
 
         var selectedOption = options[0]
 
 
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Choose Alert Type")
+        builder.setTitle(requireContext().getString(R.string.set_alert_type))
 
         builder.setSingleChoiceItems(options, 0) { _, which ->
             selectedOption = options[which]
         }
 
 
-        builder.setPositiveButton("OK") { dialog, _ ->
+        builder.setPositiveButton(requireContext().getString(R.string.ok)) { dialog, _ ->
             dialog.dismiss()
 
             when (selectedOption) {
-                "Notification" -> {
+                requireContext().getString(R.string.notification) -> {
                    setAlertTime(Alert(time,AlertType.Notification))
                 }
-                "Alarm Sound" -> {
+                requireContext().getString(R.string.alarm_sound) -> {
                     setAlertTime(Alert(time,AlertType.Alarm))
                 }
             }
         }
 
 
-        builder.setNegativeButton("Cancel") { dialog, _ ->
+        builder.setNegativeButton(requireContext().getString(R.string.cancel)) { dialog, _ ->
             dialog.dismiss()
         }
 
@@ -195,7 +210,7 @@ class AlertFragment : Fragment() {
             Toast.makeText(requireContext(),"Schedule exact alarm permission not granted.",Toast.LENGTH_SHORT).show()
         }else if(alert.time < System.currentTimeMillis())
         {
-            Toast.makeText(requireContext(),"You can't set an alarm in the past.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),requireContext().getString(R.string.you_can_not_set_time_in_past),Toast.LENGTH_SHORT).show()
         }
         else
         {

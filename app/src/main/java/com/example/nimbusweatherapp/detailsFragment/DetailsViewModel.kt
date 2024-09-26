@@ -70,9 +70,9 @@ class DetailsViewModel @Inject constructor(
 
                 getWeatherForLocation(latitude, longitude, language, units)
                 _weatherEveryThreeHours.value.toData()?.list?.let { itemEveryThreeHours ->
-                    /*fillDaysWeather(
+                    fillDaysWeather(
                         itemEveryThreeHours
-                    )*/
+                    )
                 }
             }
         }
