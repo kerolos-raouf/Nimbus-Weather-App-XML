@@ -216,7 +216,7 @@ class AlertFragment : Fragment() {
         {
             alertViewModel.addAlert(alert)
             setUpTheAlarm(alert)
-            Toast.makeText(requireContext(),"Alarm was set successfully.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),requireContext().getString(R.string.alarm_was_sat_successfully),Toast.LENGTH_SHORT).show()
         }
 
     }

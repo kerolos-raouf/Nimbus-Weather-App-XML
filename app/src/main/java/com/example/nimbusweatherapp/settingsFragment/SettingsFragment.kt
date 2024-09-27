@@ -82,39 +82,6 @@ class SettingsFragment : Fragment() {
         animator.start()
     }
 
-    private fun moveTheCloudsFromLeftToRight(view: View)
-    {
-        val screenWidth = resources.displayMetrics.widthPixels
-
-        val moveRight = ObjectAnimator.ofFloat(view, "translationX", 0f, (screenWidth - view.width).toFloat())
-        moveRight.duration = 10000
-
-        val moveLeft = ObjectAnimator.ofFloat(view, "translationX", (screenWidth - view.width).toFloat(),0f)
-        moveRight.duration = 10000
-
-        val animatorSet = AnimatorSet()
-        animatorSet.playSequentially(moveLeft, moveRight)
-        animatorSet.startDelay = 500
-        animatorSet.start()
-
-        animatorSet.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animator) {
-                moveTheCloudsFromRightToLeft(view)
-            }
-
-            override fun onAnimationCancel(animation: Animator) {
-
-            }
-
-            override fun onAnimationRepeat(animation: Animator) {
-
-            }
-        })
-    }
 
     private fun rotateView(view : View){
         val animator = ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)

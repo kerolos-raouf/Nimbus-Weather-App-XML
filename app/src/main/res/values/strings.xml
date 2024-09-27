@@ -46,7 +46,7 @@
     <string name="details">Details</string>
     <string name="there_are_no_alerts">No Alerts.</string>
     <string name="dismiss">Dismiss</string>
-    <string name="let_s_see_the_weather">Let\'s see the weather</string>
+    <string name="let_s_see_the_weather">Let\'s check the weather</string>
     <string name="add_to_favourite">add to favourite</string>
     <string name="search_in_home">Search in Home</string>
     <string name="notification">Notification</string>
@@ -55,6 +55,7 @@
     <string name="set_alert_type">Set Alert Type</string>
     <string name="you_can_not_set_time_in_past">You can\'t set an alarm in the past.</string>
     <string name="_0_2">0.2</string>
+    <string name="alarm_was_sat_successfully">Alarm was sat successfully.</string>
 
 
     <string-array name="countries">

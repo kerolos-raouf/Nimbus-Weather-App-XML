@@ -59,7 +59,7 @@ object Constants
     ////format
     const val DATE_FORMAT_FOR_HOURLY_WEATHER = "EEEE"
     const val DATE_FORMAT_FOR_HOME_FRAGMENT_WEATHER = "EEEE, dd-MM-yyyy, hh:mm a"
-    const val DATE_FORMAT_FOR_ALERT = "EEEE \n dd-MM-yyyy \n hh:mm a"
+    const val DATE_FORMAT_FOR_ALERT = "EEEE \n dd/MM/yyyy \n hh:mm a"
 
 
     //map fragment
