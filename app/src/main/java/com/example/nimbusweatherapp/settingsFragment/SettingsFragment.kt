@@ -1,10 +1,12 @@
 package com.example.nimbusweatherapp.settingsFragment
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
@@ -45,7 +47,23 @@ class SettingsFragment : Fragment() {
 
 
         init()
+        animateViews()
         setListeners()
+    }
+
+    private fun animateViews()
+    {
+
+        rotateView(binding.settingsImage)
+    }
+
+    private fun rotateView(view : View){
+        val animator = ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
+        animator.duration = 10000
+        animator.repeatCount = ObjectAnimator.INFINITE
+        animator.repeatMode = ObjectAnimator.RESTART
+        animator.interpolator = LinearInterpolator()
+        animator.start()
     }
 
 

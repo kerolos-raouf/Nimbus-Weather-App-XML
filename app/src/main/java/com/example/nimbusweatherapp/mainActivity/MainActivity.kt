@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
@@ -35,6 +38,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -96,18 +100,23 @@ class MainActivity : AppCompatActivity() , Communicator {
 
         }
 
-        sharedViewModel.observeOnInternetState()
+        //sharedViewModel.observeOnInternetState()
     }
 
     private fun observers()
     {
-        sharedViewModel.internetState.observe(this){state->
-            if(state == ConnectivityObserver.InternetState.AVAILABLE)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
             {
-                Snackbar.make(binding.root,"Internet Connected",Snackbar.LENGTH_SHORT).show()
-            }else
-            {
-                Snackbar.make(binding.root,"Connection Lost",Snackbar.LENGTH_SHORT).show()
+                sharedViewModel.internetState.collect{state->
+                    if(state == ConnectivityObserver.InternetState.AVAILABLE)
+                    {
+                        Snackbar.make(binding.root,"Internet Connected",Snackbar.LENGTH_SHORT).show()
+                    }else
+                    {
+                        Snackbar.make(binding.root,"Connection Lost",Snackbar.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
 

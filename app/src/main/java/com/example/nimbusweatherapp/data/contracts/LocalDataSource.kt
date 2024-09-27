@@ -31,6 +31,8 @@ interface LocalDataSource {
 
     suspend fun refreshWeatherForLocation(weatherForLocation: WeatherForLocation)
 
+    suspend fun getWeatherForLocationCount() : Int
+
     //weather item every three hours
     fun getWeatherItemEveryThreeHours() : Flow<List<WeatherItemEveryThreeHours>>
 

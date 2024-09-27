@@ -192,6 +192,10 @@ class RepositoryImpl @Inject constructor(
         localDataSource.refreshWeatherForLocation(weatherForLocation)
     }
 
+    override suspend fun getWeatherForLocationCount(): Int {
+        return localDataSource.getWeatherForLocationCount()
+    }
+
     override fun getWeatherItemEveryThreeHoursFromLocal(): Flow<List<WeatherItemEveryThreeHours>> {
         return localDataSource.getWeatherItemEveryThreeHours()
     }

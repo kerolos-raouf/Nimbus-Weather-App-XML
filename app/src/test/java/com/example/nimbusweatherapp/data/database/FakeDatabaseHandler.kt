@@ -1,78 +1,76 @@
 package com.example.nimbusweatherapp.data.database
 
-import android.util.Log
 import com.example.nimbusweatherapp.data.contracts.LocalDataSource
-import com.example.nimbusweatherapp.data.database.dao.AlertsDao
-import com.example.nimbusweatherapp.data.database.dao.FavouriteLocationDao
 import com.example.nimbusweatherapp.data.model.Alert
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
 
-class LocationDatabaseHandler @Inject constructor(
-    private val locationDatabase: LocationDatabase
-) : LocalDataSource{
+class FakeDatabaseHandler : LocalDataSource {
+
+    val favouriteLocations = MutableStateFlow(emptyList<FavouriteLocation>())
+
     override fun getAllLocations(): Flow<List<FavouriteLocation>> {
-        return locationDatabase.favouriteLocationDao().getAllFavouriteLocations()
+        return favouriteLocations
     }
 
     override suspend fun insertLocation(favouriteLocation: FavouriteLocation) {
-        locationDatabase.favouriteLocationDao().insertFavouriteLocation(favouriteLocation)
+        val currentList = favouriteLocations.value.toMutableList()
+        currentList.add(favouriteLocation)
+        favouriteLocations.value = currentList
     }
 
     override suspend fun deleteLocation(favouriteLocation: FavouriteLocation) {
-        locationDatabase.favouriteLocationDao().deleteFavouriteLocation(favouriteLocation)
+        val currentList = favouriteLocations.value.toMutableList()
+        currentList.remove(favouriteLocation)
+        favouriteLocations.value = currentList
     }
 
     override fun getAllAlerts(): Flow<List<Alert>> {
-        return locationDatabase.alertsDao().getAlerts()
+        TODO("Not yet implemented")
     }
 
     override suspend fun insertAlert(alert: Alert) {
-        locationDatabase.alertsDao().insertAlert(alert)
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteAlert(alert: Alert) {
-        locationDatabase.alertsDao().deleteAlert(alert)
+        TODO("Not yet implemented")
     }
 
     override fun getWeatherForLocation(): Flow<List<WeatherForLocation>> {
-        return locationDatabase.weatherDao().getWeatherForLocation()
+        TODO("Not yet implemented")
     }
 
     override suspend fun insertWeatherForLocation(weatherForLocation: WeatherForLocation) {
-        locationDatabase.weatherDao().insertWeatherForLocation(weatherForLocation)
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteWeatherForLocation() {
-        locationDatabase.weatherDao().deleteWeatherForLocation()
+        TODO("Not yet implemented")
     }
 
     override suspend fun refreshWeatherForLocation(weatherForLocation: WeatherForLocation) {
-        locationDatabase.weatherDao().refreshWeatherForLocation(weatherForLocation)
-    }
-
-    override suspend fun getWeatherForLocationCount(): Int {
-        return locationDatabase.weatherDao().getWeatherForLocationCount()
+        TODO("Not yet implemented")
     }
 
     override fun getWeatherItemEveryThreeHours(): Flow<List<WeatherItemEveryThreeHours>> {
-        return locationDatabase.weatherDao().getWeatherItemEveryThreeHours()
+        TODO("Not yet implemented")
     }
-
 
     override suspend fun insertAllWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>) {
-        locationDatabase.weatherDao().insertAllWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList)
+        TODO("Not yet implemented")
     }
 
-
     override suspend fun deleteAllWeatherItemEveryThreeHours() {
-        locationDatabase.weatherDao().deleteAllWeatherItemEveryThreeHours()
+        TODO("Not yet implemented")
     }
 
     override suspend fun refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>) {
-        locationDatabase.weatherDao().refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList)
+
     }
 }

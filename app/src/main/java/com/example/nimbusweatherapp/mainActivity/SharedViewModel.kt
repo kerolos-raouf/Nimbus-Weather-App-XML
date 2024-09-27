@@ -1,6 +1,5 @@
 package com.example.nimbusweatherapp.mainActivity
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,14 +10,16 @@ import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.data.repository.Repository
 import com.example.nimbusweatherapp.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val repository: Repository,
-    private val internetStateObserver: InternetStateObserver
+    private val connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
 
@@ -39,18 +40,22 @@ class SharedViewModel @Inject constructor(
 
     //location information for egypt by default
     val currentLocation = MutableStateFlow(Location(30.8025,26.8206))
-    val getTheLocationAgain = MutableLiveData(true)
+    val getTheLocationAgain = MutableLiveData(false)
 
 
 
     ///internet state
-    private val _internetState = MutableLiveData<ConnectivityObserver.InternetState>()
-    val internetState : LiveData<ConnectivityObserver.InternetState> = _internetState
+    private val _internetState = MutableStateFlow(ConnectivityObserver.InternetState.Unavailable)
+    val internetState : StateFlow<ConnectivityObserver.InternetState> = _internetState
 
-    fun observeOnInternetState()
+    init {
+        observeOnInternetState()
+    }
+
+    private fun observeOnInternetState()
     {
-        viewModelScope.launch {
-            internetStateObserver.observer().collect{
+        viewModelScope.launch(Dispatchers.IO) {
+            connectivityObserver.observer().collect{
                 _internetState.value = it
             }
         }

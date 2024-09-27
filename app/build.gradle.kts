@@ -74,6 +74,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //testing
+    testImplementation("app.cash.turbine:turbine:0.7.0")
+    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+
 
 
 ////more features in the activity like lazy initialization

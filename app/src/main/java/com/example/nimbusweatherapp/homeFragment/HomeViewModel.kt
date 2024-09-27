@@ -34,7 +34,6 @@ class HomeViewModel @Inject constructor(
 ): ViewModel()
 {
 
-
     val weatherEveryThreeHours : StateFlow<List<WeatherItemEveryThreeHours>> = repository.getWeatherItemEveryThreeHoursFromLocal()
         .stateIn(
             viewModelScope,
@@ -77,6 +76,12 @@ class HomeViewModel @Inject constructor(
 
     private val _loading = MutableStateFlow(false)
     val loading : StateFlow<Boolean> = _loading
+
+
+    suspend fun getWeatherForLocationCount() : Int
+    {
+        return repository.getWeatherForLocationCount()
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateWeatherBaseOnLocation(location  : Location, language: String, units: String)
@@ -140,55 +145,6 @@ class HomeViewModel @Inject constructor(
     }
 
 
-
-
-
-
-   /* private fun getWeatherForLocation(latitude: Double, longitude: Double , language: String, units: String)
-    {
-        viewModelScope.launch {
-            repository.getWeatherForLocation(latitude, longitude, language, units).collect{
-                when(it)
-                {
-                    is State.Error -> {
-                        _error.value = it.message
-                    }
-                    State.Loading -> {
-
-                    }
-                    is State.Success -> {
-                        _weatherForLocation.value = it.data
-
-                        _setNameAfterGettingDataFromServer.value = true
-                        addWindSpeedUnit(currentWindSpeed.value ?: "m/s")
-
-                        //delete and insert
-                        repository.deleteWeatherForLocation()
-                        repository.insertWeatherForLocation(it.data)
-                    }
-                }
-            }
-        }
-    }*/
-
-    /*private fun addWindSpeedUnit(unit : String)
-    {
-        try {
-            var currentSpeed = _weatherForLocation.value?.wind?.speed?.toDouble() ?: 0.0
-            if(unit == "km/h" || unit == "كم/ساعة")
-            {
-                currentSpeed *= 3.6
-            }
-
-            _weatherForLocation.value = _weatherForLocation.value?.copy(
-                wind = _weatherForLocation.value?.wind?.copy(speed = "${currentSpeed.toInt()} $unit") ?: Wind(0, 0.0, "m/s")
-            )
-        }catch (e : NumberFormatException)
-        {
-            Log.d("Kerolos", "addWindSpeedUnit: ")
-        }
-
-    }*/
 
     fun setNewLocationName(newName : String)
     {

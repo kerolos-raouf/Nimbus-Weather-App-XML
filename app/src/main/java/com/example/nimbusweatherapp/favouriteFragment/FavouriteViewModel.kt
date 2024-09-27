@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,6 @@ class FavouriteViewModel @Inject constructor(
     private val repository: Repository,
 ) : ViewModel() {
 
-    private val _favouriteLocations = MutableLiveData<List<FavouriteLocation>>(emptyList())
     val favouriteLocations : StateFlow<List<FavouriteLocation>> = repository.getAllLocations().stateIn(
         scope = viewModelScope,
         initialValue = emptyList(),
@@ -33,7 +33,7 @@ class FavouriteViewModel @Inject constructor(
 
     fun deleteFavouriteLocation(location: FavouriteLocation)
     {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO){
             repository.deleteFavouriteLocation(location)
             _message.value = "Location Deleted Successfully"
         }

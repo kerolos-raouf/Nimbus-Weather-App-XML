@@ -33,7 +33,9 @@ import com.example.nimbusweatherapp.utils.customAlertDialog.CustomAlertDialog
 import com.example.nimbusweatherapp.utils.customAlertDialog.ICustomAlertDialog
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -162,7 +164,7 @@ class HomeFragment : Fragment() {
             {
                 sharedViewModel.currentLocation.collect{newLocation->
                     if(sharedViewModel.internetState.value == ConnectivityObserver.InternetState.AVAILABLE
-                        && (homeViewModel.weatherForLocation.value.isEmpty() || sharedViewModel.getTheLocationAgain.value == true))
+                        && (homeViewModel.getWeatherForLocationCount() == 0 || sharedViewModel.getTheLocationAgain.value == true))
                     {
                         doCallsOnGetLocation(newLocation.latitude,newLocation.longitude)
                     }
@@ -215,9 +217,15 @@ class HomeFragment : Fragment() {
             }
         }
 
-        sharedViewModel.internetState.observe(viewLifecycleOwner){
-            checkOnStateToChangeUI()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
+            {
+                sharedViewModel.internetState.collect{state->
+                    checkOnStateToChangeUI()
+                }
+            }
         }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

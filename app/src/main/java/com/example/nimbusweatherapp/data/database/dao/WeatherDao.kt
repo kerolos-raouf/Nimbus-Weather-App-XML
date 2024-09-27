@@ -25,6 +25,9 @@ interface WeatherDao {
     @Query("DELETE FROM WeatherForLocation")
     suspend fun deleteWeatherForLocation()
 
+    @Query("SELECT COUNT(*) FROM WeatherForLocation")
+    suspend fun getWeatherForLocationCount(): Int
+
     @Transaction
     suspend fun refreshWeatherForLocation(weatherForLocation: WeatherForLocation) {
         deleteWeatherForLocation()

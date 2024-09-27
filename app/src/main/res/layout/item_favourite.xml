@@ -71,7 +71,7 @@
                     android:fontFamily="@font/sf_semi_bold"
                     android:gravity="center"
                     tools:text="Alexandria - Egypt"
-                    app:setTextFromViewModel="@{favouriteItem.locationName}"
+                    app:setCountryName="@{favouriteItem.locationName}"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"

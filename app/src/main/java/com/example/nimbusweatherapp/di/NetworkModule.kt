@@ -2,6 +2,7 @@ package com.example.nimbusweatherapp.di
 
 import android.content.Context
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
+import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
 import com.example.nimbusweatherapp.data.internetStateObserver.InternetStateObserver
 import com.example.nimbusweatherapp.data.network.NetworkApi
 import com.example.nimbusweatherapp.data.network.NetworkHandler
@@ -35,6 +36,6 @@ object NetworkModule
 
     @Provides
     @Singleton
-    fun provideInternetStateObserver(@ApplicationContext context : Context) = InternetStateObserver(context)
+    fun provideInternetStateObserver(@ApplicationContext context : Context) : ConnectivityObserver = InternetStateObserver(context)
 
 }

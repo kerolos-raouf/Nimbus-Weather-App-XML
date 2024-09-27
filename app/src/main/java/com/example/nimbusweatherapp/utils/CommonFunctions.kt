@@ -69,3 +69,16 @@ fun parseIntegerIntoArabic(number : String) : String
         .replace("9","٩")
         .replace("0","٠")
 }
+
+
+fun getNumbersFromString(number : String) : String
+{
+    val temp = "0"
+    number.forEach { num ->
+        if(num.isDigit() || num == '.')
+        {
+            temp.plus(num)
+        }
+    }
+    return  temp
+}

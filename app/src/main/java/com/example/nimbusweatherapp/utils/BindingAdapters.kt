@@ -2,10 +2,12 @@ package com.example.nimbusweatherapp.utils
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.text.isDigitsOnly
 import androidx.databinding.BindingAdapter
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.DaysWeather
@@ -158,13 +160,34 @@ fun setHumidity(view: TextView, weatherForLocation : WeatherForLocation?)
 @BindingAdapter("app:setTextFromViewModel")
 fun setTextFromViewModel(view: TextView, value : String?)
 {
-    value?.let {
+    if(!value.isNullOrEmpty() && value != "null")
+    {
         var temp = value
+        var unit = view.context.getString(R.string.m_s)
         if(view.context.resources.configuration.locales.get(0).language == Constants.ARABIC_LANGUAGE)
         {
             temp = parseIntegerIntoArabic(temp)
         }
-        view.text = temp//"${value.wind.speed} ${view.context.getString(R.string.m_s)}"
+        val sharedPrefUnit = view.context.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCE_NAME,Context.MODE_PRIVATE)
+            .getString(Constants.WIND_SPEED_KEY,Constants.METER_PER_SECOND)
+        if(sharedPrefUnit == Constants.KILOMETER_PER_HOUR || sharedPrefUnit == Constants.KILOMETER_PER_HOUR_ARABIC)
+        {
+            unit = view.context.getString(R.string.km_h)
+            if(temp.toFloatOrNull() != null)
+            {
+                temp = ("%.2f".format(temp.toFloat() * 3.6))
+            }
+        }
+
+        view.text = "$temp $unit"//"${value.wind.speed} ${view.context.getString(R.string.m_s)}"
+    }
+}
+
+@BindingAdapter("app:setCountryName")
+fun setCountryName(view: TextView, value : String?)
+{
+    value?.let {
+        view.text = value
     }
 }
 
