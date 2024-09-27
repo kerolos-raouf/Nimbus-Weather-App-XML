@@ -1,5 +1,7 @@
 package com.example.nimbusweatherapp.settingsFragment
 
+import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -55,8 +57,63 @@ class SettingsFragment : Fragment() {
 
     private fun animateViews()
     {
-
         rotateView(binding.settingsImage)
+        moveTheCloudsFromRightToLeft(binding.settingsCloud2,true)
+        moveTheCloudsFromRightToLeft(binding.settingsCloud1,false)
+    }
+
+    private fun moveTheCloudsFromRightToLeft(view: View,fromLeft : Boolean = true)
+    {
+
+        val screenWidth = resources.displayMetrics.widthPixels.toFloat()
+
+        var animator = ObjectAnimator.ofFloat(view, "translationX", 0f, screenWidth)
+
+        if (!fromLeft)
+        {
+            animator = ObjectAnimator.ofFloat(view, "translationX", 0f, -screenWidth)
+        }
+
+        animator.duration = 10000
+        animator.interpolator = LinearInterpolator()
+        animator.repeatCount = ObjectAnimator.INFINITE
+        animator.repeatMode = ObjectAnimator.REVERSE
+
+        animator.start()
+    }
+
+    private fun moveTheCloudsFromLeftToRight(view: View)
+    {
+        val screenWidth = resources.displayMetrics.widthPixels
+
+        val moveRight = ObjectAnimator.ofFloat(view, "translationX", 0f, (screenWidth - view.width).toFloat())
+        moveRight.duration = 10000
+
+        val moveLeft = ObjectAnimator.ofFloat(view, "translationX", (screenWidth - view.width).toFloat(),0f)
+        moveRight.duration = 10000
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playSequentially(moveLeft, moveRight)
+        animatorSet.startDelay = 500
+        animatorSet.start()
+
+        animatorSet.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+                moveTheCloudsFromRightToLeft(view)
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+
+            }
+        })
     }
 
     private fun rotateView(view : View){
