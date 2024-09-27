@@ -1,8 +1,8 @@
 package com.example.nimbusweatherapp.detailsFragment
 
+import android.animation.ObjectAnimator
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.nimbusweatherapp.R
 import com.example.nimbusweatherapp.data.model.Location
 import com.example.nimbusweatherapp.databinding.FragmentDetailsBinding
@@ -25,7 +26,6 @@ import com.example.nimbusweatherapp.mainActivity.SharedViewModel
 import com.example.nimbusweatherapp.utils.Constants
 import com.example.nimbusweatherapp.utils.State
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -63,8 +63,43 @@ class DetailsFragment : Fragment() {
 
 
         init()
+        animateViews()
         observers()
 
+    }
+
+
+    private fun animateViews()
+    {
+        animateView(binding.homeWeatherIcon)
+    }
+
+    private fun animateView(view : View)
+    {
+        val animator = ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
+        animator.repeatCount = 1
+        animator.duration = 2000
+        animator.start()
+
+        val alpha = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
+        alpha.repeatCount = 1
+        alpha.duration = 2000
+        alpha.start()
+
+        val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f)
+        scaleX.repeatCount = 1
+        scaleX.duration = 2000
+        scaleX.start()
+
+        val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f)
+        scaleY.repeatCount = 1
+        scaleY.duration = 2000
+        scaleY.start()
+
+        val transition = ObjectAnimator.ofFloat(view, "translationY", -100f, 0f)
+        transition.repeatCount = 1
+        transition.duration = 2000
+        transition.start()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -74,6 +109,9 @@ class DetailsFragment : Fragment() {
         binding.homeRecyclerView.adapter = mAdapter
         binding.detailsViewModel = detailsViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.detailsBackButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         //doCallsOnGetLocation(sharedViewModel.currentLocation.value.latitude, sharedViewModel.currentLocation.value.longitude)
 

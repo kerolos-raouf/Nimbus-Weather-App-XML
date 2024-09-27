@@ -35,8 +35,10 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -123,32 +125,32 @@ class HomeFragment : Fragment() {
 
     private fun animateViews()
     {
-        animateHomeWeatherIcon()
+        animateHomeWeatherIcon(binding.homeWeatherIcon)
     }
 
-    private fun animateHomeWeatherIcon()
+    private fun animateHomeWeatherIcon(view : View)
     {
-        val animator = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "rotation", 0f, 360f)
+        val animator = ObjectAnimator.ofFloat(view, "rotation", 0f, 360f)
         animator.repeatCount = 1
         animator.duration = 2000
         animator.start()
 
-        val alpha = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "alpha", 0f, 1f)
+        val alpha = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f)
         alpha.repeatCount = 1
         alpha.duration = 2000
         alpha.start()
 
-        val scaleX = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "scaleX", 0f, 1f)
+        val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f)
         scaleX.repeatCount = 1
         scaleX.duration = 2000
         scaleX.start()
 
-        val scaleY = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "scaleY", 0f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f)
         scaleY.repeatCount = 1
         scaleY.duration = 2000
         scaleY.start()
 
-        val transition = ObjectAnimator.ofFloat(binding.homeWeatherIcon, "translationY", -100f, 0f)
+        val transition = ObjectAnimator.ofFloat(view, "translationY", -100f, 0f)
         transition.repeatCount = 1
         transition.duration = 2000
         transition.start()
@@ -195,7 +197,7 @@ class HomeFragment : Fragment() {
                 homeViewModel.weatherEveryThreeHours.collect{list->
                     if(list.isNotEmpty())
                     {
-                        showContentAfterObserveOnLocalData()
+                        checkOnStateToChangeUI()
                         homeViewModel.fillDaysWeather(list)
                         mAdapter.submitList(list)
                     }
@@ -244,19 +246,25 @@ class HomeFragment : Fragment() {
     private fun checkOnStateToChangeUI()
     {
 
-        if(!communicator.isInternetAvailable() && homeViewModel.weatherForLocation.value.isEmpty())
-        {
-
-            sharedViewModel.showHomeContent.value = Constants.SHOW_NO_INTERNET_LAYOUT
-        }
-        else if(!communicator.isLocationPermissionGranted())
-        {
-            sharedViewModel.showHomeContent.value = Constants.SHOW_PERMISSION_DENIED_LAYOUT
-            communicator.requestLocationPermission()
-        }
-        else
-        {
-            showContentAfterObserveOnLocalData()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val isThereWeatherInDatabase = homeViewModel.getWeatherForLocationCount()
+            withContext(Dispatchers.Main)
+            {
+                if(!communicator.isInternetAvailable() && isThereWeatherInDatabase == 0)
+                {
+                    sharedViewModel.showHomeContent.value = Constants.SHOW_NO_INTERNET_LAYOUT
+                }
+                else if(!communicator.isLocationPermissionGranted())
+                {
+                    doCallsOnGetLocation(sharedViewModel.currentLocation.value.latitude,sharedViewModel.currentLocation.value.longitude)
+                    sharedViewModel.showHomeContent.value = Constants.SHOW_PERMISSION_DENIED_LAYOUT
+                    communicator.requestLocationPermission()
+                }
+                else
+                {
+                    showContentAfterObserveOnLocalData()
+                }
+            }
         }
     }
 
@@ -266,6 +274,9 @@ class HomeFragment : Fragment() {
         if (communicator.isGPSEnabled() && sharedViewModel.getTheLocationAgain.value == true)
         {
             communicator.getCurrentLocation()
+        }else
+        {
+
         }
     }
 

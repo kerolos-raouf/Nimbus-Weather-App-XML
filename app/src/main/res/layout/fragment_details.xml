@@ -34,6 +34,17 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
+        <ImageView
+            android:id="@+id/detailsBackButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/menu_button_margin"
+
+            android:src="@drawable/icon_arrow_back"
+            android:translationZ="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/homeToolbar"
             android:layout_width="0dp"
