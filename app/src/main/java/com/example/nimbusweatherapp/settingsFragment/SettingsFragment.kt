@@ -18,8 +18,10 @@ import com.example.nimbusweatherapp.mainActivity.Communicator
 import com.example.nimbusweatherapp.mainActivity.MainActivity
 import com.example.nimbusweatherapp.mainActivity.SharedViewModel
 import com.example.nimbusweatherapp.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
 
@@ -30,7 +32,7 @@ class SettingsFragment : Fragment() {
     private lateinit var binding : FragmentSettingsBinding
     private lateinit var communicator: Communicator
 
-    private var isLangSpinnerEnabled = true
+
 
 
 
@@ -72,8 +74,8 @@ class SettingsFragment : Fragment() {
         communicator = activity as Communicator
 
         //radio buttons
-        binding.settingsEnglishRadioButton.isChecked = (sharedViewModel.settingsLanguage.value == 0)
-        binding.settingsArabicRadioButton.isChecked = (sharedViewModel.settingsLanguage.value == 1)
+        binding.settingsEnglishRadioButton.isChecked = (sharedViewModel.settingsLanguage.value == Constants.ENGLISH_SELECTION_VALUE)
+        binding.settingsArabicRadioButton.isChecked = (sharedViewModel.settingsLanguage.value == Constants.ARABIC_SELECTION_VALUE)
 
         val locationWay = listOf(getString(R.string.gps),getString(R.string.map))
         val locationAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_dropdown_item,locationWay)
@@ -107,6 +109,7 @@ class SettingsFragment : Fragment() {
                 sharedViewModel.setSharedPreferencesString(Constants.LANGUAGE_KEY,Constants.ENGLISH_LANGUAGE)
                 sharedViewModel.settingsLanguage.value = 0
                 communicator.checkAndChangLocality()
+                sharedViewModel.getTheLocationAgain.value = true
             }
         }
 
@@ -116,6 +119,7 @@ class SettingsFragment : Fragment() {
                 sharedViewModel.setSharedPreferencesString(Constants.LANGUAGE_KEY,Constants.ARABIC_LANGUAGE)
                 sharedViewModel.settingsLanguage.value = 1
                 communicator.checkAndChangLocality()
+                sharedViewModel.getTheLocationAgain.value = true
             }
         }
 

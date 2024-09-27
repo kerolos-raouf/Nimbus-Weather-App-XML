@@ -58,6 +58,10 @@ class FakeDatabaseHandler : LocalDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getWeatherForLocationCount(): Int {
+        TODO("Not yet implemented")
+    }
+
     override fun getWeatherItemEveryThreeHours(): Flow<List<WeatherItemEveryThreeHours>> {
         TODO("Not yet implemented")
     }

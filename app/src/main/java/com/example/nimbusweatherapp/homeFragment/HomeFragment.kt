@@ -158,6 +158,18 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun observers()
     {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
+            {
+                homeViewModel.weatherForLocation.collect{
+                    if(it.isNotEmpty())
+                    {
+                        sharedViewModel.currentLocation.value = Location(it[0].coord.lat,it[0].coord.lon)
+                    }
+                }
+            }
+        }
+
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED)

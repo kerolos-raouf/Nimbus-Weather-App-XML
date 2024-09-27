@@ -22,10 +22,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-
+@AndroidEntryPoint
 class AlertReceiver : BroadcastReceiver() {
 
 
+    @Inject
+    lateinit var repository: Repository
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -34,10 +36,11 @@ class AlertReceiver : BroadcastReceiver() {
         val alert = intent?.getParcelableExtra<Alert>(Constants.ALERT_KEY)
 
 
+        Log.d("Kerolos", "onReceive: $alertAction")
         when(alertAction)
         {
             Constants.ALERT_ACTION_NOTIFICATION -> {
-                val showNotification = context?.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)?.getBoolean(Constants.NOTIFICATION_KEY, false)
+                val showNotification = context?.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)?.getBoolean(Constants.NOTIFICATION_KEY, true)
                 if(showNotification == true)
                 {
                     showNotification(context)
@@ -49,9 +52,9 @@ class AlertReceiver : BroadcastReceiver() {
         }
 
         alert?.let {
-//            GlobalScope.launch {
-//                repository.deleteAlert(alert)
-//            }
+            GlobalScope.launch {
+                repository.deleteAlert(alert)
+            }
         }
 
     }
