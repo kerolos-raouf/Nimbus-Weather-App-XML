@@ -186,6 +186,20 @@ class HomeFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
+            {
+                sharedViewModel.getTheLocationForMap.collect{
+                    if(it)
+                    {
+                        doCallsOnGetLocation(sharedViewModel.currentLocation.value.latitude,
+                            sharedViewModel.currentLocation.value.longitude)
+                        sharedViewModel.getTheLocationForMap.value = false
+                    }
+                }
+            }
+        }
+
 
         homeViewModel.error.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()

@@ -250,6 +250,7 @@ class MapFragment : Fragment() {
         bottomSheetBinding.bottomSheetSearchInHome.setOnClickListener {
             sharedViewModel.currentLocation.value = location
             sharedViewModel.getTheLocationAgain.value = false
+            sharedViewModel.getTheLocationForMap.value = true
             bottomSheet.dismiss()
             val navOption = NavOptions.Builder().setPopUpTo(R.id.homeFragment,true).build()
             findNavController().navigate(R.id.homeFragment,null,navOption)

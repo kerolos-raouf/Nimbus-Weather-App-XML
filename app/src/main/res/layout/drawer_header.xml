@@ -5,31 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/drawerHeaderImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_very_cloudy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/drawerHeaderTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+
         android:fontFamily="@font/kalnia_bold"
         android:text="Nimbus"
         android:textColor="@color/white"
         android:textSize="25sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/drawerDivider2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/drawerHeaderImage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/drawerDivider2"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/white"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@color/white"
 
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drawerHeaderTextView"
+        app:layout_constraintTop_toBottomOf="@+id/drawerHeaderImage"
         tools:layout_editor_absoluteX="16dp" />
 
 

@@ -41,6 +41,7 @@ class SharedViewModel @Inject constructor(
     //location information for egypt by default
     val currentLocation = MutableStateFlow(Location(30.8025,26.8206))
     val getTheLocationAgain = MutableLiveData(false)
+    val getTheLocationForMap = MutableStateFlow(false)
 
 
 
