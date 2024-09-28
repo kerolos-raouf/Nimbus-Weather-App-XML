@@ -101,7 +101,21 @@ class AlertFragment : Fragment() {
         }
         binding.alertAddAlarmButton.setOnClickListener {
 
-            showDateAndTimePicker()
+            if(!communicator.isPostNotificationsPermissionGranted())
+            {
+                communicator.requestPostNotificationsPermission()
+                Toast.makeText(requireContext(),"Notification permission not granted.",Toast.LENGTH_SHORT).show()
+            }else if(!communicator.isShowOnOtherAppsPermissionGranted())
+            {
+                communicator.requestShowOnOtherAppsPermission()
+                Toast.makeText(requireContext(),"Show on other apps permission not granted.",Toast.LENGTH_SHORT).show()
+            }else if(!communicator.isScheduleExactAlarmPermissionGranted())
+            {
+                communicator.requestScheduleExactAlarmPermission()
+                Toast.makeText(requireContext(),"Schedule exact alarm permission not granted.",Toast.LENGTH_SHORT).show()
+            }else{
+                showDateAndTimePicker()
+            }
         }
     }
 
@@ -196,19 +210,7 @@ class AlertFragment : Fragment() {
 
     private fun setAlertTime(alert: Alert)
     {
-        if(!communicator.isPostNotificationsPermissionGranted())
-        {
-            communicator.requestPostNotificationsPermission()
-            Toast.makeText(requireContext(),"Notification permission not granted.",Toast.LENGTH_SHORT).show()
-        }else if(!communicator.isShowOnOtherAppsPermissionGranted())
-        {
-            communicator.requestShowOnOtherAppsPermission()
-            Toast.makeText(requireContext(),"Show on other apps permission not granted.",Toast.LENGTH_SHORT).show()
-        }else if(!communicator.isScheduleExactAlarmPermissionGranted())
-        {
-            communicator.requestScheduleExactAlarmPermission()
-            Toast.makeText(requireContext(),"Schedule exact alarm permission not granted.",Toast.LENGTH_SHORT).show()
-        }else if(alert.time < System.currentTimeMillis())
+        if(alert.time < System.currentTimeMillis())
         {
             Toast.makeText(requireContext(),requireContext().getString(R.string.you_can_not_set_time_in_past),Toast.LENGTH_SHORT).show()
         }

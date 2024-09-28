@@ -196,6 +196,7 @@ class SettingsFragment : Fragment() {
                 val selectedValue = MainActivity.settingsInArabicAndEnglish.getOrDefault(binding.settingsTemperatureSpinner.selectedItem.toString(),Constants.KELVIN)
                 sharedViewModel.setSharedPreferencesString(Constants.TEMPERATURE_KEY,selectedValue)
                 sharedViewModel.settingsTemperature.value = MainActivity.settingsSelectionMap[selectedValue] ?: 0
+                sharedViewModel.getTheLocationAgain.value = true
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }

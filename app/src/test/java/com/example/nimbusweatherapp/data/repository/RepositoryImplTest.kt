@@ -40,7 +40,7 @@ class RepositoryImplTest{
     @Test
     fun getWeatherEveryThreeHours_arabicLanguage_returnsClearSkyInArabic() = runTest{
         //when
-        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"ar", Constants.METRIC)
+        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"ar", Constants.METRIC,false)
         //then
         response.test {
 
@@ -60,7 +60,7 @@ class RepositoryImplTest{
     @Test
     fun getWeatherEveryThreeHours_englishLanguage_returnsClearSkyInEnglish() = runTest{
         //when
-        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"en", Constants.METRIC)
+        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"en", Constants.METRIC,false)
         //then
         response.test {
 
@@ -80,7 +80,7 @@ class RepositoryImplTest{
     @Test
     fun getWeatherEveryThreeHours_imperialUint_returnsTemperatureInFahrenheit() = runTest{
         //when
-        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"en", Constants.IMPERIAL)
+        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"en", Constants.IMPERIAL,false)
         //then
         response.test {
 
@@ -100,7 +100,7 @@ class RepositoryImplTest{
     @Test
     fun getWeatherEveryThreeHours_metricUint_returnsTemperatureInCelsius() = runTest{
         //when
-        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"en", Constants.METRIC)
+        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"en", Constants.METRIC,false)
         //then
         response.test {
 

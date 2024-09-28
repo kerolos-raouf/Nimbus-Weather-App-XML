@@ -64,7 +64,7 @@ class DetailsViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun getWeatherEveryThreeHours(latitude: Double, longitude: Double, language: String, units: String) {
         viewModelScope.launch {
-            repository.getWeatherEveryThreeHours(latitude, longitude, language, units).collect{state->
+            repository.getWeatherEveryThreeHours(latitude, longitude, language, units,false).collect{state->
 
                 _weatherEveryThreeHours.value = state
 
@@ -113,7 +113,7 @@ class DetailsViewModel @Inject constructor(
     private fun getWeatherForLocation(latitude: Double, longitude: Double , language: String, units: String)
     {
         viewModelScope.launch {
-            repository.getWeatherForLocation(latitude, longitude, language, units).collect{
+            repository.getWeatherForLocation(latitude, longitude, language, units,false).collect{
                 when(it)
                 {
                     is State.Error -> {
@@ -142,7 +142,7 @@ class DetailsViewModel @Inject constructor(
         }
 
         _weatherForLocation.value = _weatherForLocation.value?.copy(
-            wind = _weatherForLocation.value?.wind?.copy(speed = "${currentSpeed.toInt()} $unit") ?: Wind(0, 0.0, "m/s")
+            wind = _weatherForLocation.value?.wind?.copy(speed = "${currentSpeed.toInt()}") ?: Wind(0, 0.0, "m/s")
         )
     }
 

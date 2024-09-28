@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape>
+            <gradient
+                android:centerX="0.5"
+                android:centerY="0.1"
+                android:endColor="#08e25b"
+                android:gradientRadius="300dp"
+                android:startColor="#b7e9c9"
+                android:type="radial" />
+        </shape>
+    </item>
+
+    <item
+        android:id="@+id/sun">
+        <bitmap
+            android:gravity="bottom|left"
+            android:src="@drawable/ic_sunny" />
+    </item>
+</layer-list>

@@ -56,6 +56,7 @@
     <string name="you_can_not_set_time_in_past">لا يمكنك وضع وقت فى الماضى.</string>
     <string name="_0_2">٠.٢</string>
     <string name="alarm_was_sat_successfully">تم تسجيل التنبيه بنجاح.</string>
+    <string name="no_internet_connection">لا يوجد اتصال بالانترنت.</string>
 
 
 

@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 class FavouriteFragment : Fragment() {
 
 
-    //bindning
+    //binding
     private lateinit var binding : FragmentFavouriteBinding
 
 
@@ -86,7 +86,7 @@ class FavouriteFragment : Fragment() {
                     findNavController().navigate(action)
                 }else
                 {
-                    Toast.makeText(requireContext(),"No internet connection.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show()
                 }
             }
         })

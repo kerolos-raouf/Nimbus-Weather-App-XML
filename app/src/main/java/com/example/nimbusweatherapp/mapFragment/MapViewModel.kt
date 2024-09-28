@@ -44,7 +44,7 @@ class MapViewModel @Inject constructor(
         units: String = Constants.STANDARD
     ){
         viewModelScope.launch {
-            repository.getWeatherForLocation(latitude,longitude,language,units).collect{ state->
+            repository.getWeatherForLocation(latitude,longitude,language,units,false).collect{ state->
                 _weatherForLocation.value = state
             }
         }

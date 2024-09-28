@@ -101,6 +101,8 @@
             android:gravity="center_vertical"
             android:orientation="vertical"
 
+            android:visibility="gone"
+
             app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -806,14 +808,12 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/homeSunSetTime" />
 
-                        <com.example.nimbusweatherapp.utils.SunPathView
-                            android:layout_width="0dp"
+                        <ImageView
+                            android:id="@+id/homeSunSetAndSunRiseAnimation"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
 
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/homeSunSetIcon"
-                            app:layout_constraintStart_toEndOf="@+id/homeSunRiseIcon"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

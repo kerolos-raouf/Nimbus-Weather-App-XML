@@ -87,7 +87,7 @@ class HomeViewModel @Inject constructor(
     fun updateWeatherBaseOnLocation(location  : Location, language: String, units: String)
     {
         viewModelScope.launch {
-            repository.getWeatherForLocation(location.latitude, location.longitude, language, units).collectLatest {state->
+            repository.getWeatherForLocation(location.latitude, location.longitude, language, units,true).collectLatest {state->
                 when(state)
                 {
                     is State.Error -> {
@@ -95,6 +95,7 @@ class HomeViewModel @Inject constructor(
                         _loading.value = false
                     }
                     State.Loading -> {
+                        Log.d("Kerolos", "updateWeatherBaseOnLocation: loading")
                         _loading.value = true
                     }
                     is State.Success -> {
@@ -108,7 +109,7 @@ class HomeViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun getWeatherEveryThreeHours(latitude: Double, longitude: Double, language: String, units: String) {
         viewModelScope.launch {
-            repository.getWeatherEveryThreeHours(latitude, longitude, language, units)
+            repository.getWeatherEveryThreeHours(latitude, longitude, language, units,true)
                 .collectLatest { state ->
 
                     when (state) {

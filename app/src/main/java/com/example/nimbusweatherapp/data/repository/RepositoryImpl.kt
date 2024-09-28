@@ -11,6 +11,7 @@ import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
 import com.example.nimbusweatherapp.data.model.WeatherItemEveryThreeHours
+import com.example.nimbusweatherapp.utils.Constants
 import com.example.nimbusweatherapp.utils.State
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -32,7 +33,8 @@ class RepositoryImpl @Inject constructor(
         latitude: Double,
         longitude: Double,
         language: String,
-        units: String
+        units: String,
+        saveLocally: Boolean
     ): Flow<State<WeatherEveryThreeHours>> = flow {
         emit(State.Loading)
         try {
@@ -41,9 +43,12 @@ class RepositoryImpl @Inject constructor(
             val hourlyListResponse = response.body()?.list
             if (response.isSuccessful && response.body() != null) {
 
-                //refresh hourly data
-                hourlyListResponse?.let {
-                    localDataSource.refreshWeatherItemEveryThreeHours(it)
+                if(saveLocally)
+                {
+                    //refresh hourly data
+                    hourlyListResponse?.let {
+                        localDataSource.refreshWeatherItemEveryThreeHours(it)
+                    }
                 }
 
                 emit(State.Success(response.body()!!))
@@ -63,15 +68,24 @@ class RepositoryImpl @Inject constructor(
         latitude: Double,
         longitude: Double,
         language: String,
-        units: String
+        units: String,
+        saveLocally: Boolean
     ): Flow<State<WeatherForLocation>> = flow {
         emit(State.Loading)
         try {
             val response = remoteDataSource.getWeatherForLocation(latitude, longitude,language,units)
             val nameResponse = remoteDataSource.getLocationInfoUsingCoordinates(latitude, longitude)
 
-            val name = nameResponse.body()?.get(0)?.name ?: ""
+            var name = nameResponse.body()?.get(0)?.name ?: ""
+
+
             var weatherForLocation = response.body()
+
+
+            if(getSharedPreferencesString(Constants.LANGUAGE_KEY) == Constants.ARABIC_LANGUAGE)
+            {
+                name = nameResponse.body()?.get(0)?.localNames?.ar ?: nameResponse.body()?.get(0)?.name ?: "not found"
+            }
 
 
             if (response.isSuccessful && response.body() != null
@@ -79,8 +93,11 @@ class RepositoryImpl @Inject constructor(
                 && weatherForLocation != null
                 ) {
                 weatherForLocation = weatherForLocation.copy(name = name)
-                //REFRESH data
-                localDataSource.refreshWeatherForLocation(weatherForLocation)
+                if(saveLocally)
+                {
+                    //REFRESH data
+                    localDataSource.refreshWeatherForLocation(weatherForLocation)
+                }
 
                 emit(State.Success(weatherForLocation))
             } else {

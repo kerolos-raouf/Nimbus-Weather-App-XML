@@ -35,8 +35,6 @@ class AlertReceiver : BroadcastReceiver() {
         val alertAction = intent?.action
         val alert = intent?.getParcelableExtra<Alert>(Constants.ALERT_KEY)
 
-
-        Log.d("Kerolos", "onReceive: $alertAction")
         when(alertAction)
         {
             Constants.ALERT_ACTION_NOTIFICATION -> {
@@ -78,7 +76,7 @@ class AlertReceiver : BroadcastReceiver() {
         val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notification = NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_NAME)
-            .setContentTitle("Weather Alert")
+            .setContentTitle("Nimbus")
             .setContentText("Let's check the weather")
             .setSmallIcon(R.drawable.ic_sunny)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

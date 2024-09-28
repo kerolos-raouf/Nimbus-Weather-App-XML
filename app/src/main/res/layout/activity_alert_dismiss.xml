@@ -28,7 +28,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/ic_sunny"
+                android:src="@drawable/ic_cloudy"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -50,18 +50,16 @@
                 android:id="@+id/dismissText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
                 android:fontFamily="@font/sf_regular"
                 android:text="@string/let_s_see_the_weather"
                 android:textColor="@color/white"
                 android:textSize="18sp"
 
-                app:layout_constraintBottom_toTopOf="@+id/dismissQuoteText"
 
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/dismissTitle"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.22000003" />
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dismissQuoteText" />
 
             <TextView
                 android:id="@+id/dismissQuoteText"
@@ -82,7 +80,7 @@
                 android:id="@+id/dismissButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/dismiss"
                 android:textColor="@color/white"
@@ -91,7 +89,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dismissQuoteText" />
+                app:layout_constraintTop_toBottomOf="@+id/dismissText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

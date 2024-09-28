@@ -108,16 +108,23 @@ class HomeFragment : Fragment() {
         }
 
         binding.homeFAB.setOnClickListener {
-            if(sharedViewModel.settingsLocation.value == Constants.GPS_SELECTION_VALUE)
+            if (sharedViewModel.internetState.value == ConnectivityObserver.InternetState.AVAILABLE)
             {
-                if(communicator.isLocationPermissionGranted())
+                if(sharedViewModel.settingsLocation.value == Constants.GPS_SELECTION_VALUE)
                 {
-                    checkIfGPSIsEnabled()
+                    if(communicator.isLocationPermissionGranted())
+                    {
+                        checkIfGPSIsEnabled()
+                    }
+                }else
+                {
+                    findNavController().navigate(R.id.action_homeFragment_to_mapFragment)
                 }
             }else
             {
-                findNavController().navigate(R.id.action_homeFragment_to_mapFragment)
+                Toast.makeText(requireContext(),getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show()
             }
+
         }
 
         checkOnStateToChangeUI()
@@ -181,6 +188,7 @@ class HomeFragment : Fragment() {
                         && (homeViewModel.getWeatherForLocationCount() == 0 || sharedViewModel.getTheLocationAgain.value == true))
                     {
                         doCallsOnGetLocation(newLocation.latitude,newLocation.longitude)
+                        sharedViewModel.getTheLocationAgain.value = false
                     }
                 }
             }

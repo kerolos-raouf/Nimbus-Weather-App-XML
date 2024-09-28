@@ -20,14 +20,16 @@ interface Repository
         latitude: Double,
         longitude: Double,
         language: String,
-        units: String
+        units: String,
+        saveLocally: Boolean
     ) : Flow<State<WeatherEveryThreeHours>>
 
     fun getWeatherForLocation(
         latitude: Double,
         longitude: Double,
         language: String,
-        units: String
+        units: String,
+        saveLocally: Boolean
     ) : Flow<State<WeatherForLocation>>
 
     fun getWeatherByCountryName(
