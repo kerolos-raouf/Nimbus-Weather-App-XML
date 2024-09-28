@@ -120,29 +120,6 @@ class RepositoryImplTest{
 
 
 
-//    @OptIn(ExperimentalCoroutinesApi::class)
-//    @Test
-//    fun getWeatherEveryThreeHours_TimeOut_Exception() = runTest{
-//        //when
-//        val response = repository.getWeatherEveryThreeHours(0.0,0.0,"en", Constants.IMPERIAL)
-//
-//        //then
-//        response.test {
-//            assertEquals(State.Loading, awaitItem())
-//
-//            advanceTimeBy(12000)
-//
-//            val errorState = awaitItem()
-//            assert(errorState is State.Error)
-//            val msg = (errorState as State.Error).message
-//
-//            assertEquals("Time out", msg)
-//
-//            awaitComplete()
-//        }
-//    }
-
-
     @Test
     fun insertFavouriteLocation_returnsSizeOne() = runTest{
         //given

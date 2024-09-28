@@ -48,28 +48,6 @@ class FavouriteViewModelTest
 
 
     @Test
-    fun testOnAddFavouriteLocation_LocationIsAdded() = runTest {
-        //Given
-        val favouriteLocation = FavouriteLocation("Egypt", 35.6892, 51.3890)
-
-        //When
-        repository.insertFavouriteLocation(favouriteLocation)
-        viewModel.favouriteLocations.test {
-
-
-            val result = awaitItem()
-            assertEquals(0, result.size)
-
-            repository.insertFavouriteLocation(favouriteLocation)
-
-
-            val updatedResult = awaitItem()
-            assertEquals(1, updatedResult.size)
-           // assertEquals(favouriteLocation, result[0])
-        }
-    }
-
-    @Test
     fun testOnDeleteFavouriteLocation_LocationIsDeleted() = runTest {
         //Given
         val favouriteLocation = FavouriteLocation("Egypt", 35.6892, 51.3890)

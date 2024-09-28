@@ -1,6 +1,7 @@
 package com.example.nimbusweatherapp.data.network
 
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
+import com.example.nimbusweatherapp.data.model.CitiesForSearch
 import com.example.nimbusweatherapp.data.model.City
 import com.example.nimbusweatherapp.data.model.Clouds
 import com.example.nimbusweatherapp.data.model.Coord
@@ -115,6 +116,10 @@ class FakeNetworkHandler : RemoteDataSource {
         language: String,
         units: String
     ): Response<WeatherForLocation> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getCitiesListForSearch(name: String): Response<CitiesForSearch> {
         TODO("Not yet implemented")
     }
 }
