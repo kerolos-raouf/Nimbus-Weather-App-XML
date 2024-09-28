@@ -46,6 +46,7 @@ class AlertReceiver : BroadcastReceiver() {
                 }
                 Constants.ALERT_ACTION_ALARM -> {
                     showAlarm(context)
+                    showNotification(context)
                 }
             }
         }
