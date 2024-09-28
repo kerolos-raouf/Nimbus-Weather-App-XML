@@ -35,19 +35,21 @@ class AlertReceiver : BroadcastReceiver() {
         val alertAction = intent?.action
         val alert = intent?.getParcelableExtra<Alert>(Constants.ALERT_KEY)
 
-        when(alertAction)
+
+        val showNotification = context?.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)?.getBoolean(Constants.NOTIFICATION_KEY, true)
+        if(showNotification == true)
         {
-            Constants.ALERT_ACTION_NOTIFICATION -> {
-                val showNotification = context?.getSharedPreferences(Constants.SETTINGS_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)?.getBoolean(Constants.NOTIFICATION_KEY, true)
-                if(showNotification == true)
-                {
+            when(alertAction)
+            {
+                Constants.ALERT_ACTION_NOTIFICATION -> {
                     showNotification(context)
                 }
-            }
-            Constants.ALERT_ACTION_ALARM -> {
-                showAlarm(context)
+                Constants.ALERT_ACTION_ALARM -> {
+                    showAlarm(context)
+                }
             }
         }
+
 
         alert?.let {
             GlobalScope.launch {
