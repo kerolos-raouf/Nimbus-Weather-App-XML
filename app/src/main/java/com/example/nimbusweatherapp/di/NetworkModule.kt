@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.internetStateObserver.ConnectivityObserver
 import com.example.nimbusweatherapp.data.internetStateObserver.InternetStateObserver
+import com.example.nimbusweatherapp.data.network.CountrySearchNetworkApi
 import com.example.nimbusweatherapp.data.network.NetworkApi
 import com.example.nimbusweatherapp.data.network.NetworkHandler
 import com.example.nimbusweatherapp.utils.Constants
@@ -32,10 +33,19 @@ object NetworkModule
 
     @Provides
     @Singleton
-    fun provideNetworkHandler(networkApi: NetworkApi): RemoteDataSource = NetworkHandler(networkApi)
+    fun provideCountrySearchNetworkApi(): CountrySearchNetworkApi = Retrofit.Builder()
+        .baseUrl(Constants.COUNTRY_SEARCH_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(CountrySearchNetworkApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNetworkHandler(networkApi: NetworkApi, countrySearchNetworkApi: CountrySearchNetworkApi): RemoteDataSource = NetworkHandler(networkApi,countrySearchNetworkApi)
 
     @Provides
     @Singleton
     fun provideInternetStateObserver(@ApplicationContext context : Context) : ConnectivityObserver = InternetStateObserver(context)
+
 
 }

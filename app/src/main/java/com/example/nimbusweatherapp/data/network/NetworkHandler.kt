@@ -1,6 +1,7 @@
 package com.example.nimbusweatherapp.data.network
 
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
+import com.example.nimbusweatherapp.data.model.CitiesForSearch
 import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
@@ -8,7 +9,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class NetworkHandler @Inject constructor (
-    private val networkApi: NetworkApi
+    private val networkApi: NetworkApi,
+    private val countrySearchNetworkApi: CountrySearchNetworkApi
 ): RemoteDataSource
 {
     override suspend fun getWeatherEveryThreeHours(
@@ -46,6 +48,10 @@ class NetworkHandler @Inject constructor (
         units: String
     ): Response<WeatherForLocation> {
         return networkApi.getWeatherByCountryName(countryName)
+    }
+
+    override suspend fun getCitiesListForSearch(name: String): Response<CitiesForSearch> {
+        return countrySearchNetworkApi.getCountryListForSearch(name)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.nimbusweatherapp.mapFragment
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -29,6 +32,12 @@ import com.example.nimbusweatherapp.utils.Constants
 import com.example.nimbusweatherapp.utils.State
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
@@ -74,6 +83,7 @@ class MapFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,20 +91,65 @@ class MapFragment : Fragment() {
         initMap()
         observers()
     }
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun initViews()
     {
         bottomSheet = BottomSheetDialog(requireContext())
         bottomSheetBinding = BottomSheetLayoutBinding.bind(LayoutInflater.from(requireContext()).inflate(R.layout.bottom_sheet_layout,null))
 
 
-        //auto complete edit text setup
-        countriesList = requireContext().resources.getStringArray(R.array.countries)
-        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_dropdown_item_1line,countriesList)
+        autoCompleteEditTextSetup()
 
-        binding.mapAutoCompleteEditText.apply {
-            setAdapter(adapter)
-            threshold = 1
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @OptIn(FlowPreview::class)
+    private fun autoCompleteEditTextSetup()
+    {
+        //auto complete edit text setup
+        lifecycleScope.launch {
+            val sharedFlow = MutableSharedFlow<String>()
+            binding.mapAutoCompleteEditText.doOnTextChanged{ text,_,_,_ ->
+                launch {
+                    sharedFlow.emit(text.toString())
+                }
+            }
+
+            sharedFlow
+                .debounce(1000)
+                .distinctUntilChanged()
+                .collect{cityName->
+                    mapViewModel.getCitiesListForSearch(cityName)
+                }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED)
+            {
+                mapViewModel.citiesListForSearch.collect{newCitiesList->
+                    if(newCitiesList.isNotEmpty())
+                    {
+                        val citiesList = newCitiesList.map { city->
+                            "${city.name}, ${city.country}"
+                        }
+                        val adapter = ArrayAdapter(requireContext(),android.R.layout.simple_dropdown_item_1line,citiesList)
+                        binding.mapAutoCompleteEditText.apply {
+                            setAdapter(adapter)
+                            threshold = 1
+                            refreshAutoCompleteResults()
+
+                            setOnItemClickListener { parent, view, position, id ->
+                                val selectedCity = newCitiesList[position]
+                                mapViewModel.getWeatherForMapLocation(selectedCity.latitude,selectedCity.longitude)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+
 
         //search icon
         binding.mapSearchIcon.setOnClickListener{
@@ -108,7 +163,6 @@ class MapFragment : Fragment() {
                 Toast.makeText(requireContext(),"Illegal Country Name",Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun observers()

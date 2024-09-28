@@ -33,10 +33,11 @@ android {
         }
 
         val apiKey : String = localProperty.getProperty("API_KEY") ?: "null"
+        val countrySearchApiKey : String = localProperty.getProperty("COUNTRY_SEARCH_API_KEY") ?: "null"
 
 
         buildConfigField("String","API_KEY",apiKey)
-
+        buildConfigField("String","COUNTRY_SEARCH_API_KEY",countrySearchApiKey)
     }
 
     buildFeatures {

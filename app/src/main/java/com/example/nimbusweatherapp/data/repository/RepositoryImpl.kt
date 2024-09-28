@@ -5,6 +5,7 @@ import com.example.nimbusweatherapp.data.contracts.LocalDataSource
 import com.example.nimbusweatherapp.data.contracts.RemoteDataSource
 import com.example.nimbusweatherapp.data.contracts.SettingsHandler
 import com.example.nimbusweatherapp.data.model.Alert
+import com.example.nimbusweatherapp.data.model.CityForSearchItem
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
@@ -211,6 +212,26 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>) {
         localDataSource.refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList)
+    }
+
+    //cities for search
+    @OptIn(FlowPreview::class)
+    override fun getCitiesForSearch(name: String): Flow<State<List<CityForSearchItem>>> = flow {
+        emit(State.Loading)
+        try {
+
+            val citiesResponse = remoteDataSource.getCitiesListForSearch(name)
+            if(citiesResponse.isSuccessful && citiesResponse.body() != null) {
+                emit(State.Success(citiesResponse.body()!!))
+            }else
+            {
+                emit(State.Error(citiesResponse.message().orEmpty()))
+            }
+        } catch (e: Exception) {
+            emit(State.Error(e.message.orEmpty()))
+        }
+    }.timeout(10.seconds).catch {
+        emit(State.Error("Time out"))
     }
 
     //shared pref

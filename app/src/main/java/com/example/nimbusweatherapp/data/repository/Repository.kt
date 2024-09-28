@@ -2,6 +2,7 @@ package com.example.nimbusweatherapp.data.repository
 
 
 import com.example.nimbusweatherapp.data.model.Alert
+import com.example.nimbusweatherapp.data.model.CityForSearchItem
 import com.example.nimbusweatherapp.data.model.FavouriteLocation
 import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
@@ -71,6 +72,10 @@ interface Repository
     suspend fun insertAllWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>)
     suspend fun deleteAllWeatherItemEveryThreeHours()
     suspend fun refreshWeatherItemEveryThreeHours(weatherItemEveryThreeHoursList: List<WeatherItemEveryThreeHours>)
+
+
+    //cities for search
+    fun getCitiesForSearch(name : String) : Flow<State<List<CityForSearchItem>>>
 
 
     //shared preferences

@@ -1,5 +1,6 @@
 package com.example.nimbusweatherapp.data.contracts
 
+import com.example.nimbusweatherapp.data.model.CitiesForSearch
 import com.example.nimbusweatherapp.data.model.LocationNameResponse
 import com.example.nimbusweatherapp.data.model.WeatherEveryThreeHours
 import com.example.nimbusweatherapp.data.model.WeatherForLocation
@@ -31,4 +32,8 @@ interface RemoteDataSource
        language: String,
        units: String ,
     ) : Response<WeatherForLocation>
+
+    suspend fun getCitiesListForSearch(
+        name : String
+    ) : Response<CitiesForSearch>
 }
