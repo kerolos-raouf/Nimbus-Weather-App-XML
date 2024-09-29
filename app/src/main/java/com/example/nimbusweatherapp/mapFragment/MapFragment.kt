@@ -69,8 +69,7 @@ class MapFragment : Fragment() {
     //marker
     private var lastMarker : Marker ?= null
 
-    //countries list
-    private lateinit var countriesList : Array<String>
+
 
 
     override fun onCreateView(
@@ -154,14 +153,7 @@ class MapFragment : Fragment() {
         //search icon
         binding.mapSearchIcon.setOnClickListener{
 
-            val newName = getNearestNameForCountry(binding.mapAutoCompleteEditText.text.toString())
-            if (newName != null)
-            {
-                getWeatherByName(newName)
-            }else
-            {
-                Toast.makeText(requireContext(),"Illegal Country Name",Toast.LENGTH_SHORT).show()
-            }
+            getWeatherByName(binding.mapAutoCompleteEditText.text.toString())
         }
     }
 
@@ -198,17 +190,6 @@ class MapFragment : Fragment() {
         }
     }
 
-    private fun getNearestNameForCountry(name : String) : String?
-    {
-        for(country in countriesList)
-        {
-            if (country.lowercase(Locale.getDefault()) == name.lowercase(Locale.getDefault()))
-            {
-                return  country
-            }
-        }
-        return null
-    }
 
     private fun initMap() {
         Configuration.getInstance().load(requireContext(), requireContext().getSharedPreferences(Constants.MAP_SHARED_PREFERENCE_NAME, MODE_PRIVATE))

@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -74,10 +75,19 @@ class MainActivity : AppCompatActivity() , Communicator {
         getAndSetSettingsValues()
         checkAndChangLocality()
 
+
+
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         binding.lifecycleOwner = this
 
 
+        //setting layout
+        val locale = resources.configuration.locales[0]
+        if (locale.language == Constants.ARABIC_LANGUAGE) {
+            binding.drawerLayout.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        } else {
+            binding.drawerLayout.layoutDirection = View.LAYOUT_DIRECTION_LTR
+        }
 
         init()
         observers()

@@ -80,6 +80,13 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
 
+    // For mocking dependencies
+    testImplementation ("org.mockito:mockito-core:4.5.1")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito:mockito-inline:4.6.1")
+
+    testImplementation("io.mockk:mockk:1.12.0")
+
 
 
 ////more features in the activity like lazy initialization
